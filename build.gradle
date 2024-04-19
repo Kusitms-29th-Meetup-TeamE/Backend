@@ -43,6 +43,9 @@ dependencies {
 
 	//secrets manager
 	implementation 'io.awspring.cloud:spring-cloud-starter-aws-secrets-manager-config:2.4.4'
+
+	//web socket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 tasks.named('test') {
