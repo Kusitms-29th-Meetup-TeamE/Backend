@@ -33,7 +33,7 @@ public class Activity {
     private LocalDateTime time;
 
     @Comment("참여 인원")
-    private Long currentParticipants;
+    private Long currentParticipants = 0L;
 
     @Comment("최대 참여 인원")
     private Long maxParticipants;
@@ -44,4 +44,14 @@ public class Activity {
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
     private List<ActivityLike> activityLikes;
+
+    public static Activity of(String title, String location, LocalDateTime time, Long maxParticipants, List<Personality> personalities) {
+        return Activity.builder()
+                .title(title)
+                .location(location)
+                .time(time)
+                .maxParticipants(maxParticipants)
+                .personalities(personalities)
+                .build();
+    }
 }

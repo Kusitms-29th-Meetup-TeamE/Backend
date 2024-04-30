@@ -28,7 +28,7 @@ public class User {
     private String imageUrl;
 
     @Comment("사용자 나이")
-    private Integer age;
+    private Long age;
 
     @Comment("사용자 성별")
     @Enumerated(EnumType.STRING)
@@ -38,7 +38,7 @@ public class User {
     private String location;
 
     @Comment("사용자 포인트")
-    private Integer point;
+    private Long point;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Experience> experiences;
