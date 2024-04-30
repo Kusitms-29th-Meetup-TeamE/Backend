@@ -26,4 +26,12 @@ public class Experience {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public static Experience of(ExperienceType type, String description, User user) {
+        return Experience.builder()
+                .type(type)
+                .description(description)
+                .user(user)
+                .build();
+    }
 }

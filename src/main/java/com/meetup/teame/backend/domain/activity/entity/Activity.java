@@ -33,14 +33,14 @@ public class Activity {
     private LocalDateTime time;
 
     @Comment("참여 인원")
-    private Long currentParticipants = 0L;
+    private Long currentParticipants;
 
     @Comment("최대 참여 인원")
     private Long maxParticipants;
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-    private List<Personality> personalities = new ArrayList<>();
+    private List<Personality> personalities;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
     private List<ActivityLike> activityLikes;
@@ -50,6 +50,7 @@ public class Activity {
                 .title(title)
                 .location(location)
                 .time(time)
+                .currentParticipants(0L)
                 .maxParticipants(maxParticipants)
                 .personalities(personalities)
                 .build();
