@@ -1,4 +1,4 @@
-package com.meetup.teame.backend.config;
+package com.meetup.teame.backend.domain.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
