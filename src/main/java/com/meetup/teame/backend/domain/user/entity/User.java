@@ -1,6 +1,6 @@
 package com.meetup.teame.backend.domain.user.entity;
 
-import com.meetup.teame.backend.domain.activity.entity.Activity;
+import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.domain.experience.entity.Experience;
 import com.meetup.teame.backend.domain.like.entity.ActivityLike;
 import jakarta.persistence.*;
@@ -45,4 +45,12 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ActivityLike> activityLikes;
+
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<Personality> personalities;
+
+    public void setPersonalities(List<Personality> personalities) {
+        this.personalities = personalities;
+    }
 }
