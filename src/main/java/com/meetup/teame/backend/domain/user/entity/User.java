@@ -30,9 +30,9 @@ public class User {
     @Comment("사용자 나이")
     private Long age;
 
-    @Comment("사용자 성별")
+    /*@Comment("사용자 성별")
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private Gender gender;*/
 
     @Comment("사용자 동네")
     private String location;
@@ -45,4 +45,29 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ActivityLike> activityLikes;
+
+    //test
+    private String kakaoId;
+
+    private String gender;
+
+    private String birthyear;
+
+    private String role;
+
+    public static User ofKakao(String kakaoId, String nickname, String gender, String birthyear, String role) {
+        return User.builder()
+                .kakaoId(kakaoId)
+                .name(nickname)
+                .gender(gender)
+                .birthyear(birthyear)
+                .role(role)
+                .build();
+    }
+
+    public User setName (String nickname) {
+        return User.builder()
+                .name(nickname)
+                .build();
+    }
 }
