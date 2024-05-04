@@ -4,6 +4,7 @@ import com.meetup.teame.backend.domain.auth.oauth.dto.CustomOAuth2User;
 import com.meetup.teame.backend.domain.auth.oauth.dto.KakaoResponse;
 import com.meetup.teame.backend.domain.auth.oauth.dto.OAuth2Response;
 import com.meetup.teame.backend.domain.user.dto.oauth.KakaoUserDto;
+import com.meetup.teame.backend.domain.user.entity.Gender;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +42,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String kakaoId = oAuth2Response.getProvider()+" "+oAuth2Response.getProviderId();
         User existData = userRepository.findByKakaoId(kakaoId);
 
+        String genderStr = oAuth2Response.getGender();
+        Gender gender = null;
+        if (genderStr != null) {
+            if (genderStr.equalsIgnoreCase("male")) {
+                gender = Gender.MALE;
+            } else if (genderStr.equalsIgnoreCase("female")) {
+                gender = Gender.FEMALE;
+            }
+        }
+
         if (existData == null) {
-            User user = User.ofKakao(kakaoId, oAuth2Response.getName(), oAuth2Response.getGender(), oAuth2Response.getBirthyear(), "ROLE_USER");
+            User user = User.ofKakao(kakaoId, oAuth2Response.getName(), gender, oAuth2Response.getBirthyear(), "ROLE_USER");
             userRepository.save(user);
             KakaoUserDto kakaoUserDto = new KakaoUserDto(user.getId(), kakaoId, oAuth2Response.getName(), oAuth2Response.getGender(), oAuth2Response.getBirthyear());
 
