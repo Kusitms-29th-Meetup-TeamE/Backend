@@ -24,8 +24,11 @@ public class UserService {
     private final ExperienceRepository experienceRepository;
 
     public ReadMainRes readMainPage() {
+        //todo 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
+        User user = userRepository.findById(5L)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadMainRes.of(
-                activityRepository.findAll(),
+                activityRepository.findActivitiesForUser(user),
                 experienceRepository.findAll(),
                 2500
         );
