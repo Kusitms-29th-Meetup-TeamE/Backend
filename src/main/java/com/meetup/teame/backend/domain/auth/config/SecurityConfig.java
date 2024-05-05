@@ -61,10 +61,10 @@ public class SecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                        configuration.setAllowedMethods(Collections.singletonList("*"));
+                        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://api.yeongjin.site", "https://ddoba.vercel.app"));
+                        configuration.setAllowedMethods(List.of("*"));
                         configuration.setAllowCredentials(true);
-                        configuration.setAllowedHeaders(Collections.singletonList("*"));
+                        configuration.setAllowedHeaders(List.of("*"));
                         configuration.setMaxAge(3600L);
 
                         configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
