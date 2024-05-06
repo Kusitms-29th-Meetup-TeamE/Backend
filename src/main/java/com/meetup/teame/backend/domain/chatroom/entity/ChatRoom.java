@@ -27,7 +27,7 @@ public class ChatRoom {
     private String imageUrl;//단체방일때만 필요
 
     @Comment("채팅방 제목")
-    private String title;//단체방일때만 필요
+    private String title;
 
     @Comment("최근 만남 날짜")
     private LocalDate lastMeetingDate;//단체방일때만 필요
