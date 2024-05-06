@@ -21,7 +21,7 @@ public class ChatRoom {
 
     @Comment("채팅방 유형 (그룹, 1:1)")
     @Enumerated(EnumType.STRING)
-    private ChatType type;
+    private ChatType chatType;
 
     @Comment("채팅방 이미지")
     private String imageUrl;//단체방일때만 필요
@@ -38,6 +38,9 @@ public class ChatRoom {
     @Comment("최근 메세지")
     private String lastMessage;
 
-    @OneToMany(mappedBy = "ChatRoom", cascade = CascadeType.ALL)
+    @Comment("최근 채팅 시간")
+    private LocalDateTime lastChatTime;
+
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
     List<UserChatRoom> userChatRooms;
 }
