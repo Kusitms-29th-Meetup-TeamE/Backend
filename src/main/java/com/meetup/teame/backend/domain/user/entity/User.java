@@ -53,19 +53,24 @@ public class User {
 
     private String role;
 
-    public static User ofKakao(String kakaoId, String nickname, Gender gender, String birthyear, String role) {
+    //자체 회원가입
+    private String email;
+
+    private String password;
+
+    public static User ofKakao(String kakaoId, String name, Gender gender, String birthyear, String role) {
         return User.builder()
                 .kakaoId(kakaoId)
-                .name(nickname)
+                .name(name)
                 .gender(gender)
                 .birthyear(birthyear)
                 .role(role)
                 .build();
     }
 
-    public User setName (String nickname) {
+    public User setName (String name) {
         return User.builder()
-                .name(nickname)
+                .name(name)
                 .build();
     }
 }
