@@ -33,7 +33,10 @@ public class KakaoService {
 
     private final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
     private final String KAKAO_INFO_URL = "https://kapi.kakao.com/v2/user/me";
-    private static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
+
+    //private static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
+    @Value("${jwt.access-token-expired-time}")
+    private long ACCESS_TOKEN_EXPIRE_TIME;
 
     private final JwtProvider jwtProvider;
     private final UserService userService;
@@ -52,7 +55,7 @@ public class KakaoService {
             String responseBody = response.getBody();
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(responseBody);
-            System.out.println("jsonNode: "+jsonNode);
+            System.out.println("jsonNode: " + jsonNode);
 
             // 필수 정보
             String name = jsonNode.path("properties").path("nickname").asText();
@@ -106,8 +109,7 @@ public class KakaoService {
 
     public HttpHeaders getLoginHeader(User user) {
         //액세스 토큰 생성 -> 패스에 액세스 토큰을 추가
-        String accessToken = jwtProvider.generateToken(user, ACCESS_TOKEN_DURATION);
-        System.out.println("maketoken 정상적으로 끝남");
+        String accessToken = jwtProvider.generateToken(user.getId(), ACCESS_TOKEN_EXPIRE_TIME/*ACCESS_TOKEN_DURATION*/);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
         return headers;
@@ -115,10 +117,9 @@ public class KakaoService {
 
     public boolean userExists(String email) {
         Optional<User> userOptional = userService.findByEmail(email);
-        if(userOptional.isPresent()) {
+        if (userOptional.isPresent()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

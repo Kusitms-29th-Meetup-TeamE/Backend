@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateOauthUserRequest;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
 import com.meetup.teame.backend.domain.auth.oauth.service.KakaoService;
-import com.meetup.teame.backend.domain.user.entity.Gender;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -42,9 +41,7 @@ public class KakaoController {
     public ResponseEntity<Object> signup(@RequestBody CreateUserRequest request) { //이미 있는 회원인지 확인해야됨
         User user = userService.createUser(request);
         Long userId = userService.save(user);
-        System.out.println("사용자 저장까지 함");
         HttpHeaders headers = kakaoService.getLoginHeader(userService.findById(userId));
-        System.out.println("토큰 발급됨");
         return ResponseEntity.ok().headers(headers).body("OK");
     }
 }
