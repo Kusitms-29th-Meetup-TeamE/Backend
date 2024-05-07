@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meetup.teame.backend.domain.auth.jwt.JwtProvider;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateOauthUserRequest;
 import com.meetup.teame.backend.domain.user.entity.User;
+import com.meetup.teame.backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -15,6 +16,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -34,6 +36,7 @@ public class KakaoService {
     private static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
 
     private final JwtProvider jwtProvider;
+    private final UserService userService;
 
     //카카오 엑세스 토큰으로 사용자 정보 받아오기
     public CreateOauthUserRequest getKakaoInfo(String accessToken) throws JsonProcessingException {
@@ -45,32 +48,22 @@ public class KakaoService {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(KAKAO_INFO_URL, HttpMethod.GET, entity, String.class);
-        CreateOauthUserRequest userRequest = new CreateOauthUserRequest();
-
         if (response.getStatusCode() == HttpStatus.OK) {
             String responseBody = response.getBody();
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(responseBody);
+            System.out.println("jsonNode: "+jsonNode);
 
             // 필수 정보
-            String nickname = jsonNode.path("properties").path("profile_nickname").asText();
-            String name = jsonNode.path("properties").path("name").asText();
+            String name = jsonNode.path("properties").path("nickname").asText();
+            String profileImage = jsonNode.path("properties").path("profile_image").asText("");
             String gender = jsonNode.path("kakao_account").path("gender").asText();
             String birthyear = jsonNode.path("kakao_account").path("birthyear").asText();
+            String email = jsonNode.path("kakao_account").path("email").asText("");
 
-            // 선택 정보
-            String profileImage = jsonNode.path("properties").path("profile_image").asText("");
-            String email = jsonNode.path("kakao_account").path("account_email").asText("");
+            System.out.println("= = = " + email + " " + gender + " " + name + " " + birthyear + " " + profileImage);
 
-            System.out.println("= = = " + email + " " + gender + " " + nickname + " " + name + " " + birthyear);
-            userRequest.setEmail(email);
-            userRequest.setGender(gender);
-            userRequest.setNickname(nickname);
-            userRequest.setName(name);
-            userRequest.setBirthYear(birthyear);
-            userRequest.setProfileImage(profileImage);
-
-            return userRequest;
+            return new CreateOauthUserRequest(name, email, gender, birthyear, profileImage);
         }
         return null;
     }
@@ -118,5 +111,15 @@ public class KakaoService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
         return headers;
+    }
+
+    public boolean userExists(String email) {
+        Optional<User> userOptional = userService.findByEmail(email);
+        if(userOptional.isPresent()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

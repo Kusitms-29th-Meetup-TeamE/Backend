@@ -53,14 +53,4 @@ public class User {
 
     private String email;
 
-    public User(String kakaoId) {
-        this.kakaoId = kakaoId;
-    }
-
-
-    public User setName (String nickname) {
-        return User.builder()
-                .name(nickname)
-                .build();
-    }
 }

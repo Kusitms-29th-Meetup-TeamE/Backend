@@ -25,7 +25,8 @@ public class KakaoController {
     public ResponseEntity<Object> kakaoLogin(@RequestParam String code) throws JsonProcessingException {
         String kakaoAccessToken = kakaoService.getKakaoAccessToken(code); //인가코드로 카카오 엑세스 토큰 받아오기
         CreateOauthUserRequest request = kakaoService.getKakaoInfo(kakaoAccessToken); //엑세스 토큰으로 카카오 사용자 정보 받아오기
-        if(userExists(request.getEmail())) { //이미 가입된 회원
+        boolean checkExist = kakaoService.userExists(request.getEmail());
+        if(checkExist) { //이미 가입된 회원
             Optional<User> userOptional = userService.findByEmail(request.getEmail());
             User user = userOptional.get();
             HttpHeaders headers = kakaoService.getLoginHeader(user);
@@ -48,15 +49,5 @@ public class KakaoController {
         Long userId = userService.save(user);
         HttpHeaders headers = kakaoService.getLoginHeader(userService.findById(userId));
         return ResponseEntity.ok().headers(headers).body("OK");
-    }
-
-    private boolean userExists(String email) {
-        Optional<User> userOptional = userService.findByEmail(email);
-        if(userOptional.isPresent()) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 }
