@@ -6,6 +6,8 @@ import com.meetup.teame.backend.domain.experience.repository.ExperienceRepositor
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
+import com.meetup.teame.backend.domain.user.entity.Gender;
+import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import com.meetup.teame.backend.global.exception.CustomException;
 import com.meetup.teame.backend.global.exception.ExceptionContent;
@@ -13,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +39,7 @@ public class UserService {
         );
     }
 
+    @Transactional
     public User createUser(CreateUserRequest request) {
         int currentYear = LocalDate.now().getYear();
         int birthYear = Integer.parseInt(request.getBirthyear());
@@ -42,22 +47,25 @@ public class UserService {
         return User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .gender(Objects.equals(request.getGender(), "male") ?Gender.MALE:Gender.FEMALE)
+                .gender(Objects.equals(request.getGender(), "male") ? Gender.MALE:Gender.FEMALE)
                 .age(age)
                 .location(request.getLocation())
                 .point(0L)
                 .build();
     }
 
+    @Transactional
     public User findById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
     }
 
+    @Transactional
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
+    @Transactional
     public Long save(User user) {
         User savedUser = userRepository.save(user);
         return savedUser.getId();

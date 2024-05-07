@@ -15,7 +15,8 @@ public class SecurityConfig {
         http
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(c -> c
-                        .anyRequest().permitAll())
+                        .requestMatchers("/api/sign-up","/api/login","/users/main").permitAll()
+                        .anyRequest().authenticated())
                 .cors(c -> c.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(List.of("http://localhost:3000", "https://api.yeongjin.site", "https://ddoba.vercel.app"));
