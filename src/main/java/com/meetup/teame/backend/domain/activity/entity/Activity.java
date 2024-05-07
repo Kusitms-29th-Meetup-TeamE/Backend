@@ -1,16 +1,13 @@
 package com.meetup.teame.backend.domain.activity.entity;
 
 import com.meetup.teame.backend.domain.like.entity.ActivityLike;
-import com.meetup.teame.backend.domain.user.entity.User;
+import com.meetup.teame.backend.domain.personality.Personality;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

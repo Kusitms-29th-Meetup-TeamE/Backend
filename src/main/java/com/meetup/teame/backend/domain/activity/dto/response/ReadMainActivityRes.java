@@ -2,10 +2,9 @@ package com.meetup.teame.backend.domain.activity.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.meetup.teame.backend.domain.activity.entity.Activity;
-import com.meetup.teame.backend.domain.activity.entity.Personality;
+import com.meetup.teame.backend.domain.personality.Personality;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
