@@ -25,6 +25,9 @@ public class User {
     @Comment("사용자 이름")
     private String name;
 
+    @Comment("사용자 이메일")
+    private String email;
+
     @Comment("사용자 이미지")
     private String imageUrl;
 
