@@ -51,26 +51,6 @@ public class User {
 
     private String birthyear;
 
-    private String role;
-
-    //자체 회원가입
     private String email;
 
-    private String password;
-
-    public static User ofKakao(String kakaoId, String name, Gender gender, String birthyear, String role) {
-        return User.builder()
-                .kakaoId(kakaoId)
-                .name(name)
-                .gender(gender)
-                .birthyear(birthyear)
-                .role(role)
-                .build();
-    }
-
-    public User setName (String name) {
-        return User.builder()
-                .name(name)
-                .build();
-    }
 }
