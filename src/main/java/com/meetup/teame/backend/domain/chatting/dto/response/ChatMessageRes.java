@@ -19,7 +19,7 @@ public class ChatMessageRes {
 
     private String emoticon;//이모티콘 메세지용 ,todo 추후에 enum으로 바꿀지 고민
 
-    private ExperienceType experienceType;//약속 메세지용
+    private String experienceType;//약속 메세지용
 
     private LocalDateTime appointmentTime;//약속 메세지용
 
@@ -49,7 +49,7 @@ public class ChatMessageRes {
                 .build();
     }
 
-    public static ChatMessageRes ofAppointment(LocalDateTime createdAt, String senderName, String senderImageUrl, ExperienceType experienceType, LocalDateTime appointmentTime, String location) {
+    public static ChatMessageRes ofAppointment(LocalDateTime createdAt, String senderName, String senderImageUrl, String experienceType, LocalDateTime appointmentTime, String location) {
         return ChatMessageRes.builder()
                 .type(ChatMessageType.APPOINTMENT)
                 .createdAt(createdAt)
