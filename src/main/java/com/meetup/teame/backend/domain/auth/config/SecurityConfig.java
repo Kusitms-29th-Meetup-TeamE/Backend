@@ -27,7 +27,8 @@ public class SecurityConfig {
                                 "/users/main",
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
-                                "/v3/api-docs/**").permitAll()
+                                "/v3/api-docs/**",
+                                "/healths").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, ExceptionTranslationFilter.class)
                 .cors(c -> c.configurationSource(request -> {

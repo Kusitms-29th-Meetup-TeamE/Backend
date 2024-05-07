@@ -25,6 +25,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if (request.getHeader(AUTHORIZATION) == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         final String accessToken = getAccessTokenFromHttpServletRequest(request);
         jwtProvider.validateAccessToken(accessToken);
         final Long userId = jwtProvider.getSubject(accessToken);
