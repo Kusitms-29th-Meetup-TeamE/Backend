@@ -1,4 +1,4 @@
-package com.meetup.teame.backend.domain.chat.config;
+package com.meetup.teame.backend.domain.chatting.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

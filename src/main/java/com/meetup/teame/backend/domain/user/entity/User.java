@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.user.entity;
 
+import com.meetup.teame.backend.domain.chatroom.entity.UserChatRoom;
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.domain.experience.entity.Experience;
 import com.meetup.teame.backend.domain.like.entity.ActivityLike;
@@ -45,6 +46,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ActivityLike> activityLikes;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserChatRoom> userChatRooms;
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
