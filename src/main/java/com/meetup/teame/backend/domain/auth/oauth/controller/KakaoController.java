@@ -26,8 +26,8 @@ public class KakaoController {
         CreateOauthUserRequest request = kakaoService.getKakaoInfo(kakaoAccessToken); //엑세스 토큰으로 카카오 사용자 정보 받아오기
         boolean checkExist = kakaoService.userExists(request.getEmail());
         if(checkExist) { //이미 가입된 회원
-            Optional<User> userOptional = userService.findByEmail(request.getEmail());
-            User user = userOptional.get();
+            /*Optional<User> userOptional*/User user = userService.findByEmail(request.getEmail());
+            //User user = userOptional.get();
             HttpHeaders headers = kakaoService.getLoginHeader(user);
 
             return ResponseEntity.ok().headers(headers).body("login");

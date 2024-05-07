@@ -116,8 +116,8 @@ public class KakaoService {
     }
 
     public boolean userExists(String email) {
-        Optional<User> userOptional = userService.findByEmail(email);
-        if (userOptional.isPresent()) {
+        /*Optional<User> userOptional*/User user = userService.findByEmail(email);
+        if (/*userOptional.isPresent()*/user!=null) {
             return true;
         } else {
             return false;
