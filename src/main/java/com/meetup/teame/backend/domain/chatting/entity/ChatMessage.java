@@ -1,9 +1,4 @@
-package com.meetup.teame.backend.domain.chatting.document;
-
-import jakarta.persistence.Id;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+package com.meetup.teame.backend.domain.chatting.entity;
 
 //todo : Mongo DB 연동
 //@Document(collection = "chat_message")
