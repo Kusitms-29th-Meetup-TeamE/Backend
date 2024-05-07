@@ -29,11 +29,12 @@ public class JwtProvider {
 
     //Jwt 토큰 생성 메서드
     private String makeToken(Date expiry, User user) {
+        System.out.println("makeToken들어옴");
         Date now = new Date();
 
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE) //헤더
-                .setIssuer(jwtProperties.getIssuer()) //내용
+                //.setIssuer(jwtProperties.getIssuer()) //내용
                 .setIssuedAt(now)
                 .setExpiration(expiry)
                 .setSubject(user.getEmail())

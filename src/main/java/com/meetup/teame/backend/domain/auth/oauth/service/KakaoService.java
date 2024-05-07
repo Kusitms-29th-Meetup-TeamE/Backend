@@ -107,7 +107,7 @@ public class KakaoService {
     public HttpHeaders getLoginHeader(User user) {
         //액세스 토큰 생성 -> 패스에 액세스 토큰을 추가
         String accessToken = jwtProvider.generateToken(user, ACCESS_TOKEN_DURATION);
-
+        System.out.println("maketoken 정상적으로 끝남");
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
         return headers;

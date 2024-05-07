@@ -13,20 +13,15 @@ import org.hibernate.annotations.Comment;
 @Getter
 public class CreateUserRequest {
 
-    @Comment("사용자 이름")
     private String name;
 
-    @Comment("사용자 이미지")
+    private String email;
+
     private String imageUrl;
 
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private String gender;
 
-    private String location;
-
-    //test
     private String birthyear;
 
-
-    private String email;
+    private String location;
 }
