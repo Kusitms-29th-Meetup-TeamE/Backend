@@ -51,17 +51,12 @@ public class User {
 
     private String birthyear;
 
-    private String role;
+    private String email;
 
-    public static User ofKakao(String kakaoId, String nickname, Gender gender, String birthyear, String role) {
-        return User.builder()
-                .kakaoId(kakaoId)
-                .name(nickname)
-                .gender(gender)
-                .birthyear(birthyear)
-                .role(role)
-                .build();
+    public User(String kakaoId) {
+        this.kakaoId = kakaoId;
     }
+
 
     public User setName (String nickname) {
         return User.builder()
