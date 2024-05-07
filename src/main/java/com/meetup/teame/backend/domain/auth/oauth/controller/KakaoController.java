@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateOauthUserRequest;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
 import com.meetup.teame.backend.domain.auth.oauth.service.KakaoService;
-import com.meetup.teame.backend.domain.user.entity.Gender;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +26,8 @@ public class KakaoController {
         CreateOauthUserRequest request = kakaoService.getKakaoInfo(kakaoAccessToken); //엑세스 토큰으로 카카오 사용자 정보 받아오기
         boolean checkExist = kakaoService.userExists(request.getEmail());
         if(checkExist) { //이미 가입된 회원
-            Optional<User> userOptional = userService.findByEmail(request.getEmail());
-            User user = userOptional.get();
+            /*Optional<User> userOptional*/User user = userService.findByEmail(request.getEmail());
+            //User user = userOptional.get();
             HttpHeaders headers = kakaoService.getLoginHeader(user);
 
             return ResponseEntity.ok().headers(headers).body("login");
@@ -38,14 +37,9 @@ public class KakaoController {
         }
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/sign-up")
     public ResponseEntity<Object> signup(@RequestBody CreateUserRequest request) { //이미 있는 회원인지 확인해야됨
-        User user = User.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .gender(Gender.valueOf(request.getGender().toUpperCase()))
-                .location(request.getLocation())
-                .build();
+        User user = userService.createUser(request);
         Long userId = userService.save(user);
         HttpHeaders headers = kakaoService.getLoginHeader(userService.findById(userId));
         return ResponseEntity.ok().headers(headers).body("OK");
