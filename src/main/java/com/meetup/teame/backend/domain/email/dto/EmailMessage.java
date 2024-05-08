@@ -2,19 +2,14 @@ package com.meetup.teame.backend.domain.email.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Builder
 public class EmailMessage {
 
-    private String receiver;
-    private String title;
-    private String content;
-
-    public void setEmailContents(String receiver, String title, String content) {
-        this.receiver = content;
-        this.title = title;
-        this.content = content;
-    }
-
+    private String to;
+    private String subject;
+    private String message;
 }

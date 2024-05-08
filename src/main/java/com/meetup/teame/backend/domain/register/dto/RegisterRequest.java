@@ -2,7 +2,6 @@ package com.meetup.teame.backend.domain.register.dto;
 
 
 import com.meetup.teame.backend.domain.user.entity.User;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +17,10 @@ public class RegisterRequest {
 
     private String password;
 
+    private String birthyear;
+
+    private String gender;
+
     private String location;
 
     public User toEntity(RegisterRequest request, String encodedPassword) {
@@ -25,6 +28,7 @@ public class RegisterRequest {
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(encodedPassword)
+
                 .location(request.getLocation())
                 .build();
     }
