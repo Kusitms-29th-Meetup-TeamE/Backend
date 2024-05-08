@@ -16,7 +16,6 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
 @Tag(name = "oauth", description = "로그인 관련 api")
 public class KakaoController {
 

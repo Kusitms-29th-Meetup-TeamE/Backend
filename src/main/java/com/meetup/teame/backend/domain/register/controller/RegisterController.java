@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
 @Tag(name = "register", description = "자체 로그인 관련 api")
 public class RegisterController {
 
