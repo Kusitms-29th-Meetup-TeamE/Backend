@@ -1,12 +1,15 @@
 package com.meetup.teame.backend.domain.register.controller;
 
+import com.meetup.teame.backend.domain.auth.oauth.service.KakaoService;
 import com.meetup.teame.backend.domain.email.dto.EmailRequest;
 import com.meetup.teame.backend.domain.email.service.EmailService;
 import com.meetup.teame.backend.domain.register.dto.RegisterRequest;
 import com.meetup.teame.backend.domain.register.service.RegisterService;
+import com.meetup.teame.backend.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +24,8 @@ public class RegisterController {
 
     private final RegisterService registerService;
     private final EmailService emailService;
+    private final KakaoService kakaoService;
+    private final UserService userService;
 
     @Operation(summary = "인증 번호 발송", description = """
             이메일 입력 하고 인증번호 발송하면 이메일로 인증번호 발송합니다.
@@ -41,9 +46,11 @@ public class RegisterController {
             사용자 정보 입력을 마치고 회원가입에 성공하면 "회원가입 성공"이라는 메세지를 반환합니다.
             """)
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
-        registerService.register(registerRequest);
-        return ResponseEntity.ok().body("회원가입 성공");
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        System.out.println("메서드 시작");
+        Long userId = registerService.register(request);
+        System.out.println("저장 메서드까지는 함");
+        HttpHeaders headers = kakaoService.getLoginHeader(userService.findById(userId));
+        return ResponseEntity.ok().headers(headers).body("회원가입 성공");
     }
-
 }

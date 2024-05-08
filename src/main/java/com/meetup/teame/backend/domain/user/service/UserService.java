@@ -54,13 +54,11 @@ public class UserService {
                 .build();
     }
 
-    @Transactional
     public User findById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
     }
 
-    @Transactional
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
