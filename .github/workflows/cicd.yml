@@ -60,7 +60,6 @@ jobs:
           key: ${{secrets.EC2_PRIVATE_KEY}}
           port: 22
           script: |
-            sudo docker-compose down
             sudo chmod 777 ./deploy.sh
             sudo ./deploy.sh
             sudo docker image prune -f
