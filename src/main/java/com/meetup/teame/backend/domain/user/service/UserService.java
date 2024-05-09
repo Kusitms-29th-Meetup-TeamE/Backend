@@ -12,6 +12,7 @@ import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import com.meetup.teame.backend.global.exception.CustomException;
 import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,15 +55,9 @@ public class UserService {
                 .build();
     }
 
-    @Transactional
     public User findById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
-    }
-
-    @Transactional
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
     }
 
     @Transactional

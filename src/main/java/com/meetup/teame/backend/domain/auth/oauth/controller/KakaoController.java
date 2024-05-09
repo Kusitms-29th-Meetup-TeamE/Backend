@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateOauthUserRequest;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
 import com.meetup.teame.backend.domain.auth.oauth.service.KakaoService;
+import com.meetup.teame.backend.domain.login.service.LoginService;
 import com.meetup.teame.backend.domain.user.entity.User;
+import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import com.meetup.teame.backend.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,12 +18,13 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
 @Tag(name = "oauth", description = "로그인 관련 api")
 public class KakaoController {
 
+    private final UserRepository userRepository;
     private final UserService userService;
     private final KakaoService kakaoService;
+    private final LoginService loginService;
 
     @Operation(summary = "카카오 로그인", description = """
             카카오 소셜 로그인을 진행합니다.
@@ -34,10 +37,9 @@ public class KakaoController {
     public ResponseEntity<Object> kakaoLogin(@RequestParam String code) throws JsonProcessingException {
         String kakaoAccessToken = kakaoService.getKakaoAccessToken(code); //인가코드로 카카오 엑세스 토큰 받아오기
         CreateOauthUserRequest request = kakaoService.getKakaoInfo(kakaoAccessToken); //엑세스 토큰으로 카카오 사용자 정보 받아오기
-        boolean checkExist = kakaoService.userExists(request.getEmail());
+        boolean checkExist = loginService.userExists(request.getEmail());
         if(checkExist) { //이미 가입된 회원
-            /*Optional<User> userOptional*/User user = userService.findByEmail(request.getEmail());
-            //User user = userOptional.get();
+            User user = userRepository.findByEmail(request.getEmail());
             HttpHeaders headers = kakaoService.getLoginHeader(user);
 
             return ResponseEntity.ok().headers(headers).body("login");
