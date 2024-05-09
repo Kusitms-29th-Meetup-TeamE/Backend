@@ -1,7 +1,14 @@
 package com.meetup.teame.backend.domain.chatting.dto.response;
 
 import com.meetup.teame.backend.domain.chatting.entity.ChatMessageType;
+import com.meetup.teame.backend.domain.chatting.entity.document.AppointmentChatMessage;
+import com.meetup.teame.backend.domain.chatting.entity.document.ChatMessage;
+import com.meetup.teame.backend.domain.chatting.entity.document.EmoticonChatMessage;
+import com.meetup.teame.backend.domain.chatting.entity.document.TextChatMessage;
 import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
+import com.meetup.teame.backend.domain.user.entity.User;
+import com.meetup.teame.backend.global.exception.CustomException;
+import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,7 +24,7 @@ public class ChatMessageRes {
 
     private String text;//일반 메세지용
 
-    private String emoticon;//이모티콘 메세지용 ,todo 추후에 enum으로 바꿀지 고민
+    private String emoticon;//이모티콘 메세지용 todo 추후에 enum으로 바꿀지 고민
 
     private String experienceType;//약속 메세지용
 
@@ -29,35 +36,43 @@ public class ChatMessageRes {
 
     private String senderImageUrl;
 
-    public static ChatMessageRes ofText(LocalDateTime createdAt, String senderName, String senderImageUrl, String text) {
+    private static ChatMessageRes ofText(TextChatMessage textChatMessage) {
         return ChatMessageRes.builder()
                 .type(ChatMessageType.TEXT)
-                .createdAt(createdAt)
-                .senderName(senderName)
-                .senderImageUrl(senderImageUrl)
-                .text(text)
+                .createdAt(textChatMessage.getCreatedAt())
+                .senderName(textChatMessage.getSenderName())
+                .senderImageUrl(textChatMessage.getSenderImageUrl())
+                .text(textChatMessage.getText())
                 .build();
     }
 
-    public static ChatMessageRes ofEmoticon(LocalDateTime createdAt, String senderName, String senderImageUrl, String emoticon) {
+    private static ChatMessageRes ofEmoticon(EmoticonChatMessage emoticonChatMessage) {
         return ChatMessageRes.builder()
                 .type(ChatMessageType.EMOTICON)
-                .createdAt(createdAt)
-                .senderName(senderName)
-                .senderImageUrl(senderImageUrl)
-                .emoticon(emoticon)
+                .createdAt(emoticonChatMessage.getCreatedAt())
+                .senderName(emoticonChatMessage.getSenderName())
+                .senderImageUrl(emoticonChatMessage.getSenderImageUrl())
+                .emoticon(emoticonChatMessage.getEmoticon())
                 .build();
     }
 
-    public static ChatMessageRes ofAppointment(LocalDateTime createdAt, String senderName, String senderImageUrl, String experienceType, LocalDateTime appointmentTime, String location) {
+    private static ChatMessageRes ofAppointment(AppointmentChatMessage appointmentChatMessage) {
         return ChatMessageRes.builder()
                 .type(ChatMessageType.APPOINTMENT)
-                .createdAt(createdAt)
-                .senderName(senderName)
-                .senderImageUrl(senderImageUrl)
-                .experienceType(experienceType)
-                .appointmentTime(appointmentTime)
-                .location(location)
+                .createdAt(appointmentChatMessage.getCreatedAt())
+                .senderName(appointmentChatMessage.getSenderName())
+                .senderImageUrl(appointmentChatMessage.getSenderImageUrl())
+                .experienceType(appointmentChatMessage.getExperienceType().getDescription())
+                .appointmentTime(appointmentChatMessage.getAppointmentTime())
+                .location(appointmentChatMessage.getLocation())
                 .build();
+    }
+
+    public static ChatMessageRes of(ChatMessage chatMessage) {
+        return switch (chatMessage.getType()) {
+            case TEXT -> ofText((TextChatMessage) chatMessage);
+            case EMOTICON -> ofEmoticon((EmoticonChatMessage) chatMessage);
+            case APPOINTMENT -> ofAppointment((AppointmentChatMessage) chatMessage);
+        };
     }
 }
