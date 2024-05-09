@@ -20,6 +20,7 @@ public enum ExceptionContent {
 
     NOT_FOUND_USER(NOT_FOUND, "존재하지 않는 사용자입니다."),
     NOT_FOUND_PERSONALITY(NOT_FOUND, "존재하지 않는 성격입니다."),
+    NOT_FOUND_EXPERIENCE_TYPE(NOT_FOUND, "존재하지 않는 경험 유형입니다."),
     ;
 
     private final HttpStatus httpStatus;

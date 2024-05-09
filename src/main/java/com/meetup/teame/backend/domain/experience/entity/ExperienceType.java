@@ -1,5 +1,7 @@
 package com.meetup.teame.backend.domain.experience.entity;
 
+import com.meetup.teame.backend.global.exception.CustomException;
+import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,4 +15,13 @@ public enum ExperienceType {
     ;
 
     private final String description;
+
+    public static ExperienceType of(String description) {
+        for (ExperienceType experienceType : ExperienceType.values()) {
+            if (experienceType.getDescription().equals(description)) {
+                return experienceType;
+            }
+        }
+        throw new CustomException(ExceptionContent.NOT_FOUND_EXPERIENCE_TYPE);
+    }
 }
