@@ -32,6 +32,8 @@ public class ChatMessageRes {
 
     private String location;//약속 메세지용
 
+    private Long senderId;
+
     private String senderName;
 
     private String senderImageUrl;
@@ -40,6 +42,7 @@ public class ChatMessageRes {
         return ChatMessageRes.builder()
                 .type(ChatMessageType.TEXT)
                 .createdAt(textChatMessage.getCreatedAt())
+                .senderId(textChatMessage.getSenderId())
                 .senderName(textChatMessage.getSenderName())
                 .senderImageUrl(textChatMessage.getSenderImageUrl())
                 .text(textChatMessage.getText())
@@ -50,6 +53,7 @@ public class ChatMessageRes {
         return ChatMessageRes.builder()
                 .type(ChatMessageType.EMOTICON)
                 .createdAt(emoticonChatMessage.getCreatedAt())
+                .senderId(emoticonChatMessage.getSenderId())
                 .senderName(emoticonChatMessage.getSenderName())
                 .senderImageUrl(emoticonChatMessage.getSenderImageUrl())
                 .emoticon(emoticonChatMessage.getEmoticon())
@@ -60,6 +64,7 @@ public class ChatMessageRes {
         return ChatMessageRes.builder()
                 .type(ChatMessageType.APPOINTMENT)
                 .createdAt(appointmentChatMessage.getCreatedAt())
+                .senderId(appointmentChatMessage.getSenderId())
                 .senderName(appointmentChatMessage.getSenderName())
                 .senderImageUrl(appointmentChatMessage.getSenderImageUrl())
                 .experienceType(appointmentChatMessage.getExperienceType().getDescription())
