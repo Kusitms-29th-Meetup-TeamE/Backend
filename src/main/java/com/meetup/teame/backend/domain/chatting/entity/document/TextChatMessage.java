@@ -12,14 +12,13 @@ public class TextChatMessage extends ChatMessage {
     private final String text;
 
     @Builder
-    private TextChatMessage(Long chatRoomId, Long senderId, LocalDateTime createdAt, String text) {
-        super(chatRoomId, senderId, createdAt);
+    private TextChatMessage(Long senderId, LocalDateTime createdAt, String text) {
+        super(senderId, createdAt);
         this.text = text;
     }
 
-    public static TextChatMessage of(Long chatRoomId, Long senderId, LocalDateTime createdAt, String text) {
+    public static TextChatMessage of(Long senderId, LocalDateTime createdAt, String text) {
         return TextChatMessage.builder()
-                .chatRoomId(chatRoomId)
                 .senderId(senderId)
                 .createdAt(createdAt)
                 .text(text)

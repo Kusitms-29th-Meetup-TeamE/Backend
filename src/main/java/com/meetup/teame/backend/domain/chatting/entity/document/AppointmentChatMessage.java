@@ -17,16 +17,15 @@ public class AppointmentChatMessage extends ChatMessage {
     private final String location;
 
     @Builder
-    protected AppointmentChatMessage(Long chatRoomId, Long senderId, LocalDateTime createdAt, ExperienceType experienceType, LocalDateTime appointmentTime, String location) {
-        super(chatRoomId, senderId, createdAt);
+    protected AppointmentChatMessage(Long senderId, LocalDateTime createdAt, ExperienceType experienceType, LocalDateTime appointmentTime, String location) {
+        super(senderId, createdAt);
         this.experienceType = experienceType;
         this.appointmentTime = appointmentTime;
         this.location = location;
     }
 
-    public static AppointmentChatMessage of(Long chatRoomId, Long senderId, LocalDateTime createdAt, String experienceType, LocalDateTime appointmentTime, String location) {
+    public static AppointmentChatMessage of(Long senderId, LocalDateTime createdAt, String experienceType, LocalDateTime appointmentTime, String location) {
         return AppointmentChatMessage.builder()
-                .chatRoomId(chatRoomId)
                 .senderId(senderId)
                 .createdAt(createdAt)
                 .experienceType(ExperienceType.of(experienceType))

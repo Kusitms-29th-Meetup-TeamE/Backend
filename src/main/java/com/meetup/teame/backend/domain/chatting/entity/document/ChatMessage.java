@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 public abstract class ChatMessage {
     @Id
     private String id;
-    private final Long chatRoomId;
     private final Long senderId;
     private final LocalDateTime createdAt;
 }
