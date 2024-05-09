@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@Tag(name = "register", description = "자체 로그인 관련 api")
+@Tag(name = "register", description = "자체 회원가입 관련 api")
 public class RegisterController {
 
     private final RegisterService registerService;

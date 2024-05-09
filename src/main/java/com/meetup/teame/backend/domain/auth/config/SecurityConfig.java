@@ -22,10 +22,11 @@ public class SecurityConfig {
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(c -> c
                         .requestMatchers(
-                                "/api/sign-up",
-                                "/api/login",
-                                "/api/send-email",
-                                "/api/register",
+                                "/sign-up",
+                                "/login/kakao",
+                                "/login/local",
+                                "/send-email",
+                                "/register",
                                 "/users/main",
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
