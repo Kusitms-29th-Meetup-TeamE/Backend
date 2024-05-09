@@ -19,19 +19,18 @@ public class LoginService {
         User user = userRepository.findByEmail(email);
         if (user!=null) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
 
     public boolean checkUserValid(String email, String password) {
         User user = userRepository.findByEmail(email);
-        boolean validCheck = encoder.encode(password).equals(user.getPassword());
-        if (validCheck) {
-            return true;
+        if (user == null) {
+            return false; // 이메일에 해당하는 사용자가 없음
         }
-        else{
-            return false;
-        }
+        return encoder.matches(password, user.getPassword());
     }
+
 }
