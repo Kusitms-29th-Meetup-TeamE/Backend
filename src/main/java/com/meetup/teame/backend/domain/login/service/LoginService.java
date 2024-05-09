@@ -28,7 +28,7 @@ public class LoginService {
     public boolean checkUserValid(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            return false; // 이메일에 해당하는 사용자가 없음
+            return false;
         }
         return encoder.matches(password, user.getPassword());
     }
