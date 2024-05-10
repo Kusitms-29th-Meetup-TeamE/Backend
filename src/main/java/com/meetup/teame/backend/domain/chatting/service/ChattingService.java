@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -30,12 +32,13 @@ public class ChattingService {
     public ChatMessageRes sendTextChatting(TextChatMessageReq textChatMessageReq, String chatRoomId) {
         User sender = userRepository.findById(textChatMessageReq.getSenderId())
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
+        LocalDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
         TextChatMessage message = chattingRepository.insert(TextChatMessage.of(
                 chatRoomId,
                 textChatMessageReq.getSenderId(),
                 sender.getName(),
                 sender.getImageUrl(),
-                LocalDateTime.now(),
+                nowInKorea,
                 textChatMessageReq.getText()
         ));
         return ChatMessageRes.of(message);
@@ -44,12 +47,13 @@ public class ChattingService {
     public ChatMessageRes sendEmoticonChatting(EmoticonChatMessageReq emoticonChatMessageReq, String chatRoomId) {
         User sender = userRepository.findById(emoticonChatMessageReq.getSenderId())
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
+        LocalDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
         EmoticonChatMessage message = chattingRepository.insert(EmoticonChatMessage.of(
                 chatRoomId,
                 emoticonChatMessageReq.getSenderId(),
                 sender.getName(),
                 sender.getImageUrl(),
-                LocalDateTime.now(),
+                nowInKorea,
                 emoticonChatMessageReq.getEmoticon()
         ));
         return ChatMessageRes.of(message);
@@ -58,12 +62,13 @@ public class ChattingService {
     public ChatMessageRes sendAppointmentChatting(AppointmentChatMessageReq appointmentChatMessageReq, String chatRoomId) {
         User sender = userRepository.findById(appointmentChatMessageReq.getSenderId())
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
+        LocalDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
         AppointmentChatMessage message = chattingRepository.insert(AppointmentChatMessage.of(
                 chatRoomId,
                 appointmentChatMessageReq.getSenderId(),
                 sender.getName(),
                 sender.getImageUrl(),
-                LocalDateTime.now(),
+                nowInKorea,
                 appointmentChatMessageReq.getExperienceType(),
                 appointmentChatMessageReq.getAppointmentTime(),
                 appointmentChatMessageReq.getLocation()
