@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -46,9 +45,7 @@ public class RegisterController {
             """)
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
-        System.out.println("메서드 시작");
         Long userId = registerService.register(request);
-        System.out.println("저장 메서드까지는 함");
         HttpHeaders headers = kakaoService.getLoginHeader(userService.findById(userId));
         return ResponseEntity.ok().headers(headers).body("회원가입 성공");
     }
