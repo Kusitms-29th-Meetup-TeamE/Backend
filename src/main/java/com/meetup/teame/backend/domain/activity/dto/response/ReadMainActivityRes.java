@@ -6,7 +6,9 @@ import com.meetup.teame.backend.domain.personality.Personality;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,10 +21,10 @@ public class ReadMainActivityRes {
     private Long currentParticipants;
     private Long maxParticipants;
     private String location;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM월 dd일 EEEE")
-    private LocalDateTime time;
+    private String time;
 
     public static ReadMainActivityRes of(Activity activity, Boolean isLiked) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 EEEE", new Locale("ko", "KR"));
         return ReadMainActivityRes.builder()
                 .personalities(
                         activity.getPersonalities().stream()
@@ -34,7 +36,7 @@ public class ReadMainActivityRes {
                 .currentParticipants(activity.getCurrentParticipants())
                 .maxParticipants(activity.getMaxParticipants())
                 .location(activity.getLocation())
-                .time(activity.getTime())
+                .time(activity.getTime().format(formatter))
                 .build();
     }
 }
