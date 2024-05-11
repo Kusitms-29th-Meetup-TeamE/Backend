@@ -21,6 +21,7 @@ public enum Personality {
 
     private final String description;
 
+    //todo ExperienceType 참고해서 of메서드로 수정
     public static Personality des2enum(String description) {
         return Arrays.stream(Personality.values())
                 .filter(personality -> personality.getDescription().equals(description))

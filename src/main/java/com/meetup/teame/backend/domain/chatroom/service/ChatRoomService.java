@@ -28,7 +28,7 @@ public class ChatRoomService {
         User user = userRepository.findById(5L)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadGroupChatRoomsRes
-                .of(chatRoomRepository.findChatRoomsForUser(user, ChatType.GROUP)
+                .of(user, chatRoomRepository.findChatRoomsForUser(user, ChatType.GROUP)
                         .stream()
                         .map(GroupChatRoomRes::of)
                         .collect(Collectors.toList()));
@@ -39,7 +39,7 @@ public class ChatRoomService {
         User user = userRepository.findById(5L)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadDirectChatRoomsRes
-                .of(chatRoomRepository.findChatRoomsForUser(user, ChatType.DIRECT)
+                .of(user, chatRoomRepository.findChatRoomsForUser(user, ChatType.DIRECT)
                         .stream()
                         .map(DirectChatRoomRes::of)
                         .collect(Collectors.toList()));

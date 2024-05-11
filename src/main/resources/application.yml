@@ -13,6 +13,9 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
 
   mail:
     host: smtp.gmail.com
