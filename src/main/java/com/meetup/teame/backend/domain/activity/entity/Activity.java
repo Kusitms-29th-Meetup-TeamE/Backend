@@ -23,6 +23,9 @@ public class Activity {
     @Comment("활동 제목")
     private String title;
 
+    @Comment("활동 제공 기관")
+    private String agency;
+
     @Comment("활동 장소")
     private String location;
 
