@@ -22,6 +22,6 @@ public enum ExperienceType {
                 return experienceType;
             }
         }
-        throw new CustomException(ExceptionContent.NOT_FOUND_EXPERIENCE_TYPE);
+        throw new CustomException(ExceptionContent.BAD_REQUEST_EXPERIENCE_TYPE);
     }
 }

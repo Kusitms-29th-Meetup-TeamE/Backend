@@ -26,6 +26,6 @@ public enum Personality {
         return Arrays.stream(Personality.values())
                 .filter(personality -> personality.getDescription().equals(description))
                 .findFirst()
-                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_PERSONALITY));
+                .orElseThrow(() -> new CustomException(ExceptionContent.BAD_REQUEST_PERSONALITY));
     }
 }
