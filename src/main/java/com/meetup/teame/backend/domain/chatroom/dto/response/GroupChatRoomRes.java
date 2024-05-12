@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -24,8 +25,12 @@ public class GroupChatRoomRes {
 
     private Long lastMeetingDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd (E)")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM월 dd일")
     private LocalDate appointmentDate;
+
+    private LocalDateTime lastChatTime;
+
+    private String lastMessage;
 
     public static GroupChatRoomRes of(ChatRoom chatRoom) {
         return GroupChatRoomRes.builder()

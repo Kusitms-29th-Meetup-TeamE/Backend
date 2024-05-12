@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -19,10 +20,14 @@ public class DirectChatRoomRes {
 
     private String opponent;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM월 dd일")
+    private LocalDate appointmentDate;
+
+    private LocalDateTime lastChatTime;
+
     private String lastMessage;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd.")
-    private LocalDate appointmentDate;
+    private Boolean isMentor;
 
     public static DirectChatRoomRes of(ChatRoom chatRoom) {
         return DirectChatRoomRes.builder()
