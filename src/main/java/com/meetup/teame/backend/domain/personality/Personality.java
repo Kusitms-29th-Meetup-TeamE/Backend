@@ -10,7 +10,7 @@ import java.util.Arrays;
 @Getter
 @RequiredArgsConstructor
 public enum Personality {
-    WINDLESS("잔잔한"),
+    WINDLESS("잔잔한"),//todo 삭제예정
     ACTIVE("활발한"),
     PEACEFUL("평화로운"),
     NATURE_FRIENDLY("자연친화적인"),
