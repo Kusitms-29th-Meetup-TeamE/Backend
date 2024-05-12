@@ -4,6 +4,10 @@ import com.meetup.teame.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,11 +31,17 @@ public class Experience {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private Long reviewCount;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
     public static Experience of(ExperienceType type, String description, User user) {
         return Experience.builder()
                 .type(type)
                 .description(description)
                 .user(user)
+                .reviewCount(0L)
                 .build();
     }
 }
