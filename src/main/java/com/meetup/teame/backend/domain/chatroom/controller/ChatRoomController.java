@@ -23,9 +23,9 @@ public class ChatRoomController {
     @Operation(summary = "활동 대화방(단체 채팅방) 목록 조회", description = """
             현재 로그인한 유저의 활동 대화방을 조회합니다.
                         
-            아직 로그인이 없어서 임시로 고정된 더미 유저의 데이터를 전달하는 식으로 구현되어 있습니다.
+            현재는 임시로 고정된 더미 유저의 데이터를 전달하는 식으로 구현되어 있습니다.
                         
-            추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            jwt토큰도 같이 전달해서 요청해주셔야 합니다.
             """)
     @GetMapping("/group")
     public ResponseEntity<ReadGroupChatRoomsRes> readGroupChatRooms() {
@@ -36,9 +36,9 @@ public class ChatRoomController {
     @Operation(summary = "경험나누기 대화방(1:1 대화방) 목록 조회", description = """
             현재 로그인한 유저의 경험나누기 대화방을 조회합니다.
                         
-            아직 로그인이 없어서 임시로 고정된 더미 유저의 데이터를 전달하는 식으로 구현되어 있습니다.
+            현재는 임시로 고정된 더미 유저의 데이터를 전달하는 식으로 구현되어 있습니다.
                         
-            추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            jwt토큰도 같이 전달해서 요청해주셔야 합니다.
             """)
     @GetMapping("/direct")
     public ResponseEntity<ReadDirectChatRoomsRes> readDirectChatRooms() {

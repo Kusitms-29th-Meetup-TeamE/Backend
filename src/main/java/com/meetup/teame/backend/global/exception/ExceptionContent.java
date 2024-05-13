@@ -17,6 +17,9 @@ public enum ExceptionContent {
     NOT_AUTHORIZATION(FORBIDDEN, "권한이 필요합니다."),
 
     BAD_REQUEST_SIGNUP(BAD_REQUEST, "회원가입에 실패했습니다. 이미 가입한 이메일입니다."),
+    BAD_REQUEST_PERSONALITY(BAD_REQUEST, "잘못된 요청입니다. 유효하지 않은 성격입니다."),
+    BAD_REQUEST_EXPERIENCE_TYPE(BAD_REQUEST, "잘못된 요청입니다. 유효하지 않은 경험 유형입니다."),
+    BAD_REQUEST_SORT_TYPE(BAD_REQUEST, "잘못된 요청입니다. 유효하지 않은 정렬 방식입니다."),
 
     NOT_FOUND_USER(NOT_FOUND, "존재하지 않는 사용자입니다."),
     NOT_FOUND_PERSONALITY(NOT_FOUND, "존재하지 않는 성격입니다."),
