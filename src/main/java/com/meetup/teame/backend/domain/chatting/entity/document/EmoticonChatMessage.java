@@ -30,4 +30,9 @@ public class EmoticonChatMessage extends ChatMessage {
                 .emoticon(emoticon)
                 .build();
     }
+
+    @Override
+    public String getMessage() {
+        return emoticon;//todo 수정 필요 (기쁨) (슬픔)같은 걸로 이모티콘 키워드로 표시되게 변경해야 할듯
+    }
 }

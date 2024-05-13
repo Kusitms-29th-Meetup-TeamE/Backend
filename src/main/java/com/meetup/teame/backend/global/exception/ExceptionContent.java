@@ -17,11 +17,13 @@ public enum ExceptionContent {
     NOT_AUTHORIZATION(FORBIDDEN, "권한이 필요합니다."),
 
     BAD_REQUEST_SIGNUP(BAD_REQUEST, "회원가입에 실패했습니다. 이미 가입한 이메일입니다."),
+    BAD_REQUEST_ALREADY_JOIN_CHATROOM(BAD_REQUEST, "이미 참여한 채팅방입니다."),
 
     NOT_FOUND_USER(NOT_FOUND, "존재하지 않는 사용자입니다."),
     NOT_FOUND_PERSONALITY(NOT_FOUND, "존재하지 않는 성격입니다."),
     NOT_FOUND_EXPERIENCE_TYPE(NOT_FOUND, "존재하지 않는 경험 유형입니다."),
-    ;
+    NOT_FOUND_ACTIVITY(NOT_FOUND, "존재하지 않는 활동입니다."),
+    NOT_FOUND_EXPERIENCE(NOT_FOUND, "존재하지 않는 경험입니다."),;
 
     private final HttpStatus httpStatus;
     private final String message;

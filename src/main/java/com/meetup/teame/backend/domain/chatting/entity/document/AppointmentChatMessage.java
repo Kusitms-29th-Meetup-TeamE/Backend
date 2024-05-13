@@ -39,4 +39,9 @@ public class AppointmentChatMessage extends ChatMessage {
                 .location(location)
                 .build();
     }
+
+    @Override
+    public String getMessage() {
+        return "["+experienceType.getDescription()+"] 배움 나누기가 확정되었어요!";
+    }
 }

@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.chatroom.entity;
 
+import com.meetup.teame.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -10,37 +11,37 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@Builder
 @Comment("채팅방")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "chat_type")
 public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Comment("채팅방 유형 (그룹, 1:1)")
-    @Enumerated(EnumType.STRING)
-    private ChatType chatType;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "appointmentDate", column = @Column(name = "last_appointment_date")),
+            @AttributeOverride(name = "appointmentLocation", column = @Column(name = "last_appointment_location"))
+    })
+    private Appointment lastAppointment;
 
-    @Comment("채팅방 이미지")
-    private String imageUrl;//단체방일때만 필요
-
-    @Comment("채팅방 제목")
-    private String title;
-
-    @Comment("최근 만남 날짜")
-    private LocalDate lastMeetingDate;//단체방일때만 필요
-
-    @Comment("약속 날짜")
-    private LocalDateTime appointmentDate;
-
-    @Comment("최근 메세지")
-    private String lastMessage;
-
-    @Comment("최근 채팅 시간")
-    private LocalDateTime lastChatTime;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "appointmentDate", column = @Column(name = "next_appointment_date")),
+            @AttributeOverride(name = "appointmentLocation", column = @Column(name = "next_appointment_location"))
+    })
+    private Appointment nextAppointment;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
-    List<UserChatRoom> userChatRooms;
+    private List<UserChatRoom> userChatRooms;
+
+    public void setLastAppointment(Appointment lastAppointment) {
+        this.lastAppointment = lastAppointment;
+    }
+
+    public void setNextAppointment(Appointment nextAppointment) {
+        this.nextAppointment = nextAppointment;
+    }
 }

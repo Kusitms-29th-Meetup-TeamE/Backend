@@ -1,8 +1,7 @@
 package com.meetup.teame.backend.domain.chatroom.repository.custom;
 
-import com.meetup.teame.backend.domain.chatroom.entity.ChatRoom;
-import com.meetup.teame.backend.domain.chatroom.entity.ChatType;
-import com.meetup.teame.backend.domain.chatroom.entity.QChatRoom;
+import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
+import com.meetup.teame.backend.domain.chatroom.entity.QGroupChatRoom;
 import com.meetup.teame.backend.domain.chatroom.entity.QUserChatRoom;
 import com.meetup.teame.backend.domain.user.entity.QUser;
 import com.meetup.teame.backend.domain.user.entity.User;
@@ -11,23 +10,22 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.meetup.teame.backend.domain.chatroom.entity.QChatRoom.chatRoom;
+import static com.meetup.teame.backend.domain.chatroom.entity.QGroupChatRoom.groupChatRoom;
 import static com.meetup.teame.backend.domain.chatroom.entity.QUserChatRoom.userChatRoom;
 import static com.meetup.teame.backend.domain.user.entity.QUser.user;
 
 @RequiredArgsConstructor
-public class ChatRoomRepositoryImpl implements ChatRoomRepositoryCustom {
+public class GroupChatRoomRepositoryImpl implements GroupChatRoomRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
+    //todo 최신순으로 정렬
     @Override
-    public List<ChatRoom> findChatRoomsForUser(User who, ChatType chatType) {
+    public List<GroupChatRoom> findForUser(User who) {
         return jpaQueryFactory
-                .selectFrom(chatRoom)
-                .join(chatRoom.userChatRooms, userChatRoom)
+                .selectFrom(groupChatRoom)
+                .join(groupChatRoom.userChatRooms, userChatRoom)
                 .join(userChatRoom.user, user)
-                .where(chatRoom.chatType.eq(chatType)
-                        .and(user.eq(who)))
-                .orderBy(chatRoom.lastChatTime.desc())
+                .where(user.eq(who))
                 .fetch();
     }
 }

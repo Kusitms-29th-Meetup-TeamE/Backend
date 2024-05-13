@@ -1,9 +1,12 @@
 package com.meetup.teame.backend.domain.experience.entity;
 
+import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
 import com.meetup.teame.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,6 +29,9 @@ public class Experience {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "experience", cascade = CascadeType.ALL)
+    private List<DirectChatRoom> directChatRooms;
 
     public static Experience of(ExperienceType type, String description, User user) {
         return Experience.builder()

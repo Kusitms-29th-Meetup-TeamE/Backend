@@ -30,4 +30,9 @@ public class TextChatMessage extends ChatMessage {
                 .text(text)
                 .build();
     }
+
+    @Override
+    public String getMessage() {
+        return text;
+    }
 }
