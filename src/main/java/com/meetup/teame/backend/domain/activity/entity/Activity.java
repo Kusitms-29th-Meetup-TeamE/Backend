@@ -39,6 +39,10 @@ public class Activity {
     private Long maxParticipants;
 
     @ElementCollection
+    @Comment("활동 사진들")
+    private List<String> activityImgs;
+
+    @ElementCollection
     @Enumerated(EnumType.STRING)
     private List<Personality> personalities;
 

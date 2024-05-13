@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -38,7 +35,7 @@ public class ActivityController {
             page = 0, size = 12 로 default 값이 설정되어있어 0번 페이지에 12개의 활동들을 불러옵니다.
             """)
     //전체 활동 불러오기
-    @GetMapping("/activity-summaries")
+    @GetMapping("/activities")
     public ResponseEntity<ActivityPageRes> getActivitySummaries(@RequestParam(defaultValue = "0") int page,
                                                                 @RequestParam(defaultValue = "12") int size)
     {
