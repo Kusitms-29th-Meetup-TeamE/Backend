@@ -5,14 +5,15 @@ import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
+import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
 import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
+import com.meetup.teame.backend.domain.user.dto.response.UserInfoRes;
 import com.meetup.teame.backend.domain.user.entity.Gender;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import com.meetup.teame.backend.global.exception.CustomException;
 import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,15 +56,28 @@ public class UserService {
                 .build();
     }
 
+    //user info dto화
+    public UserInfoRes getUserInfo(Long userId) {
+        User user = findById(userId);
+        return UserInfoRes.of(user);
+    }
+
     public User findById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
     }
 
     @Transactional
     public Long save(User user) {
         User savedUser = userRepository.save(user);
         return savedUser.getId();
+    }
+
+    @Transactional
+    public UserInfoRes updateUserInfo(Long userId, UpdateUserReq request) {
+        User updatedUser = findById(userId);
+        updatedUser.update(request);
+        return UserInfoRes.of(updatedUser);
     }
 
     @Transactional

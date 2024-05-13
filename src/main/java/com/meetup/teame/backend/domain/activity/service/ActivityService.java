@@ -7,6 +7,7 @@ import com.meetup.teame.backend.domain.activity.dto.response.ActivityPageRes;
 import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
 import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
+import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.global.exception.CustomException;
 import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,8 @@ public class ActivityService {
     private String bucket;
     private final AmazonS3 amazonS3;
     private final ActivityRepository activityRepository;
+
+    private static final int ACTIVITY_PAGE_SIZE = 12;
 
     //활동 참여 신청하기
 
@@ -59,12 +62,15 @@ public class ActivityService {
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_ACTIVITY));
     }
 
+    //활동 목록 필터링으로 조회
+    private List<Activity> findActivitiesByAgencyAndPersonality(String agency, Personality personality) {
+        return activityRepository.findByAgencyAndPersonality(agency, personality);
+    }
+
     //전체 활동 불러오기
     private List<Activity> findAllActivities() {
         return activityRepository.findAll();
     }
-
-    //활동 생성하기
 
 
     /*private String getUrl(Activity activity) {
@@ -75,17 +81,14 @@ public class ActivityService {
         List<String> activityImgs = activity.getActivityImgs();
         List<String> imageUrls = new ArrayList<>();
 
-        // 각 이미지에 대해 URL을 생성합니다.
         for (String imgKey : activityImgs) {
-            // 이미지의 URL을 생성하기 위해 S3에 대한 요청을 생성합니다.
+            // 이미지의 URL을 생성하기 위해 S3에 대한 요청을 생성
             GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucket, imgKey);
             /*// 이미지가 다운로드되는 시간(5분)을 설정합니다.
             urlRequest.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5));*/
 
-            // 이미지 URL을 생성합니다.
             URL url = amazonS3.generatePresignedUrl(urlRequest);
 
-            // 생성된 이미지 URL을 리스트에 추가합니다.
             imageUrls.add(url.toString());
         }
 
