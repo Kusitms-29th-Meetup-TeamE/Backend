@@ -12,9 +12,6 @@ public class AppointmentChatMessageReq {
     @NotBlank(message = "senderId is required")
     private Long senderId;
 
-    @NotBlank(message = "experienceType is required")
-    private String experienceType;
-
     @NotBlank(message = "appointmentTime is required")
     private LocalDateTime appointmentTime;
 

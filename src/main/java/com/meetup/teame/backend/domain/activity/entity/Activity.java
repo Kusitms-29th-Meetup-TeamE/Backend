@@ -1,5 +1,7 @@
 package com.meetup.teame.backend.domain.activity.entity;
 
+import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
+import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
 import com.meetup.teame.backend.domain.like.entity.ActivityLike;
 import com.meetup.teame.backend.domain.personality.Personality;
 import jakarta.persistence.*;
@@ -38,6 +40,9 @@ public class Activity {
     @Comment("최대 참여 인원")
     private Long maxParticipants;
 
+    @Comment("썸네일 이미지")
+    private String imageUrl;
+
     @ElementCollection
     @Comment("활동 사진들")
     private List<String> activityImgs;
@@ -49,7 +54,10 @@ public class Activity {
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL)
     private List<ActivityLike> activityLikes;
 
-    public static Activity of(String title, String location, LocalDateTime time, Long maxParticipants, List<Personality> personalities) {
+    @OneToOne(mappedBy = "activity", cascade = CascadeType.ALL)
+    private GroupChatRoom groupChatRoom;
+
+    public static Activity of(String title, String location, LocalDateTime time, Long maxParticipants, List<Personality> personalities, String imageUrl) {
         return Activity.builder()
                 .title(title)
                 .location(location)
@@ -57,6 +65,7 @@ public class Activity {
                 .currentParticipants(0L)
                 .maxParticipants(maxParticipants)
                 .personalities(personalities)
+                .imageUrl(imageUrl)
                 .build();
     }
 }

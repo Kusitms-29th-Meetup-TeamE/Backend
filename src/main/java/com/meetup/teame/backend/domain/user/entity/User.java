@@ -1,5 +1,7 @@
 package com.meetup.teame.backend.domain.user.entity;
 
+import com.meetup.teame.backend.domain.chatroom.entity.ChatRoom;
+import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
 import com.meetup.teame.backend.domain.chatroom.entity.UserChatRoom;
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.domain.experience.entity.Experience;
@@ -60,6 +62,9 @@ public class User {
     @ElementCollection
     @Enumerated(EnumType.STRING)
     private List<Personality> personalities;
+
+    @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
+    private List<DirectChatRoom> learnedChatRooms;
 
     public void setPersonalities(List<Personality> personalities) {
         this.personalities = personalities;

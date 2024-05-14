@@ -24,4 +24,11 @@ public class UserChatRoom {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public static UserChatRoom of(ChatRoom chatRoom, User user) {
+        return UserChatRoom.builder()
+                .chatRoom(chatRoom)
+                .user(user)
+                .build();
+    }
 }
