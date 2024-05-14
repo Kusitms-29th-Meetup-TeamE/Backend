@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.chatting.service;
 
+import com.meetup.teame.backend.domain.chatroom.entity.Appointment;
 import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
 import com.meetup.teame.backend.domain.chatroom.repository.ChatRoomRepository;
 import com.meetup.teame.backend.domain.chatroom.repository.DirectChatRoomRepository;
@@ -93,6 +94,13 @@ public class ChattingService {
                 appointmentChatMessageReq.getLocation()
         ));
         setChatRoomUpdateTime(chatRoomId);
+        chatRoomRepository.findById(Long.parseLong(chatRoomId))
+                .ifPresent(chatRoom -> {//이미 정해진 약속이 있을 때 예외처리는 프론트 단에서 하는게 편할듯?
+                    chatRoom.setNextAppointment(Appointment.of(
+                            appointmentChatMessageReq.getAppointmentTime().toLocalDate(),
+                            appointmentChatMessageReq.getLocation()
+                    ));
+                });
         return ChatMessageRes.of(message);
     }
 
