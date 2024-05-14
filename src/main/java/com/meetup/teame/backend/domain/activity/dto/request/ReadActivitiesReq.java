@@ -16,9 +16,9 @@ public class ReadActivitiesReq {
 
     private Long page;
 
-    private String agency;
+    private String agencyType;
 
     private List<String> personalities;
 
-    private String category;
+    private boolean isLiked;
 }

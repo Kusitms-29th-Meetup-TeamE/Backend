@@ -2,10 +2,13 @@ package com.meetup.teame.backend.domain.activity.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.meetup.teame.backend.domain.activity.dto.request.ReadActivitiesReq;
 import com.meetup.teame.backend.domain.activity.dto.response.ActivityDetailsRes;
 import com.meetup.teame.backend.domain.activity.dto.response.ActivityPageRes;
 import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
+import com.meetup.teame.backend.domain.activity.dto.response.ReadActivitiesRes;
 import com.meetup.teame.backend.domain.activity.entity.Activity;
+import com.meetup.teame.backend.domain.activity.entity.AgencyType;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.global.exception.CustomException;
@@ -20,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,11 +44,11 @@ public class ActivityService {
     //특정 활동 상제 정보 response dto화
     public ActivityDetailsRes getActivityDetails(Long activityId) {
         Activity activity = findActivityById(activityId);
-        List<String> imgs = getImageUrls(activity);
-        return ActivityDetailsRes.of(activity, imgs);
+        List<String> imageUrls = getImageUrls(activity);
+        return ActivityDetailsRes.of(activity, imageUrls);
     }
 
-    //전체 활동 불러오기 dto화
+    //전체 활동 불러오기 dto화 => 삭제 예정
     public ActivityPageRes getActivitySummaries(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Activity> activityPage = activityRepository.findAll(pageable);
@@ -62,12 +64,44 @@ public class ActivityService {
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_ACTIVITY));
     }
 
-    //활동 목록 필터링으로 조회
-    private List<Activity> findActivitiesByAgencyAndPersonality(String agency, Personality personality) {
-        return activityRepository.findByAgencyAndPersonality(agency, personality);
+    //관심활동 목록 필터링으로 조회
+    public ReadActivitiesRes findlikedActivities(Long userId, ReadActivitiesReq activitiesReq) {
+        long page = activitiesReq.getPage();
+        long offset = page * ACTIVITY_PAGE_SIZE;
+        long limit = ACTIVITY_PAGE_SIZE;
+        AgencyType agencyType = null;
+        if (activitiesReq.getAgencyType() != null) {
+            agencyType = AgencyType.of(activitiesReq.getAgencyType());
+        }
+        List<Personality> personalities = activitiesReq.getPersonalities().stream()
+                .map(Personality::of)
+                .collect(Collectors.toList());
+        long totalCount = activityRepository.countActivities(agencyType, personalities);
+        long pageCount = (totalCount + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
+
+        return ReadActivitiesRes.of(page, pageCount, activityRepository.findByUserLikesAndAgencyAndPersonalities(userId, offset, limit, agencyType, personalities));
     }
 
-    //전체 활동 불러오기
+    //활동 목록 필터링으로 조회
+    public ReadActivitiesRes findActivities(ReadActivitiesReq activitiesReq) {
+        long page = activitiesReq.getPage();
+        long offset = page * ACTIVITY_PAGE_SIZE;
+        long limit = ACTIVITY_PAGE_SIZE;
+        AgencyType agencyType = null;
+        if (activitiesReq.getAgencyType() != null) {
+            agencyType = AgencyType.of(activitiesReq.getAgencyType());
+        }
+        List<Personality> personalities = activitiesReq.getPersonalities().stream()
+                .map(Personality::of)
+                .collect(Collectors.toList());
+        long totalCount = activityRepository.countActivities(agencyType, personalities);
+        long pageCount = (totalCount + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
+
+        // 조건에 맞는 활동 조회
+        return ReadActivitiesRes.of(page, pageCount, activityRepository.findByAgencyAndPersonalities(offset, limit, agencyType, personalities));
+    }
+
+    //전체 활동 불러오기 => 삭제 예정
     private List<Activity> findAllActivities() {
         return activityRepository.findAll();
     }

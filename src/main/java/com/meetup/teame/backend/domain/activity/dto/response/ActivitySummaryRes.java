@@ -24,6 +24,8 @@ public class ActivitySummaryRes {
 
     private String agency;
 
+    private String agencyType;
+
     private String location;
 
     private LocalDateTime time;
@@ -35,16 +37,17 @@ public class ActivitySummaryRes {
 
     public static ActivitySummaryRes of(Activity activity) {
         List<String> activityImgs = activity.getActivityImgs();
-        //String activityThumbnail = null;
-        String activityThumbnail = activityImgs.get(0);
-        /*if (!activityImgs.isEmpty()) {
+        String activityThumbnail = null;
+        //String activityThumbnail = activityImgs.get(0);
+        if (!activityImgs.isEmpty()) {
             activityThumbnail = activityImgs.get(0);
-        }*/
+        }
 
         return ActivitySummaryRes.builder()
                 .id(activity.getId())
                 .title(activity.getTitle())
                 .agency(activity.getAgency())
+                .agencyType(activity.getAgencyType().getDescription())
                 .time(activity.getTime())
                 .activityThumbnail(activityThumbnail)
                 .build();

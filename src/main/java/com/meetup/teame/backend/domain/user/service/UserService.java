@@ -86,7 +86,7 @@ public class UserService {
         User user = userRepository.findById(5L)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         List<Personality> personalities = onboardingReq.getPersonalities().stream()
-                .map(Personality::des2enum)
+                .map(Personality::of)
                 .toList();
         user.setPersonalities(personalities);
     }

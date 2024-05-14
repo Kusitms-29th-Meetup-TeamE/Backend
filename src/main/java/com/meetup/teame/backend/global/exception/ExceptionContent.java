@@ -25,6 +25,7 @@ public enum ExceptionContent {
     NOT_FOUND_PERSONALITY(NOT_FOUND, "존재하지 않는 성격입니다."),
     NOT_FOUND_EXPERIENCE_TYPE(NOT_FOUND, "존재하지 않는 경험 유형입니다."),
     NOT_FOUND_ACTIVITY(NOT_FOUND, "존재하지 않는 활동입니다."),
+    NOT_FOUND_AGENCY_TYPE(NOT_FOUND, "존재하지 않는 기관 유형입니다."),
     ;
 
     private final HttpStatus httpStatus;

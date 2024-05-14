@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.activity.entity;
 
+import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
 import com.meetup.teame.backend.domain.like.entity.ActivityLike;
 import com.meetup.teame.backend.domain.personality.Personality;
 import jakarta.persistence.*;
@@ -25,6 +26,10 @@ public class Activity {
 
     @Comment("활동 제공 기관")
     private String agency;
+
+    @Comment("기관 유형")
+    @Enumerated(EnumType.STRING)
+    private AgencyType agencyType;
 
     @Comment("활동 장소")
     private String location;
