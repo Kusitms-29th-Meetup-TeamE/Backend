@@ -50,6 +50,12 @@ public class UserController {
                 .ok().build();
     }
 
+    @Operation(summary = "사용자 기본 정보 조회", description = """
+            
+            사용자의 기본 정보를 볼 수 있는 api입니다.
+            
+            추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            """)
     //기본 정보 조회
     @GetMapping("/{userId}/info")
     public ResponseEntity<UserInfoRes> getUserInfo(@PathVariable long userId) {
@@ -57,6 +63,11 @@ public class UserController {
         return ResponseEntity.ok().body(userInfo);
     }
 
+    @Operation(summary = "사용자 기본 정보 수정", description = """
+            사용자의 기본 정보를 수정하는 api입니다.
+            
+            추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            """)
     //기본 정보 수정
     @PutMapping("/{userId}/info")
     public ResponseEntity<UserInfoRes> updateUserInfo(@PathVariable long userId, @RequestBody UpdateUserReq request) {
