@@ -5,6 +5,7 @@ import com.meetup.teame.backend.domain.user.entity.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,14 @@ public class DirectChatRoomRepositoryImpl implements DirectChatRoomRepositoryCus
                 .join(directChatRoom.userChatRooms, userChatRoom)
                 .join(userChatRoom.user, user)
                 .where(user.eq(who))
+                .fetch();
+    }
+
+    @Override
+    public List<DirectChatRoom> findUpdatableRooms() {
+        return jpaQueryFactory
+                .selectFrom(directChatRoom)
+                .where(directChatRoom.nextAppointment.appointmentDate.before(LocalDate.now()))
                 .fetch();
     }
 }

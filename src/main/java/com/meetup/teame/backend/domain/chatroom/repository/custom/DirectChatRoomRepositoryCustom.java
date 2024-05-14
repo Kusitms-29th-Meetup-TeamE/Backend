@@ -11,4 +11,6 @@ public interface DirectChatRoomRepositoryCustom {
     Optional<DirectChatRoom> findByMentorAndMentee(User mentor, User mentee);
 
     List<DirectChatRoom> findForUser(User user);
+
+    List<DirectChatRoom> findUpdatableRooms();
 }

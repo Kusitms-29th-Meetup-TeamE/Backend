@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.chatroom.repository.custom;
 
+import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
 import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
 import com.meetup.teame.backend.domain.chatroom.entity.QGroupChatRoom;
 import com.meetup.teame.backend.domain.chatroom.entity.QUserChatRoom;
@@ -8,6 +9,7 @@ import com.meetup.teame.backend.domain.user.entity.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.meetup.teame.backend.domain.chatroom.entity.QGroupChatRoom.groupChatRoom;
@@ -26,6 +28,14 @@ public class GroupChatRoomRepositoryImpl implements GroupChatRoomRepositoryCusto
                 .join(groupChatRoom.userChatRooms, userChatRoom)
                 .join(userChatRoom.user, user)
                 .where(user.eq(who))
+                .fetch();
+    }
+
+    @Override
+    public List<GroupChatRoom> findUpdatableRooms() {
+        return jpaQueryFactory
+                .selectFrom(groupChatRoom)
+                .where(groupChatRoom.nextAppointment.appointmentDate.before(LocalDate.now()))
                 .fetch();
     }
 }
