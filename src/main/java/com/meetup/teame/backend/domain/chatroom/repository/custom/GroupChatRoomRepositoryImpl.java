@@ -28,6 +28,7 @@ public class GroupChatRoomRepositoryImpl implements GroupChatRoomRepositoryCusto
                 .join(groupChatRoom.userChatRooms, userChatRoom)
                 .join(userChatRoom.user, user)
                 .where(user.eq(who))
+                .orderBy(groupChatRoom.updatedAt.desc())
                 .fetch();
     }
 

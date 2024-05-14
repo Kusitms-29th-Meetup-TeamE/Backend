@@ -36,6 +36,7 @@ public class DirectChatRoomRepositoryImpl implements DirectChatRoomRepositoryCus
                 .join(directChatRoom.userChatRooms, userChatRoom)
                 .join(userChatRoom.user, user)
                 .where(user.eq(who))
+                .orderBy(directChatRoom.updatedAt.desc())
                 .fetch();
     }
 

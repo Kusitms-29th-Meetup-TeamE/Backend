@@ -1,11 +1,9 @@
 package com.meetup.teame.backend.domain.chatroom.entity;
 
-import com.meetup.teame.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,6 +32,8 @@ public class ChatRoom {
     })
     private Appointment nextAppointment;
 
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
     private List<UserChatRoom> userChatRooms;
 
@@ -43,5 +43,9 @@ public class ChatRoom {
 
     public void setNextAppointment(Appointment nextAppointment) {
         this.nextAppointment = nextAppointment;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
