@@ -34,6 +34,8 @@ public class DirectChatRoomRes {
 
     private Boolean isMentor;
 
+    private String experienceType;
+
     public static DirectChatRoomRes of(DirectChatRoom chatRoom, User me, ChatMessage lastChatMessage) {
         User opponent;
         boolean isMentor = me.getId().equals(chatRoom.getExperience().getUser().getId());
@@ -63,6 +65,7 @@ public class DirectChatRoomRes {
                 .lastMessage(lastMessage)
                 .lastChatTime(lastChatTime)
                 .isMentor(isMentor)
+                .experienceType(chatRoom.getExperience().getType().getDescription())
                 .build();
     }
 }
