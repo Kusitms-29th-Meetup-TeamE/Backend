@@ -17,14 +17,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Optional;
 
+import static java.time.format.DateTimeFormatter.ofPattern;
+
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class ChatMessageRes {
+public class ChatMessageRes {//todo 리팩토링
     private ChatMessageType type;
 
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     private String text;//일반 메세지용
 
@@ -45,7 +47,8 @@ public class ChatMessageRes {
     private static ChatMessageRes ofText(TextChatMessage textChatMessage) {
         return ChatMessageRes.builder()
                 .type(ChatMessageType.TEXT)
-                .createdAt(textChatMessage.getCreatedAt())
+                .createdAt(textChatMessage.getCreatedAt()
+                        .format(ofPattern("yyyy년 MM월 dd일 a h시 m분", new Locale("ko", "KR"))))
                 .senderId(textChatMessage.getSenderId())
                 .senderName(textChatMessage.getSenderName())
                 .senderImageUrl(textChatMessage.getSenderImageUrl())
@@ -56,7 +59,8 @@ public class ChatMessageRes {
     private static ChatMessageRes ofEmoticon(EmoticonChatMessage emoticonChatMessage) {
         return ChatMessageRes.builder()
                 .type(ChatMessageType.EMOTICON)
-                .createdAt(emoticonChatMessage.getCreatedAt())
+                .createdAt(emoticonChatMessage.getCreatedAt()
+                        .format(ofPattern("yyyy년 MM월 dd일 a h시 m분", new Locale("ko", "KR"))))
                 .senderId(emoticonChatMessage.getSenderId())
                 .senderName(emoticonChatMessage.getSenderName())
                 .senderImageUrl(emoticonChatMessage.getSenderImageUrl())
@@ -65,17 +69,19 @@ public class ChatMessageRes {
     }
 
     private static ChatMessageRes ofAppointment(AppointmentChatMessage appointmentChatMessage) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 EEEE", new Locale("ko", "KR"));
+
         return ChatMessageRes.builder()
                 .type(ChatMessageType.APPOINTMENT)
-                .createdAt(appointmentChatMessage.getCreatedAt())
+                .createdAt(appointmentChatMessage.getCreatedAt()
+                        .format(ofPattern("yyyy년 MM월 dd일 a h시 m분", new Locale("ko", "KR"))))
                 .senderId(appointmentChatMessage.getSenderId())
                 .senderName(appointmentChatMessage.getSenderName())
                 .senderImageUrl(appointmentChatMessage.getSenderImageUrl())
                 .experienceType(Optional.ofNullable(appointmentChatMessage.getExperienceType())
                         .map(ExperienceType::getDescription)
                         .orElse(null))
-                .appointmentTime(appointmentChatMessage.getAppointmentTime().format(formatter))
+                .appointmentTime(appointmentChatMessage.getAppointmentTime()
+                        .format(ofPattern("yyyy년 MM월 dd일 EEEE", new Locale("ko", "KR"))))
                 .location(appointmentChatMessage.getLocation())
                 .build();
     }
