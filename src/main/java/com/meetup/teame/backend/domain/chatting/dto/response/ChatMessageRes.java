@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.chatting.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.meetup.teame.backend.domain.chatting.entity.ChatMessageType;
 import com.meetup.teame.backend.domain.chatting.entity.document.AppointmentChatMessage;
 import com.meetup.teame.backend.domain.chatting.entity.document.ChatMessage;
@@ -12,6 +13,9 @@ import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+import java.util.Optional;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,7 +32,7 @@ public class ChatMessageRes {
 
     private String experienceType;//약속 메세지용
 
-    private LocalDateTime appointmentTime;//약속 메세지용
+    private String appointmentTime;//약속 메세지용
 
     private String location;//약속 메세지용
 
@@ -61,14 +65,17 @@ public class ChatMessageRes {
     }
 
     private static ChatMessageRes ofAppointment(AppointmentChatMessage appointmentChatMessage) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 EEEE", new Locale("ko", "KR"));
         return ChatMessageRes.builder()
                 .type(ChatMessageType.APPOINTMENT)
                 .createdAt(appointmentChatMessage.getCreatedAt())
                 .senderId(appointmentChatMessage.getSenderId())
                 .senderName(appointmentChatMessage.getSenderName())
                 .senderImageUrl(appointmentChatMessage.getSenderImageUrl())
-                .experienceType(appointmentChatMessage.getExperienceType().getDescription())
-                .appointmentTime(appointmentChatMessage.getAppointmentTime())
+                .experienceType(Optional.ofNullable(appointmentChatMessage.getExperienceType())
+                        .map(ExperienceType::getDescription)
+                        .orElse(null))
+                .appointmentTime(appointmentChatMessage.getAppointmentTime().format(formatter))
                 .location(appointmentChatMessage.getLocation())
                 .build();
     }

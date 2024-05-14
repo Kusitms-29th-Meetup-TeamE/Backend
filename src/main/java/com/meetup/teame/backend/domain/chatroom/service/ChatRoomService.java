@@ -24,6 +24,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -45,8 +47,8 @@ public class ChatRoomService {
                 groupChatRoomRepository.findForUser(user).stream()
                         .map(chatRoom -> {
                             String chatRoomId = String.valueOf(chatRoom.getId());
-                            ChatMessage chatMessage = chattingRepository.findByChatRoomIdOrderByCreatedAtDesc(chatRoomId)
-                                    .orElse(null);
+                            List<ChatMessage> chatMessages = chattingRepository.findByChatRoomIdOrderByCreatedAtDesc(chatRoomId);
+                            ChatMessage chatMessage = chatMessages.isEmpty() ? null : chatMessages.get(0);
                             return GroupChatRoomRes.of(chatRoom, chatMessage);
                         })
                         .toList()
@@ -62,8 +64,8 @@ public class ChatRoomService {
                 directChatRoomRepository.findForUser(user).stream()
                         .map(chatRoom -> {
                             String chatRoomId = String.valueOf(chatRoom.getId());
-                            ChatMessage chatMessage = chattingRepository.findByChatRoomIdOrderByCreatedAtDesc(chatRoomId)
-                                    .orElse(null);
+                            List<ChatMessage> chatMessages = chattingRepository.findByChatRoomIdOrderByCreatedAtDesc(chatRoomId);
+                            ChatMessage chatMessage = chatMessages.isEmpty() ? null : chatMessages.get(0);
                             return DirectChatRoomRes.of(chatRoom, user, chatMessage);
                         })
                         .toList()

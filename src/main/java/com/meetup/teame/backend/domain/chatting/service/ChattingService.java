@@ -1,5 +1,7 @@
 package com.meetup.teame.backend.domain.chatting.service;
 
+import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
+import com.meetup.teame.backend.domain.chatroom.repository.DirectChatRoomRepository;
 import com.meetup.teame.backend.domain.chatting.dto.request.AppointmentChatMessageReq;
 import com.meetup.teame.backend.domain.chatting.dto.request.EmoticonChatMessageReq;
 import com.meetup.teame.backend.domain.chatting.dto.request.TextChatMessageReq;
@@ -10,6 +12,7 @@ import com.meetup.teame.backend.domain.chatting.entity.document.ChatMessage;
 import com.meetup.teame.backend.domain.chatting.entity.document.EmoticonChatMessage;
 import com.meetup.teame.backend.domain.chatting.entity.document.TextChatMessage;
 import com.meetup.teame.backend.domain.chatting.repository.ChattingRepository;
+import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import com.meetup.teame.backend.global.exception.CustomException;
@@ -22,12 +25,15 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ChattingService {
     private final UserRepository userRepository;
     private final ChattingRepository chattingRepository;
+    private final DirectChatRoomRepository directChatRoomRepository;
 
     public ChatMessageRes sendTextChatting(TextChatMessageReq textChatMessageReq, String chatRoomId) {
         User sender = userRepository.findById(textChatMessageReq.getSenderId())
@@ -62,14 +68,19 @@ public class ChattingService {
     public ChatMessageRes sendAppointmentChatting(AppointmentChatMessageReq appointmentChatMessageReq, String chatRoomId) {
         User sender = userRepository.findById(appointmentChatMessageReq.getSenderId())
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
-        LocalDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
+
+        Optional<DirectChatRoom> directChatRoom = directChatRoomRepository.findById(Long.parseLong(chatRoomId));
+        ExperienceType experienceType = directChatRoom.
+                map(chatRoom -> chatRoom.getExperience().getType())
+                .orElse(null);
+
         AppointmentChatMessage message = chattingRepository.insert(AppointmentChatMessage.of(
                 chatRoomId,
                 appointmentChatMessageReq.getSenderId(),
                 sender.getName(),
                 sender.getImageUrl(),
-                nowInKorea,
-                appointmentChatMessageReq.getExperienceType(),
+                LocalDateTime.now(),
+                experienceType,
                 appointmentChatMessageReq.getAppointmentTime(),
                 appointmentChatMessageReq.getLocation()
         ));

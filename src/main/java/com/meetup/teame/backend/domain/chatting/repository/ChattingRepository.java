@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface ChattingRepository extends MongoRepository<ChatMessage, String>{
     List<ChatMessage> findByChatRoomId(String chatRoomId);
 
-    Optional<ChatMessage> findByChatRoomIdOrderByCreatedAtDesc(String chatRoomId);
+    List<ChatMessage> findByChatRoomIdOrderByCreatedAtDesc(String chatRoomId);
 }
