@@ -5,6 +5,10 @@ import com.meetup.teame.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 import java.util.List;
 
@@ -30,6 +34,11 @@ public class Experience {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private Long reviewCount;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
     @OneToMany(mappedBy = "experience", cascade = CascadeType.ALL)
     private List<DirectChatRoom> directChatRooms;
 
@@ -38,6 +47,7 @@ public class Experience {
                 .type(type)
                 .description(description)
                 .user(user)
+                .reviewCount(0L)
                 .build();
     }
 }

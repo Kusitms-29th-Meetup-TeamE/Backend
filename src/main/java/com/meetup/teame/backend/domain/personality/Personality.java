@@ -10,7 +10,7 @@ import java.util.Arrays;
 @Getter
 @RequiredArgsConstructor
 public enum Personality {
-    WINDLESS("잔잔한"),
+    WINDLESS("잔잔한"),//todo 삭제예정
     ACTIVE("활발한"),
     PEACEFUL("평화로운"),
     NATURE_FRIENDLY("자연친화적인"),
@@ -26,6 +26,6 @@ public enum Personality {
         return Arrays.stream(Personality.values())
                 .filter(personality -> personality.getDescription().equals(description))
                 .findFirst()
-                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_PERSONALITY));
+                .orElseThrow(() -> new CustomException(ExceptionContent.BAD_REQUEST_PERSONALITY));
     }
 }

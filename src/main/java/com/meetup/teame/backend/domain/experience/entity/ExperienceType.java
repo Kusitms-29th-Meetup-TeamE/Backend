@@ -9,9 +9,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ExperienceType {
     WORKOUT("운동"),
-    LANGUAGE("언어"),
-    PAINTING("그림"),
+    PAINTING("그림"),//todo 삭제 예정
     COOKING("요리"),
+    ART("예술"),
+    CREATION("창작"),
+    LANGUAGE("외국어"),
+    DIGITAL("디지털"),
+    ETC("기타")
     ;
 
     private final String description;
@@ -22,6 +26,6 @@ public enum ExperienceType {
                 return experienceType;
             }
         }
-        throw new CustomException(ExceptionContent.NOT_FOUND_EXPERIENCE_TYPE);
+        throw new CustomException(ExceptionContent.BAD_REQUEST_EXPERIENCE_TYPE);
     }
 }
