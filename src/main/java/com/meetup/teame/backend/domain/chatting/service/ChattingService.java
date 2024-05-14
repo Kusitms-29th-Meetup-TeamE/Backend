@@ -77,7 +77,7 @@ public class ChattingService {
     public ChatMessageRes sendAppointmentChatting(AppointmentChatMessageReq appointmentChatMessageReq, String chatRoomId) {
         User sender = userRepository.findById(appointmentChatMessageReq.getSenderId())
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
-
+        LocalDateTime nowInKorea = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
         Optional<DirectChatRoom> directChatRoom = directChatRoomRepository.findById(Long.parseLong(chatRoomId));
         ExperienceType experienceType = directChatRoom.
                 map(chatRoom -> chatRoom.getExperience().getType())
@@ -88,7 +88,7 @@ public class ChattingService {
                 appointmentChatMessageReq.getSenderId(),
                 sender.getName(),
                 sender.getImageUrl(),
-                LocalDateTime.now(),
+                nowInKorea,
                 experienceType,
                 appointmentChatMessageReq.getAppointmentTime(),
                 appointmentChatMessageReq.getLocation()
