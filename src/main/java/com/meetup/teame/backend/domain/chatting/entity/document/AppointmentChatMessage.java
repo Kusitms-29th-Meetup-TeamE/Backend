@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.springframework.data.annotation.TypeAlias;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @TypeAlias("AppointmentChatMessage")
 @Getter
@@ -27,16 +28,24 @@ public class AppointmentChatMessage extends ChatMessage {
     }
 
     public static AppointmentChatMessage of(String chatRoomId, Long senderId, String senderName, String senderImageUrl, LocalDateTime createdAt,
-                                            String experienceType, LocalDateTime appointmentTime, String location) {
+                                            ExperienceType experienceType, LocalDateTime appointmentTime, String location) {
         return AppointmentChatMessage.builder()
                 .chatRoomId(chatRoomId)
                 .senderId(senderId)
                 .senderName(senderName)
                 .senderImageUrl(senderImageUrl)
                 .createdAt(createdAt)
-                .experienceType(ExperienceType.of(experienceType))
+                .experienceType(experienceType)
                 .appointmentTime(appointmentTime)
                 .location(location)
                 .build();
+    }
+
+    @Override
+    public String getMessage() {
+        if(experienceType!=null)
+            return "["+experienceType.getDescription()+"] 배움 나누기가 확정되었어요!";
+        else
+            return "약속이 확정되었어요!";
     }
 }

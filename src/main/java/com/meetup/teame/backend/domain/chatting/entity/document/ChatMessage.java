@@ -30,4 +30,6 @@ public abstract class ChatMessage {
         this.senderImageUrl = senderImageUrl;
         this.createdAt = createdAt;
     }
+
+    public abstract String getMessage();
 }

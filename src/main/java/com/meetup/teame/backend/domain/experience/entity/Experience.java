@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.experience.entity;
 
+import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
 import com.meetup.teame.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,6 +38,9 @@ public class Experience {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "experience", cascade = CascadeType.ALL)
+    private List<DirectChatRoom> directChatRooms;
 
     public static Experience of(ExperienceType type, String description, User user) {
         return Experience.builder()

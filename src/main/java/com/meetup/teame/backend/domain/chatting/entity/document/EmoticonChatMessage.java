@@ -30,4 +30,9 @@ public class EmoticonChatMessage extends ChatMessage {
                 .emoticon(emoticon)
                 .build();
     }
+
+    @Override
+    public String getMessage() {
+        return "(이모티콘: " + emoticon + ")";
+    }
 }
