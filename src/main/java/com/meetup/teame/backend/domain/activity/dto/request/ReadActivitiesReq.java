@@ -19,6 +19,4 @@ public class ReadActivitiesReq {
     private String agencyType;
 
     private List<String> personalities;
-
-    private boolean isLiked;
 }
