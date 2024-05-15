@@ -41,7 +41,7 @@ public class RegisterController {
     @Operation(summary = "사용자 정보 입력", description = """
             이메일 인증을 마치면 사용자 정보를 입력합니다.
             
-            사용자 정보 입력을 마치고 회원가입에 성공하면 "회원가입 성공"이라는 메세지를 반환합니다.
+            사용자 정보 입력을 마치고 회원가입에 성공하면 Jwt 토큰을 헤더에 넣고 "회원가입 성공"이라는 메세지를 반환합니다.
             """)
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
