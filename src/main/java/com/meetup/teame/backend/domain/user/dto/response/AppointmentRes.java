@@ -45,7 +45,7 @@ public class AppointmentRes {
         return AppointmentRes.builder()
                 .date(groupChatRoom.getNextAppointment().getAppointmentDate())
                 .tag(groupChatRoom.getActivity().getTitle())
-                .description(groupChatRoom.getNextAppointment().getAppointmentDate() + " 약속")
+                .description(groupChatRoom.getActivity().getTitle() + " 약속")
                 .about(groupChatRoom.getNextAppointment().getAppointmentLocation())
                 .build();
     }

@@ -39,4 +39,30 @@ public class GroupChatRoomRepositoryImpl implements GroupChatRoomRepositoryCusto
                 .where(groupChatRoom.nextAppointment.appointmentDate.before(LocalDate.now()))
                 .fetch();
     }
+
+    @Override
+    public List<GroupChatRoom> findAppointmentForUserInMonth(User who, int year, int month) {
+        return jpaQueryFactory
+                .selectFrom(groupChatRoom)
+                .join(groupChatRoom.userChatRooms, userChatRoom)
+                .join(userChatRoom.user, user)
+                .where(user.eq(who)
+                        .and(groupChatRoom.nextAppointment.appointmentDate.year().eq(year))
+                        .and(groupChatRoom.nextAppointment.appointmentDate.month().eq(month)))
+                .orderBy(groupChatRoom.updatedAt.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<GroupChatRoom> findActivityForUserInMonth(User who, int year, int month) {
+        return jpaQueryFactory
+                .selectFrom(groupChatRoom)
+                .join(groupChatRoom.userChatRooms, userChatRoom)
+                .join(userChatRoom.user, user)
+                .where(user.eq(who)
+                        .and(groupChatRoom.activity.time.year().eq(year))
+                        .and(groupChatRoom.activity.time.month().eq(month)))
+                .orderBy(groupChatRoom.updatedAt.desc())
+                .fetch();
+    }
 }

@@ -16,9 +16,9 @@ import java.util.List;
 public class ReadCalenderRes {
     List<AppointmentRes> appointments;
 
-    public static ReadCalenderRes of(List<GroupChatRoom> groupChatRooms, List<DirectChatRoom> directChatRooms) {
+    public static ReadCalenderRes of(List<GroupChatRoom> groupChatRoomsByActivity, List<DirectChatRoom> directChatRooms, List<GroupChatRoom> groupChatRooms) {
         List<AppointmentRes> appointments = new ArrayList<>();
-        appointments.addAll(groupChatRooms.stream()
+        appointments.addAll(groupChatRoomsByActivity.stream()
                 .map(AppointmentRes::ofActivity)
                 .toList());
         appointments.addAll(directChatRooms.stream()
