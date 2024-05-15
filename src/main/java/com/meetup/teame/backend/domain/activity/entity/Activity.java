@@ -31,6 +31,9 @@ public class Activity {
     @Comment("활동 일시")
     private LocalDateTime time;
 
+    @Comment("활동 소요 시간(분)")
+    private Long duration;
+
     @Comment("참여 인원")
     private Long currentParticipants;
 
