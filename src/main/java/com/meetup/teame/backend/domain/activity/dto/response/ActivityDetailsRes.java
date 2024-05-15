@@ -23,6 +23,8 @@ public class ActivityDetailsRes {
 
     private String agency;
 
+    private String agencyType;
+
     private String location;
 
     private LocalDateTime time;
@@ -40,6 +42,7 @@ public class ActivityDetailsRes {
                 .id(activity.getId())
                 .title(activity.getTitle())
                 .agency(activity.getAgency())
+                .agency(activity.getAgencyType().getDescription())
                 .location(activity.getLocation())
                 .time(activity.getTime())
                 .currentParticipants(activity.getCurrentParticipants())

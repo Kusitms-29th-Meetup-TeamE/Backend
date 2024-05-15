@@ -18,13 +18,11 @@ public class ReadActivitiesRes {
     private Long pageCount;
     private List<ActivitySummaryRes> activitySummaries;
 
-    public static ReadActivitiesRes of(Long curPage, Long pageCount, List<Activity> activities) {
+    public static ReadActivitiesRes of(Long curPage, Long pageCount, List<ActivitySummaryRes> activitySummaries) {
         return ReadActivitiesRes.builder()
                 .curPage(curPage)
                 .pageCount(pageCount)
-                .activitySummaries(activities.stream()
-                    .map(ActivitySummaryRes::of)
-                    .toList())
+                .activitySummaries(activitySummaries)
                 .build();
     }
 }
