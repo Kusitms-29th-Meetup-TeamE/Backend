@@ -44,7 +44,7 @@ public class KakaoController {
             return ResponseEntity.ok().headers(headers).body("login");
             //로그인 처리하기
         } else { //신규 회원
-            return ResponseEntity.ok(request);
+            return ResponseEntity.ok().body(request);
         }
     }
 

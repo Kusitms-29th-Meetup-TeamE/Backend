@@ -1,18 +1,16 @@
 package com.meetup.teame.backend.domain.activity.dto.response;
 
 import com.meetup.teame.backend.domain.activity.entity.Activity;
+import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
 @Getter
 @Builder
@@ -32,10 +30,10 @@ public class ActivitySummaryRes {
 
     private String activityThumbnail;
 
-    //나중에 어떤 유저가 좋아요를 눌렀는지 안눌렀는지 체크하는거 해야함
-    private boolean isLiked;
+    private boolean isLiked = false;
 
-    public static ActivitySummaryRes of(Activity activity) {
+    public static ActivitySummaryRes of(Activity activity, boolean isLiked) {
+
         List<String> activityImgs = activity.getActivityImgs();
         String activityThumbnail = null;
         //String activityThumbnail = activityImgs.get(0);
@@ -50,6 +48,7 @@ public class ActivitySummaryRes {
                 .agencyType(activity.getAgencyType().getDescription())
                 .time(activity.getTime())
                 .activityThumbnail(activityThumbnail)
+                .isLiked(isLiked)
                 .build();
     }
 }

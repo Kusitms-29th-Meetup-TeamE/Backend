@@ -50,7 +50,7 @@ public class ActivityRepositoryImpl implements ActivityRepositoryCustom {
     }
 
     @Override
-    public List<Activity> findByUserLikesAndAgencyAndPersonalities(Long userId, long offset, long limit, AgencyType agencyType, List<Personality> personalities) {
+    public List<Activity> findLikedActivities(Long userId, long offset, long limit, AgencyType agencyType, List<Personality> personalities) {
         BooleanBuilder builder = new BooleanBuilder();
 
         // 사용자의 좋아하는 활동 ID 목록을 조회

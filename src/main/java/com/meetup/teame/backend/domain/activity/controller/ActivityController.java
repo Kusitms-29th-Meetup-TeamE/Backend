@@ -42,9 +42,10 @@ public class ActivityController {
             personalities : 활동 성격 유형 (복수 선택 가능합니다, String List로 보내주시면 됩니다.)
             """)
     //전체 활동 불러오기
-    @GetMapping("/activities")
-    public ResponseEntity<ReadActivitiesRes> getActivities(@ModelAttribute @Valid ReadActivitiesReq request) {
-        ReadActivitiesRes activities = activityService.findActivities(request);
+    @GetMapping("/activities/{userId}")
+    public ResponseEntity<ReadActivitiesRes> getActivities(@PathVariable long userId,
+                                                           @ModelAttribute @Valid ReadActivitiesReq request) {
+        ReadActivitiesRes activities = activityService.findActivities(userId, request);
         return ResponseEntity.ok().body(activities);
     }
 
@@ -63,7 +64,7 @@ public class ActivityController {
             
             """)
     //관심 활동 불러오기
-    @GetMapping("/activities/liked/{userId}")
+    @GetMapping("/activities/{userId}/liked")
     public ResponseEntity<ReadActivitiesRes> getLikedActivities(@PathVariable long userId,
                                                                 @ModelAttribute @Valid ReadActivitiesReq request) {
         ReadActivitiesRes activities = activityService.findlikedActivities(userId, request);

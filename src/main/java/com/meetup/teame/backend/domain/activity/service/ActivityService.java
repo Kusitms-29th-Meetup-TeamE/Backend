@@ -4,26 +4,25 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.meetup.teame.backend.domain.activity.dto.request.ReadActivitiesReq;
 import com.meetup.teame.backend.domain.activity.dto.response.ActivityDetailsRes;
-import com.meetup.teame.backend.domain.activity.dto.response.ActivityPageRes;
 import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
 import com.meetup.teame.backend.domain.activity.dto.response.ReadActivitiesRes;
 import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.entity.AgencyType;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
+import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.global.exception.CustomException;
 import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -35,6 +34,7 @@ public class ActivityService {
     private String bucket;
     private final AmazonS3 amazonS3;
     private final ActivityRepository activityRepository;
+    private final ActivityLikeRepository activityLikeRepository;
 
     private static final int ACTIVITY_PAGE_SIZE = 12;
 
@@ -48,20 +48,40 @@ public class ActivityService {
         return ActivityDetailsRes.of(activity, imageUrls);
     }
 
-    //전체 활동 불러오기 dto화 => 삭제 예정
-    public ActivityPageRes getActivitySummaries(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Activity> activityPage = activityRepository.findAll(pageable);
-        List<ActivitySummaryRes> activitySummaries = activityPage.getContent().stream()
-                .map(ActivitySummaryRes::of)
-                .collect(Collectors.toList());
-        return new ActivityPageRes(activitySummaries, activityPage.getTotalPages(), activityPage.getTotalElements());
-    }
-
     //activityId로 특정 활동 불러오기
     private Activity findActivityById(Long activityId) {
         return activityRepository.findById(activityId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_ACTIVITY));
+    }
+
+    //활동 목록 필터링으로 조회
+    public ReadActivitiesRes findActivities(Long userId, ReadActivitiesReq activitiesReq) {
+        long page = activitiesReq.getPage();
+        long offset = page * ACTIVITY_PAGE_SIZE;
+        long limit = ACTIVITY_PAGE_SIZE;
+        AgencyType agencyType = null;
+        if (activitiesReq.getAgencyType() != null) {
+            agencyType = AgencyType.of(activitiesReq.getAgencyType());
+        }
+        List<Personality> personalities = activitiesReq.getPersonalities().stream()
+                .map(Personality::of)
+                .collect(Collectors.toList());
+        //long totalCount = activityRepository.countActivities(agencyType, personalities);
+        //long pageCount = (totalCount + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
+        long pageCount = activityRepository.countActivities(agencyType, personalities) / ACTIVITY_PAGE_SIZE + 1; // 전체 페이지 수 계산
+
+
+        List<Long> likedActivityIds = activityLikeRepository.findLikedActivityIdsByUserId(userId);
+        Set<Long> likedActivityIdsSet = new HashSet<>(likedActivityIds);
+
+        List<Activity> activities = activityRepository.findByAgencyAndPersonalities(offset, limit, agencyType, personalities);
+        List<ActivitySummaryRes> activitySummaries = activities.stream()
+                .map(activity -> ActivitySummaryRes.of(activity, likedActivityIdsSet.contains(activity.getId())))
+                .toList();
+
+
+        // 조건에 맞는 활동 조회
+        return ReadActivitiesRes.of(page, pageCount, activitySummaries);
     }
 
     //관심활동 목록 필터링으로 조회
@@ -76,36 +96,19 @@ public class ActivityService {
         List<Personality> personalities = activitiesReq.getPersonalities().stream()
                 .map(Personality::of)
                 .collect(Collectors.toList());
-        long totalCount = activityRepository.countActivities(agencyType, personalities);
-        long pageCount = (totalCount + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
+        //long totalCount = activityRepository.countActivities(agencyType, personalities);
+        long pageCount = activityRepository.countActivities(agencyType, personalities) / ACTIVITY_PAGE_SIZE + 1; // 전체 페이지 수 계산
 
-        return ReadActivitiesRes.of(page, pageCount, activityRepository.findByUserLikesAndAgencyAndPersonalities(userId, offset, limit, agencyType, personalities));
+        List<Long> likedActivityIds = activityLikeRepository.findLikedActivityIdsByUserId(userId);
+        Set<Long> likedActivityIdsSet = new HashSet<>(likedActivityIds);
+
+        List<Activity> activities = activityRepository.findLikedActivities(userId, offset, limit, agencyType, personalities);
+        List<ActivitySummaryRes> activitySummaries = activities.stream()
+                .map(activity -> ActivitySummaryRes.of(activity, likedActivityIdsSet.contains(activity.getId())))
+                .toList();
+
+        return ReadActivitiesRes.of(page, pageCount, activitySummaries);
     }
-
-    //활동 목록 필터링으로 조회
-    public ReadActivitiesRes findActivities(ReadActivitiesReq activitiesReq) {
-        long page = activitiesReq.getPage();
-        long offset = page * ACTIVITY_PAGE_SIZE;
-        long limit = ACTIVITY_PAGE_SIZE;
-        AgencyType agencyType = null;
-        if (activitiesReq.getAgencyType() != null) {
-            agencyType = AgencyType.of(activitiesReq.getAgencyType());
-        }
-        List<Personality> personalities = activitiesReq.getPersonalities().stream()
-                .map(Personality::of)
-                .collect(Collectors.toList());
-        long totalCount = activityRepository.countActivities(agencyType, personalities);
-        long pageCount = (totalCount + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
-
-        // 조건에 맞는 활동 조회
-        return ReadActivitiesRes.of(page, pageCount, activityRepository.findByAgencyAndPersonalities(offset, limit, agencyType, personalities));
-    }
-
-    //전체 활동 불러오기 => 삭제 예정
-    private List<Activity> findAllActivities() {
-        return activityRepository.findAll();
-    }
-
 
     /*private String getUrl(Activity activity) {
         URL url = amazonS3.getUrl(bucket, activity.getActivityImgs());

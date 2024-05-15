@@ -12,7 +12,7 @@ public interface ActivityRepositoryCustom {
 
     List<Activity> findByAgencyAndPersonalities(long offset, long limit, AgencyType agencyType, List<Personality> personalities);
 
-    List<Activity> findByUserLikesAndAgencyAndPersonalities(Long userId, long offset, long limit, AgencyType agencyType, List<Personality> personalities);
+    List<Activity> findLikedActivities(Long userId, long offset, long limit, AgencyType agencyType, List<Personality> personalities);
 
     Long countActivities(AgencyType agencyType, List<Personality> personalities);
 }
