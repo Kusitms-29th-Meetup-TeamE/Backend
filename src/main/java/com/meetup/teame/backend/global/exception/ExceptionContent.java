@@ -29,6 +29,7 @@ public enum ExceptionContent {
     NOT_FOUND_AGENCY_TYPE(NOT_FOUND, "존재하지 않는 기관 유형입니다."),
     NOT_FOUND_EXPERIENCE(NOT_FOUND, "존재하지 않는 경험입니다."),
     NOT_FOUND_CHAT_ROOM(NOT_FOUND, "존재하지 않는 채팅방입니다."),
+    NOT_FOUND_REVIEW(NOT_FOUND, "존재하지 않는 후기입니다."),
     ;
 
     private final HttpStatus httpStatus;
