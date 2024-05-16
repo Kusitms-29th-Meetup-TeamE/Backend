@@ -39,7 +39,6 @@ public class KakaoService {
     private long ACCESS_TOKEN_EXPIRE_TIME;
 
     private final JwtProvider jwtProvider;
-    private final UserService userService;
 
     //카카오 엑세스 토큰으로 사용자 정보 받아오기
     public CreateOauthUserRequest getKakaoInfo(String accessToken) throws JsonProcessingException {

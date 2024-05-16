@@ -42,3 +42,16 @@ kakao:
 jwt:
   secret: ${JWT_SECRET}
   access-token-expired-time: 3600000
+
+cloud:
+  aws:
+    s3:
+      bucket: ddoba
+    credentials:
+      access-key: ${S3_ACCESS}
+      secret-key: ${S3_SECRET}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false

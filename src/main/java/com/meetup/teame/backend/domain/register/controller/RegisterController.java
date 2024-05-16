@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -42,13 +41,11 @@ public class RegisterController {
     @Operation(summary = "사용자 정보 입력", description = """
             이메일 인증을 마치면 사용자 정보를 입력합니다.
             
-            사용자 정보 입력을 마치고 회원가입에 성공하면 "회원가입 성공"이라는 메세지를 반환합니다.
+            사용자 정보 입력을 마치고 회원가입에 성공하면 Jwt 토큰을 헤더에 넣고 "회원가입 성공"이라는 메세지를 반환합니다.
             """)
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
-        System.out.println("메서드 시작");
         Long userId = registerService.register(request);
-        System.out.println("저장 메서드까지는 함");
         HttpHeaders headers = kakaoService.getLoginHeader(userService.findById(userId));
         return ResponseEntity.ok().headers(headers).body("회원가입 성공");
     }

@@ -1,9 +1,12 @@
 package com.meetup.teame.backend.domain.user.controller;
 
+import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.ReadCalenderReq;
+import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
 import com.meetup.teame.backend.domain.user.dto.response.ReadCalenderRes;
 import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
+import com.meetup.teame.backend.domain.user.dto.response.UserInfoRes;
 import com.meetup.teame.backend.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,6 +14,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -68,5 +73,43 @@ public class UserController {
     public ResponseEntity<ReadCalenderRes> readCalender(@ModelAttribute @Valid ReadCalenderReq readCalenderReq) {
         return ResponseEntity
                 .ok(userService.readCalender(readCalenderReq));
+    }
+
+    @Operation(summary = "사용자 기본 정보 조회", description = """
+            
+            사용자의 기본 정보를 볼 수 있는 api입니다.
+            
+            추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            """)
+    //기본 정보 조회
+    @GetMapping("/{userId}/info")
+    public ResponseEntity<UserInfoRes> getUserInfo(@PathVariable long userId) {
+        UserInfoRes userInfo = userService.getUserInfo(userId);
+        return ResponseEntity.ok().body(userInfo);
+    }
+
+    @Operation(summary = "사용자 기본 정보 수정", description = """
+            사용자의 기본 정보를 수정하는 api입니다.
+            
+            추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            """)
+    //기본 정보 수정
+    @PutMapping("/{userId}/info")
+    public ResponseEntity<UserInfoRes> updateUserInfo(@PathVariable long userId, @RequestBody UpdateUserReq request) {
+        UserInfoRes userInfo = userService.updateUserInfo(userId, request);
+        return ResponseEntity.ok().body(userInfo);
+    }
+
+    @Operation(summary = "내 후기 목록 조회", description = """
+            내 후기 목록을 조회하는 api입니다.
+            
+            
+            """)
+    //내 후기 목록 조회
+    @GetMapping("/{userId}/review")
+    public ResponseEntity<List<ReviewRes>> getMyReviews(@PathVariable long userId,
+                                                        @RequestParam String type) {
+        List<ReviewRes> myReviews = userService.getMyReviews(userId, type);
+        return ResponseEntity.ok().body(myReviews);
     }
 }
