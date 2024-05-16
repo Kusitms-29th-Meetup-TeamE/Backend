@@ -5,6 +5,8 @@ import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
 import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
+import com.meetup.teame.backend.domain.chatroom.repository.DirectChatRoomRepository;
+import com.meetup.teame.backend.domain.chatroom.repository.GroupChatRoomRepository;
 import com.meetup.teame.backend.domain.chatroom.entity.ChatRoom;
 import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
 import com.meetup.teame.backend.domain.chatroom.entity.UserChatRoom;
@@ -16,7 +18,9 @@ import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.review.entity.Review;
 import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
+import com.meetup.teame.backend.domain.user.dto.request.ReadCalenderReq;
 import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
+import com.meetup.teame.backend.domain.user.dto.response.ReadCalenderRes;
 import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
 import com.meetup.teame.backend.domain.user.dto.response.UserInfoRes;
 import com.meetup.teame.backend.domain.user.entity.Gender;
@@ -42,8 +46,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
     private final ExperienceRepository experienceRepository;
-    private final ReviewRepository reviewRepository;
+    private final DirectChatRoomRepository directChatRoomRepository;
     private final GroupChatRoomRepository groupChatRoomRepository;
+    private final ReviewRepository reviewRepository;
     private final ActivityLikeRepository activityLikeRepository;
 
     public ReadMainRes readMainPage() {
@@ -65,7 +70,7 @@ public class UserService {
         return User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .gender(Objects.equals(request.getGender(), "male") ? Gender.MALE:Gender.FEMALE)
+                .gender(Objects.equals(request.getGender(), "male") ? Gender.MALE : Gender.FEMALE)
                 .age(age)
                 .location(request.getLocation())
                 .point(0L)
@@ -134,5 +139,16 @@ public class UserService {
                 .map(Personality::of)
                 .toList();
         user.setPersonalities(personalities);
+    }
+
+    public ReadCalenderRes readCalender(ReadCalenderReq readCalenderReq) {
+        //todo 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
+        User user = userRepository.findById(5L)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
+        return ReadCalenderRes.of(
+                groupChatRoomRepository.findActivityForUserInMonth(user, readCalenderReq.getYear(), readCalenderReq.getMonth()),
+                directChatRoomRepository.findAppointmentForUserInMonth(user, readCalenderReq.getYear(), readCalenderReq.getMonth()),
+                groupChatRoomRepository.findAppointmentForUserInMonth(user, readCalenderReq.getYear(), readCalenderReq.getMonth())
+        );
     }
 }

@@ -10,4 +10,8 @@ public interface GroupChatRoomRepositoryCustom {
     List<GroupChatRoom> findForUser(User user);
 
     List<GroupChatRoom> findUpdatableRooms();
+
+    List<GroupChatRoom> findAppointmentForUserInMonth(User who, int year, int month);
+
+    List<GroupChatRoom> findActivityForUserInMonth(User who, int year, int month);
 }
