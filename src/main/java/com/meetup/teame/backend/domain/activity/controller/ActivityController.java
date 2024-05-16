@@ -4,9 +4,9 @@ import com.meetup.teame.backend.domain.activity.dto.request.ReadActivitiesReq;
 import com.meetup.teame.backend.domain.activity.dto.response.ActivityDetailsRes;
 import com.meetup.teame.backend.domain.activity.dto.response.ReadActivitiesRes;
 import com.meetup.teame.backend.domain.activity.service.ActivityService;
+import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,10 +42,9 @@ public class ActivityController {
             personalities : 활동 성격 유형 (복수 선택 가능합니다, String List로 보내주시면 됩니다.)
             """)
     //전체 활동 불러오기
-    @GetMapping("/activities/{userId}")
-    public ResponseEntity<ReadActivitiesRes> getActivities(@PathVariable long userId,
-                                                           @ModelAttribute ReadActivitiesReq request) {
-        ReadActivitiesRes activities = activityService.findActivities(userId, request);
+    @GetMapping("/activities")
+    public ResponseEntity<ReadActivitiesRes> getActivities(@ModelAttribute ReadActivitiesReq request) {
+        ReadActivitiesRes activities = activityService.findActivities(request);
         return ResponseEntity.ok().body(activities);
     }
 
@@ -64,10 +63,9 @@ public class ActivityController {
             
             """)
     //관심 활동 불러오기
-    @GetMapping("/activities/{userId}/liked")
-    public ResponseEntity<ReadActivitiesRes> getLikedActivities(@PathVariable long userId,
-                                                                @ModelAttribute ReadActivitiesReq request) {
-        ReadActivitiesRes activities = activityService.findlikedActivities(userId, request);
+    @GetMapping("/activities/liked")
+    public ResponseEntity<ReadActivitiesRes> getLikedActivities(@ModelAttribute ReadActivitiesReq request) {
+        ReadActivitiesRes activities = activityService.findlikedActivities(request);
         return ResponseEntity.ok().body(activities);
     }
 }

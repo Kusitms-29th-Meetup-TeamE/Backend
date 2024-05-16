@@ -85,6 +85,7 @@ public class UserService {
         return UserInfoRes.of(updatedUser);
     }
 
+    //내 후기 조회
     public List<ReviewRes> getMyReviews(Long userId, String type) {
         List<Review> myReviews = reviewRepository.findReviewsByUserId(userId, type);
         List<ReviewRes> reviews = myReviews.stream()

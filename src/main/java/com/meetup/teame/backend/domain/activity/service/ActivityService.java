@@ -9,6 +9,7 @@ import com.meetup.teame.backend.domain.activity.dto.response.ReadActivitiesRes;
 import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.entity.AgencyType;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
+import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.global.exception.CustomException;
@@ -52,7 +53,8 @@ public class ActivityService {
     }
 
     //활동 목록 필터링으로 조회
-    public ReadActivitiesRes findActivities(Long userId, ReadActivitiesReq activitiesReq) {
+    public ReadActivitiesRes findActivities(ReadActivitiesReq activitiesReq) {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
         long page = activitiesReq.getPage();
         long offset = page * ACTIVITY_PAGE_SIZE;
         long limit = ACTIVITY_PAGE_SIZE;
@@ -82,7 +84,8 @@ public class ActivityService {
     }
 
     //관심활동 목록 필터링으로 조회
-    public ReadActivitiesRes findlikedActivities(Long userId, ReadActivitiesReq activitiesReq) {
+    public ReadActivitiesRes findlikedActivities(ReadActivitiesReq activitiesReq) {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
         Long page = activitiesReq.getPage();
         long offset = page * ACTIVITY_PAGE_SIZE;
         long limit = ACTIVITY_PAGE_SIZE;
