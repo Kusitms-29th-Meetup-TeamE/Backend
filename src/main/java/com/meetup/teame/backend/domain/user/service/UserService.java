@@ -1,6 +1,7 @@
 package com.meetup.teame.backend.domain.user.service;
 
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
+import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
@@ -62,7 +63,8 @@ public class UserService {
     }
 
     //user info dto화
-    public UserInfoRes getUserInfo(Long userId) {
+    public UserInfoRes getUserInfo() {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
         User user = findById(userId);
         return UserInfoRes.of(user);
     }
@@ -79,14 +81,16 @@ public class UserService {
     }
 
     @Transactional
-    public UserInfoRes updateUserInfo(Long userId, UpdateUserReq request) {
+    public UserInfoRes updateUserInfo(UpdateUserReq request) {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
         User updatedUser = findById(userId);
         updatedUser.update(request);
         return UserInfoRes.of(updatedUser);
     }
 
     //내 후기 조회
-    public List<ReviewRes> getMyReviews(Long userId, String type) {
+    public List<ReviewRes> getMyReviews(String type) {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
         List<Review> myReviews = reviewRepository.findReviewsByUserId(userId, type);
         List<ReviewRes> reviews = myReviews.stream()
                 .map(ReviewRes::of)

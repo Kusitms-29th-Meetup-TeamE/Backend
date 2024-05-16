@@ -60,9 +60,9 @@ public class UserController {
             추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
             """)
     //기본 정보 조회
-    @GetMapping("/{userId}/info")
-    public ResponseEntity<UserInfoRes> getUserInfo(@PathVariable long userId) {
-        UserInfoRes userInfo = userService.getUserInfo(userId);
+    @GetMapping("/info")
+    public ResponseEntity<UserInfoRes> getUserInfo() {
+        UserInfoRes userInfo = userService.getUserInfo();
         return ResponseEntity.ok().body(userInfo);
     }
 
@@ -72,9 +72,9 @@ public class UserController {
             추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
             """)
     //기본 정보 수정
-    @PutMapping("/{userId}/info")
-    public ResponseEntity<UserInfoRes> updateUserInfo(@PathVariable long userId, @RequestBody UpdateUserReq request) {
-        UserInfoRes userInfo = userService.updateUserInfo(userId, request);
+    @PutMapping("/info")
+    public ResponseEntity<UserInfoRes> updateUserInfo(@RequestBody UpdateUserReq request) {
+        UserInfoRes userInfo = userService.updateUserInfo(request);
         return ResponseEntity.ok().body(userInfo);
     }
 
@@ -84,10 +84,9 @@ public class UserController {
             
             """)
     //내 후기 목록 조회
-    @GetMapping("/{userId}/review")
-    public ResponseEntity<List<ReviewRes>> getMyReviews(@PathVariable long userId,
-                                                        @RequestParam String type) {
-        List<ReviewRes> myReviews = userService.getMyReviews(userId, type);
+    @GetMapping("/review")
+    public ResponseEntity<List<ReviewRes>> getMyReviews(@RequestParam String type) {
+        List<ReviewRes> myReviews = userService.getMyReviews(type);
         return ResponseEntity.ok().body(myReviews);
     }
 }
