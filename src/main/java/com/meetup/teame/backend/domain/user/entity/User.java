@@ -6,6 +6,7 @@ import com.meetup.teame.backend.domain.chatroom.entity.UserChatRoom;
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.domain.experience.entity.Experience;
 import com.meetup.teame.backend.domain.like.entity.ActivityLike;
+import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -67,5 +68,13 @@ public class User {
 
     public void setPersonalities(List<Personality> personalities) {
         this.personalities = personalities;
+    }
+
+    public void update(UpdateUserReq request) {
+        this.name = request.getName();
+        this.email = request.getEmail();
+        this.password = request.getPassword();
+        this.imageUrl = request.getImageUrl();
+        this.location = request.getLocation();
     }
 }

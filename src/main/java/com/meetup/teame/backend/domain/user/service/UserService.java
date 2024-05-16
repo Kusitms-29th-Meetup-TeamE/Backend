@@ -4,21 +4,26 @@ import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
+import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
+import com.meetup.teame.backend.domain.review.entity.Review;
+import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
+import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
 import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
+import com.meetup.teame.backend.domain.user.dto.response.UserInfoRes;
 import com.meetup.teame.backend.domain.user.entity.Gender;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import com.meetup.teame.backend.global.exception.CustomException;
 import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +33,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
     private final ExperienceRepository experienceRepository;
+    private final ReviewRepository reviewRepository;
 
     public ReadMainRes readMainPage() {
         //todo 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
@@ -55,9 +61,15 @@ public class UserService {
                 .build();
     }
 
+    //user info dto화
+    public UserInfoRes getUserInfo(Long userId) {
+        User user = findById(userId);
+        return UserInfoRes.of(user);
+    }
+
     public User findById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
     }
 
     @Transactional
@@ -67,12 +79,28 @@ public class UserService {
     }
 
     @Transactional
+    public UserInfoRes updateUserInfo(Long userId, UpdateUserReq request) {
+        User updatedUser = findById(userId);
+        updatedUser.update(request);
+        return UserInfoRes.of(updatedUser);
+    }
+
+    //내 후기 조회
+    public List<ReviewRes> getMyReviews(Long userId, String type) {
+        List<Review> myReviews = reviewRepository.findReviewsByUserId(userId, type);
+        List<ReviewRes> reviews = myReviews.stream()
+                .map(ReviewRes::of)
+                .toList();
+        return reviews;
+    }
+
+    @Transactional
     public void setUserPersonality(OnboardingReq onboardingReq) {
         //todo 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
         User user = userRepository.findById(5L)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         List<Personality> personalities = onboardingReq.getPersonalities().stream()
-                .map(Personality::des2enum)
+                .map(Personality::of)
                 .toList();
         user.setPersonalities(personalities);
     }

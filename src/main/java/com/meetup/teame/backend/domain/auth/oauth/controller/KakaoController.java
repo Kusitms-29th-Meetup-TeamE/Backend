@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -31,7 +30,7 @@ public class KakaoController {
             
             이미 등록된 사용자면 "login"이 출력되고
             
-            등록되지 않은 사용자면 "/api/sign-up"을 요청해서 거주지 정보를 추가로 받아줘야 합니다.
+            등록되지 않은 사용자면 "/sign-up"을 요청해서 거주지 정보를 추가로 받아줘야 합니다.
             """)
     @GetMapping("/login/kakao")
     public ResponseEntity<Object> kakaoLogin(@RequestParam String code) throws JsonProcessingException {
@@ -45,7 +44,7 @@ public class KakaoController {
             return ResponseEntity.ok().headers(headers).body("login");
             //로그인 처리하기
         } else { //신규 회원
-            return ResponseEntity.ok(request);
+            return ResponseEntity.ok().body(request);
         }
     }
 

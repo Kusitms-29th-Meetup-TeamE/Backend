@@ -2,6 +2,7 @@ package com.meetup.teame.backend.domain.activity.entity;
 
 import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
 import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
+import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
 import com.meetup.teame.backend.domain.like.entity.ActivityLike;
 import com.meetup.teame.backend.domain.personality.Personality;
 import jakarta.persistence.*;
@@ -25,6 +26,13 @@ public class Activity {
     @Comment("활동 제목")
     private String title;
 
+    @Comment("활동 제공 기관")
+    private String agency;
+
+    @Comment("기관 유형")
+    @Enumerated(EnumType.STRING)
+    private AgencyType agencyType;
+
     @Comment("활동 장소")
     private String location;
 
@@ -39,6 +47,10 @@ public class Activity {
 
     @Comment("썸네일 이미지")
     private String imageUrl;
+
+    @ElementCollection
+    @Comment("활동 사진들")
+    private List<String> activityImgs;
 
     @ElementCollection
     @Enumerated(EnumType.STRING)

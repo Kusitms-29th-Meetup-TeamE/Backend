@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.personality;
 
+import com.meetup.teame.backend.domain.activity.entity.AgencyType;
 import com.meetup.teame.backend.global.exception.CustomException;
 import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.Getter;
@@ -22,10 +23,12 @@ public enum Personality {
     private final String description;
 
     //todo ExperienceType 참고해서 of메서드로 수정
-    public static Personality des2enum(String description) {
-        return Arrays.stream(Personality.values())
-                .filter(personality -> personality.getDescription().equals(description))
-                .findFirst()
-                .orElseThrow(() -> new CustomException(ExceptionContent.BAD_REQUEST_PERSONALITY));
+    public static Personality of(String description) {
+        for (Personality personality : Personality.values()) {
+            if (personality.getDescription().equals(description)) {
+                return personality;
+            }
+        }
+        throw new CustomException(ExceptionContent.NOT_FOUND_PERSONALITY);
     }
 }
