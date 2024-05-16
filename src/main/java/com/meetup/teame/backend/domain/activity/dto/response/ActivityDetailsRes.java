@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +29,7 @@ public class ActivityDetailsRes {
 
     private String location;
 
-    private LocalDateTime time;
+    private String time;
 
     private Long currentParticipants;
 
@@ -38,13 +40,15 @@ public class ActivityDetailsRes {
     private List<String> activityImgs;
 
     public static ActivityDetailsRes of(Activity activity) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 EEEE", new Locale("ko", "KR"));
+
         return ActivityDetailsRes.builder()
                 .id(activity.getId())
                 .title(activity.getTitle())
                 .agency(activity.getAgency())
                 .agency(activity.getAgencyType().getDescription())
                 .location(activity.getLocation())
-                .time(activity.getTime())
+                .time(activity.getTime().format(formatter))
                 .currentParticipants(activity.getCurrentParticipants())
                 .maxParticipants(activity.getMaxParticipants())
                 .personalities(activity.getPersonalities())

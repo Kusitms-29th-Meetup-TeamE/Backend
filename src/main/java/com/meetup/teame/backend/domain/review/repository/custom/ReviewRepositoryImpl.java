@@ -19,6 +19,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
     public List<Review> findReviewsByUserId(Long userId, String type) {
         BooleanBuilder builder = new BooleanBuilder();
 
+        builder.and(experience.user.id.eq(userId));
+
         if (type != null) {
             builder.and(experience.type.eq(ExperienceType.of(type)));
         }
@@ -27,7 +29,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
                 .selectFrom(review)
                 .join(review.mentor, experience)
                 .fetchJoin()
-                .where(experience.user.id.eq(userId))
+                .where(builder)
                 .fetch();
     }
 

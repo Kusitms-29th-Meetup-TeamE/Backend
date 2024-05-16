@@ -70,7 +70,7 @@ public class UserController {
     @Operation(summary = "사용자 기본 정보 수정", description = """
             사용자의 기본 정보를 수정하는 api입니다.
             
-            추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            name, email, imageUrl, location 데이터를 받습니다.
             """)
     //기본 정보 수정
     @PutMapping("/info")
@@ -82,7 +82,9 @@ public class UserController {
     @Operation(summary = "내 후기 목록 조회", description = """
             내 후기 목록을 조회하는 api입니다.
             
+            경험 활동 유형을 param으로 보낼 수 있습니다.
             
+            변수명은 type입니다.
             """)
     //내 후기 목록 조회
     @GetMapping("/reviews")
@@ -91,7 +93,11 @@ public class UserController {
         return ResponseEntity.ok().body(myReviews);
     }
 
-    //내 활동 목록 조회(활동은 Activity가 아니라 GroupChatRoom)
+    @Operation(summary = "내 활동 참여 목록 조회", description = """
+            내 활동 참여 목록을 조회하는 api입니다.
+            
+            api 요청 시 보낼 데이터는 token 이외에 없습니다.
+            """)
     @GetMapping("/activities")
     public ResponseEntity<List<ActivitySummaryRes>> getMyActivities() {
         List<ActivitySummaryRes> myActivities = userService.getMyActivities();
