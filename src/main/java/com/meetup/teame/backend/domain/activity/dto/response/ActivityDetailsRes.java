@@ -37,7 +37,7 @@ public class ActivityDetailsRes {
 
     private List<String> activityImgs;
 
-    public static ActivityDetailsRes of(Activity activity, List<String> activityImgs) {
+    public static ActivityDetailsRes of(Activity activity) {
         return ActivityDetailsRes.builder()
                 .id(activity.getId())
                 .title(activity.getTitle())
@@ -48,7 +48,7 @@ public class ActivityDetailsRes {
                 .currentParticipants(activity.getCurrentParticipants())
                 .maxParticipants(activity.getMaxParticipants())
                 .personalities(activity.getPersonalities())
-                .activityImgs(activityImgs)
+                .activityImgs(activity.getActivityImgs())
                 .build();
     }
 }

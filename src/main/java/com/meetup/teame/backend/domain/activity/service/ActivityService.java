@@ -41,8 +41,8 @@ public class ActivityService {
     //특정 활동 상제 정보 response dto화
     public ActivityDetailsRes getActivityDetails(Long activityId) {
         Activity activity = findActivityById(activityId);
-        List<String> imageUrls = getImageUrls(activity);
-        return ActivityDetailsRes.of(activity, imageUrls);
+        //List<String> imageUrls = getImageUrls(activity);
+        return ActivityDetailsRes.of(activity);
     }
 
     //activityId로 특정 활동 불러오기
@@ -111,16 +111,13 @@ public class ActivityService {
         URL url = amazonS3.getUrl(bucket, activity.getActivityImgs());
         return "" + url;
     }*/
-    public List<String> getImageUrls(Activity activity) {
+    /*public List<String> getImageUrls(Activity activity) {
         List<String> activityImgs = activity.getActivityImgs();
         List<String> imageUrls = new ArrayList<>();
 
         for (String imgKey : activityImgs) {
             // 이미지의 URL을 생성하기 위해 S3에 대한 요청을 생성
             GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(bucket, imgKey);
-            /*// 이미지가 다운로드되는 시간(5분)을 설정합니다.
-            urlRequest.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5));*/
-
             URL url = amazonS3.generatePresignedUrl(urlRequest);
 
             imageUrls.add(url.toString());
@@ -128,5 +125,5 @@ public class ActivityService {
 
         // 생성된 이미지 URL 리스트를 반환합니다.
         return imageUrls;
-    }
+    }*/
 }
