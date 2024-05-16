@@ -13,4 +13,6 @@ public interface DirectChatRoomRepositoryCustom {
     List<DirectChatRoom> findForUser(User user);
 
     List<DirectChatRoom> findUpdatableRooms();
+
+    List<DirectChatRoom> findAppointmentForUserInMonth(User who, int year, int month);
 }

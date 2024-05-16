@@ -2,7 +2,9 @@ package com.meetup.teame.backend.domain.user.controller;
 
 import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
+import com.meetup.teame.backend.domain.user.dto.request.ReadCalenderReq;
 import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
+import com.meetup.teame.backend.domain.user.dto.response.ReadCalenderRes;
 import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
 import com.meetup.teame.backend.domain.user.dto.response.UserInfoRes;
 import com.meetup.teame.backend.domain.user.service.UserService;
@@ -25,9 +27,9 @@ public class UserController {
     @Operation(summary = "메인 페이지 조회", description = """
             현재 로그인한 유저의 메인 페이지를 조회합니다.
                         
-            아직 로그인이 없어서 임시로 고정된 더미 유저의 데이터를 전달하는 식으로 구현되어 있습니다.
+            임시로 고정된 더미 유저의 데이터를 전달하는 식으로 구현되어 있습니다.
                         
-            추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            jwt토큰도 같이 전달해서 요청해주셔야 합니다.
             """)
     @GetMapping("/main")
     public ResponseEntity<ReadMainRes> readMainPage() {
@@ -38,9 +40,9 @@ public class UserController {
     @Operation(summary = "온보딩 정보 등록", description = """
             유저의 온보딩 정보를 등록합니다.
                         
-            아직 로그인이 없어서 임시로 고정된 더미 유저의 온보딩 정보를 등록하는 식으로 구현되어 있습니다.
+            임시로 고정된 더미 유저의 온보딩 정보를 등록하는 식으로 구현되어 있습니다.
                         
-            추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            jwt토큰도 같이 전달해서 요청해주셔야 합니다.
                         
             현재 온보딩 정보로 입력 가능한 성격 유형 
             ("잔잔한", "활발한", "평화로운", "자연친화적인", "창의적인", "학문적인", "예술적인", "배울 수 있는")
@@ -51,6 +53,26 @@ public class UserController {
         userService.setUserPersonality(onboardingReq);
         return ResponseEntity
                 .ok().build();
+    }
+
+
+    @Operation(summary = "마이페이지 캘린더 조회", description = """
+            유저의 캘린더 정보를 조회합니다.
+                        
+            임시로 고정된 더미 유저의 캘린더 정보를 조회하는 식으로 구현되어 있습니다.
+                        
+            jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            
+            url 쿼리 파라미터로 다음과 같은 값을 전달해 주셔야 합니다.
+            
+            year : 년도
+            
+            month : 월
+            """)
+    @GetMapping("/mypage/calender")
+    public ResponseEntity<ReadCalenderRes> readCalender(@ModelAttribute @Valid ReadCalenderReq readCalenderReq) {
+        return ResponseEntity
+                .ok(userService.readCalender(readCalenderReq));
     }
 
     @Operation(summary = "사용자 기본 정보 조회", description = """
