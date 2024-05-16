@@ -1,9 +1,16 @@
 package com.meetup.teame.backend.domain.user.service;
 
+import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
+import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
 import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
+import com.meetup.teame.backend.domain.chatroom.entity.ChatRoom;
+import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
+import com.meetup.teame.backend.domain.chatroom.entity.UserChatRoom;
+import com.meetup.teame.backend.domain.chatroom.repository.GroupChatRoomRepository;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
+import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.review.entity.Review;
@@ -22,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -35,6 +43,8 @@ public class UserService {
     private final ActivityRepository activityRepository;
     private final ExperienceRepository experienceRepository;
     private final ReviewRepository reviewRepository;
+    private final GroupChatRoomRepository groupChatRoomRepository;
+    private final ActivityLikeRepository activityLikeRepository;
 
     public ReadMainRes readMainPage() {
         //todo 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
@@ -96,6 +106,23 @@ public class UserService {
                 .map(ReviewRes::of)
                 .toList();
         return reviews;
+    }
+
+    //내 활동 조회
+    public List<ActivitySummaryRes> getMyActivities() {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = findById(userId);
+
+        List<GroupChatRoom> groupChatRooms = groupChatRoomRepository.findForUser(user);
+        List<ActivitySummaryRes> myActivities = groupChatRooms.stream()
+                .map(GroupChatRoom::getActivity)
+                .map(activity -> {
+                    boolean isLiked = activityLikeRepository.existsByUserIdAndActivityId(userId, activity.getId());
+                    return ActivitySummaryRes.of(activity, isLiked);
+                })
+                .collect(Collectors.toList());
+
+        return myActivities;
     }
 
     @Transactional

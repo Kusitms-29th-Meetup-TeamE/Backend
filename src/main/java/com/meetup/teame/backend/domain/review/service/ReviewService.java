@@ -23,6 +23,7 @@ public class ReviewService {
     private final ExperienceRepository experienceRepository;
     private final DirectChatRoomRepository directChatRoomRepository;
 
+    @Transactional
     //후기 작성하기
     public ReviewRes createReview(CreateReviewReq createReviewReq) {
         Experience mentor = experienceRepository.findById(createReviewReq.getMentorId())

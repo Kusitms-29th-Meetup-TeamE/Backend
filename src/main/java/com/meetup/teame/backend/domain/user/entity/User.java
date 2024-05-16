@@ -73,7 +73,6 @@ public class User {
     public void update(UpdateUserReq request) {
         this.name = request.getName();
         this.email = request.getEmail();
-        this.password = request.getPassword();
         this.imageUrl = request.getImageUrl();
         this.location = request.getLocation();
     }

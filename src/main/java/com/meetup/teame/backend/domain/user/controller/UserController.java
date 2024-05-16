@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.user.controller;
 
+import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
 import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
@@ -84,9 +85,16 @@ public class UserController {
             
             """)
     //내 후기 목록 조회
-    @GetMapping("/review")
+    @GetMapping("/reviews")
     public ResponseEntity<List<ReviewRes>> getMyReviews(@RequestParam String type) {
         List<ReviewRes> myReviews = userService.getMyReviews(type);
         return ResponseEntity.ok().body(myReviews);
+    }
+
+    //내 활동 목록 조회(활동은 Activity가 아니라 GroupChatRoom)
+    @GetMapping("/activities")
+    public ResponseEntity<List<ActivitySummaryRes>> getMyActivities() {
+        List<ActivitySummaryRes> myActivities = userService.getMyActivities();
+        return ResponseEntity.ok().body(myActivities);
     }
 }
