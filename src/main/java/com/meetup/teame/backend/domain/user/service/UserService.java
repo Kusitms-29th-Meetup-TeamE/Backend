@@ -4,6 +4,9 @@ import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
+import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
+import com.meetup.teame.backend.domain.review.entity.Review;
+import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
 import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
@@ -20,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
     private final ExperienceRepository experienceRepository;
+    private final ReviewRepository reviewRepository;
 
     public ReadMainRes readMainPage() {
         //todo 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
@@ -78,6 +83,14 @@ public class UserService {
         User updatedUser = findById(userId);
         updatedUser.update(request);
         return UserInfoRes.of(updatedUser);
+    }
+
+    public List<ReviewRes> getMyReviews(Long userId, String type) {
+        List<Review> myReviews = reviewRepository.findReviewsByUserId(userId, type);
+        List<ReviewRes> reviews = myReviews.stream()
+                .map(ReviewRes::of)
+                .toList();
+        return reviews;
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.user.controller;
 
+import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
 import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
@@ -11,6 +12,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -73,5 +76,18 @@ public class UserController {
     public ResponseEntity<UserInfoRes> updateUserInfo(@PathVariable long userId, @RequestBody UpdateUserReq request) {
         UserInfoRes userInfo = userService.updateUserInfo(userId, request);
         return ResponseEntity.ok().body(userInfo);
+    }
+
+    @Operation(summary = "내 후기 목록 조회", description = """
+            내 후기 목록을 조회하는 api입니다.
+            
+            
+            """)
+    //내 후기 목록 조회
+    @GetMapping("/{userId}/review")
+    public ResponseEntity<List<ReviewRes>> getMyReviews(@PathVariable long userId,
+                                                        @RequestParam String type) {
+        List<ReviewRes> myReviews = userService.getMyReviews(userId, type);
+        return ResponseEntity.ok().body(myReviews);
     }
 }

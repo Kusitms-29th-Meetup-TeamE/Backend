@@ -21,6 +21,8 @@ public enum ExceptionContent {
     BAD_REQUEST_EXPERIENCE_TYPE(BAD_REQUEST, "잘못된 요청입니다. 유효하지 않은 경험 유형입니다."),
     BAD_REQUEST_SORT_TYPE(BAD_REQUEST, "잘못된 요청입니다. 유효하지 않은 정렬 방식입니다."),
     BAD_REQUEST_ALREADY_JOIN_CHATROOM(BAD_REQUEST, "이미 참여한 채팅방입니다."),
+    BAD_REQUEST_AGENCY_TYPE(BAD_REQUEST, "잘못된 요청입니다. 유효하지 않은 기관 유형입니다."),
+    BAD_REQUEST_GENDER(BAD_REQUEST, "잘못된 요청입니다. 유효하지 않은 성별입니다."),
 
     NOT_FOUND_USER(NOT_FOUND, "존재하지 않는 사용자입니다."),
     NOT_FOUND_PERSONALITY(NOT_FOUND, "존재하지 않는 성격입니다."),

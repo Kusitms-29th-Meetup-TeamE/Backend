@@ -26,6 +26,8 @@ public class ReviewRes {
 
     private Long menteeId;
 
+    //멘토 이름, 나이, 성별, 거주지, 프로필 사진, 경험 유형, 경험 제목
+
     public static ReviewRes of(Review review) {
         return ReviewRes.builder()
                 .id(review.getId())

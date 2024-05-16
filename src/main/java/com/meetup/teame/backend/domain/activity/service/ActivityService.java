@@ -38,9 +38,6 @@ public class ActivityService {
 
     private static final int ACTIVITY_PAGE_SIZE = 12;
 
-    //활동 참여 신청하기
-
-
     //특정 활동 상제 정보 response dto화
     public ActivityDetailsRes getActivityDetails(Long activityId) {
         Activity activity = findActivityById(activityId);
@@ -86,7 +83,7 @@ public class ActivityService {
 
     //관심활동 목록 필터링으로 조회
     public ReadActivitiesRes findlikedActivities(Long userId, ReadActivitiesReq activitiesReq) {
-        long page = activitiesReq.getPage();
+        Long page = activitiesReq.getPage();
         long offset = page * ACTIVITY_PAGE_SIZE;
         long limit = ACTIVITY_PAGE_SIZE;
         AgencyType agencyType = null;

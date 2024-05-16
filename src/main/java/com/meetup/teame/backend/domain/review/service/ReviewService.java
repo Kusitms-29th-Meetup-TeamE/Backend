@@ -4,7 +4,7 @@ import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
 import com.meetup.teame.backend.domain.chatroom.repository.DirectChatRoomRepository;
 import com.meetup.teame.backend.domain.experience.entity.Experience;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
-import com.meetup.teame.backend.domain.review.dto.request.ReviewReq;
+import com.meetup.teame.backend.domain.review.dto.request.CreateReviewReq;
 import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.review.entity.Review;
 import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
@@ -24,13 +24,13 @@ public class ReviewService {
     private final DirectChatRoomRepository directChatRoomRepository;
 
     //후기 작성하기
-    public ReviewRes createReview(ReviewReq reviewReq) {
-        Experience mentor = experienceRepository.findById(reviewReq.getMentorId())
+    public ReviewRes createReview(CreateReviewReq createReviewReq) {
+        Experience mentor = experienceRepository.findById(createReviewReq.getMentorId())
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_EXPERIENCE));
-        DirectChatRoom mentee = directChatRoomRepository.findById(reviewReq.getMenteeId())
+        DirectChatRoom mentee = directChatRoomRepository.findById(createReviewReq.getMenteeId())
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_CHAT_ROOM));
 
-        Review review = reviewRepository.save(Review.of(reviewReq.getDescription(), mentor, mentee));
+        Review review = reviewRepository.save(Review.of(createReviewReq.getDescription(), mentor, mentee));
 
         return ReviewRes.of(review);
     }

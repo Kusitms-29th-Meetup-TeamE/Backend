@@ -24,7 +24,7 @@ public enum AgencyType {
                 return agencyType;
             }
         }
-        throw new CustomException(ExceptionContent.NOT_FOUND_AGENCY_TYPE);
+        throw new CustomException(ExceptionContent.BAD_REQUEST_AGENCY_TYPE);
     }
 
 }

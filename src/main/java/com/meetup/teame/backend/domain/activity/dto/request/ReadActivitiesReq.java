@@ -6,17 +6,23 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 public class ReadActivitiesReq {
 
-    private Long page;
+    @NotBlank(message = "page is required")
+    @Min(value = 0, message = "page must be greater than or equal to 0")
+    @Schema(example = "0")
+    private long page;
 
     private String agencyType;
 
-    private List<String> personalities;
+    private List<String> personalities = new ArrayList<>();
 }

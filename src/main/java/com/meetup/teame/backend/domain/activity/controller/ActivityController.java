@@ -44,7 +44,7 @@ public class ActivityController {
     //전체 활동 불러오기
     @GetMapping("/activities/{userId}")
     public ResponseEntity<ReadActivitiesRes> getActivities(@PathVariable long userId,
-                                                           @ModelAttribute @Valid ReadActivitiesReq request) {
+                                                           @ModelAttribute ReadActivitiesReq request) {
         ReadActivitiesRes activities = activityService.findActivities(userId, request);
         return ResponseEntity.ok().body(activities);
     }
@@ -66,7 +66,7 @@ public class ActivityController {
     //관심 활동 불러오기
     @GetMapping("/activities/{userId}/liked")
     public ResponseEntity<ReadActivitiesRes> getLikedActivities(@PathVariable long userId,
-                                                                @ModelAttribute @Valid ReadActivitiesReq request) {
+                                                                @ModelAttribute ReadActivitiesReq request) {
         ReadActivitiesRes activities = activityService.findlikedActivities(userId, request);
         return ResponseEntity.ok().body(activities);
     }

@@ -8,6 +8,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.meetup.teame.backend.domain.activity.entity.QActivity.activity;
@@ -63,6 +64,9 @@ public class ActivityRepositoryImpl implements ActivityRepositoryCustom {
         // 좋아하는 활동 ID가 있는 경우만 필터 조건에 추가
         if (!likedActivityIds.isEmpty()) {
             builder.and(activity.id.in(likedActivityIds));
+        }
+        else{
+            return new ArrayList<>();
         }
 
         // agencyType나 personalities가 입력된 경우 해당 값으로 필터링

@@ -1,6 +1,6 @@
 package com.meetup.teame.backend.domain.review.controller;
 
-import com.meetup.teame.backend.domain.review.dto.request.ReviewReq;
+import com.meetup.teame.backend.domain.review.dto.request.CreateReviewReq;
 import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.review.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +25,7 @@ public class ReviewController {
             """)
     //후기 보내기
     @PostMapping("/review")
-    public ResponseEntity<ReviewRes> sendReview(@RequestBody ReviewReq request) {
+    public ResponseEntity<ReviewRes> sendReview(@RequestBody CreateReviewReq request) {
         ReviewRes response = reviewService.createReview(request);
         return ResponseEntity.ok().body(response);
     }
