@@ -1,14 +1,13 @@
 package com.meetup.teame.backend.domain.activity.dto.response;
 
 import com.meetup.teame.backend.domain.activity.entity.Activity;
-import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import lombok.*;
-import org.hibernate.annotations.Comment;
 
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
 
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -26,7 +25,7 @@ public class ActivitySummaryRes {
 
     private String location;
 
-    private LocalDateTime time;
+    private String time;
 
     private String activityThumbnail;
 
@@ -41,12 +40,14 @@ public class ActivitySummaryRes {
             activityThumbnail = activityImgs.get(0);
         }
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 EEEE", new Locale("ko", "KR"));
+
         return ActivitySummaryRes.builder()
                 .id(activity.getId())
                 .title(activity.getTitle())
                 .agency(activity.getAgency())
                 .agencyType(activity.getAgencyType().getDescription())
-                .time(activity.getTime())
+                .time(activity.getTime().format(formatter))
                 .activityThumbnail(activityThumbnail)
                 .isLiked(isLiked)
                 .build();

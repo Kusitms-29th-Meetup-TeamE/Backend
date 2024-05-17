@@ -16,8 +16,6 @@ public class UserInfoRes {
 
     private String email;
 
-    private String password;
-
     private String imageUrl;
 
     private String location;

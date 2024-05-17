@@ -23,6 +23,7 @@ public class ReviewService {
     private final ExperienceRepository experienceRepository;
     private final DirectChatRoomRepository directChatRoomRepository;
 
+    @Transactional
     //후기 작성하기
     public ReviewRes createReview(CreateReviewReq createReviewReq) {
         Experience mentor = experienceRepository.findById(createReviewReq.getMentorId())
@@ -31,6 +32,7 @@ public class ReviewService {
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_CHAT_ROOM));
 
         Review review = reviewRepository.save(Review.of(createReviewReq.getDescription(), mentor, mentee));
+
 
         return ReviewRes.of(review);
     }

@@ -1,5 +1,7 @@
 package com.meetup.teame.backend.domain.user.controller;
 
+import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
+import com.meetup.teame.backend.domain.review.dto.response.MyReviewRes;
 import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.ReadCalenderReq;
@@ -82,34 +84,46 @@ public class UserController {
             추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
             """)
     //기본 정보 조회
-    @GetMapping("/{userId}/info")
-    public ResponseEntity<UserInfoRes> getUserInfo(@PathVariable long userId) {
-        UserInfoRes userInfo = userService.getUserInfo(userId);
+    @GetMapping("/info")
+    public ResponseEntity<UserInfoRes> getUserInfo() {
+        UserInfoRes userInfo = userService.getUserInfo();
         return ResponseEntity.ok().body(userInfo);
     }
 
     @Operation(summary = "사용자 기본 정보 수정", description = """
             사용자의 기본 정보를 수정하는 api입니다.
             
-            추후 로그인 적용 시에는 jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            name, email, imageUrl, location 데이터를 받습니다.
             """)
     //기본 정보 수정
-    @PutMapping("/{userId}/info")
-    public ResponseEntity<UserInfoRes> updateUserInfo(@PathVariable long userId, @RequestBody UpdateUserReq request) {
-        UserInfoRes userInfo = userService.updateUserInfo(userId, request);
+    @PutMapping("/info")
+    public ResponseEntity<UserInfoRes> updateUserInfo(@RequestBody UpdateUserReq request) {
+        UserInfoRes userInfo = userService.updateUserInfo(request);
         return ResponseEntity.ok().body(userInfo);
     }
 
     @Operation(summary = "내 후기 목록 조회", description = """
             내 후기 목록을 조회하는 api입니다.
             
+            경험 활동 유형을 param으로 보낼 수 있습니다.
             
+            변수명은 type입니다.
             """)
     //내 후기 목록 조회
-    @GetMapping("/{userId}/review")
-    public ResponseEntity<List<ReviewRes>> getMyReviews(@PathVariable long userId,
-                                                        @RequestParam String type) {
-        List<ReviewRes> myReviews = userService.getMyReviews(userId, type);
+    @GetMapping("/reviews")
+    public ResponseEntity<List<MyReviewRes>> getMyReviews(@RequestParam String type) {
+        List<MyReviewRes> myReviews = userService.getMyReviews(type);
         return ResponseEntity.ok().body(myReviews);
+    }
+
+    @Operation(summary = "내 활동 참여 목록 조회", description = """
+            내 활동 참여 목록을 조회하는 api입니다.
+            
+            api 요청 시 보낼 데이터는 token 이외에 없습니다.
+            """)
+    @GetMapping("/activities")
+    public ResponseEntity<List<ActivitySummaryRes>> getMyActivities() {
+        List<ActivitySummaryRes> myActivities = userService.getMyActivities();
+        return ResponseEntity.ok().body(myActivities);
     }
 }

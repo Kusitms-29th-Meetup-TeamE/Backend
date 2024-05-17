@@ -11,13 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 @Builder
-public class ReviewRes {
-
+public class MyReviewRes {
     private Long id;
 
-    private Long mentorId;
+    private Long menteeId;
 
-    private String mentorName;
+    private String menteeName;
 
     private Long age;
 
@@ -35,17 +34,17 @@ public class ReviewRes {
 
     private String description;
 
-    public static ReviewRes of(Review review) {
-        User mentor = review.getMentor().getUser();
+    public static MyReviewRes of(Review review) {
+        User mentee = review.getMentee().getMentee();
 
-        return ReviewRes.builder()
+        return MyReviewRes.builder()
                 .id(review.getId())
-                .mentorId(mentor.getId())
-                .mentorName(mentor.getName())
-                .age(mentor.getAge())
-                .gender(mentor.getGender().getDescription())
-                .location(mentor.getLocation())
-                .imageUrl(mentor.getImageUrl())
+                .menteeId(mentee.getId())
+                .menteeName(mentee.getName())
+                .age(mentee.getAge())
+                .gender(mentee.getGender().getDescription())
+                .location(mentee.getLocation())
+                .imageUrl(mentee.getImageUrl())
                 .experienceType(review.getMentor().getType().getDescription())
                 .title(review.getMentor().getDescription())
                 .description(review.getDescription())

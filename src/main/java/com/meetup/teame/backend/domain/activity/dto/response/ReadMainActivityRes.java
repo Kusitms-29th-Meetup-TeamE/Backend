@@ -1,11 +1,9 @@
 package com.meetup.teame.backend.domain.activity.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.personality.Personality;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
