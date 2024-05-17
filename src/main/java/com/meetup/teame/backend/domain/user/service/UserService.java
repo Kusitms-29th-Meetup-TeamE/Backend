@@ -14,6 +14,7 @@ import com.meetup.teame.backend.domain.chatroom.repository.GroupChatRoomReposito
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
+import com.meetup.teame.backend.domain.review.dto.response.MyReviewRes;
 import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.review.entity.Review;
 import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
@@ -104,11 +105,11 @@ public class UserService {
     }
 
     //내 후기 조회
-    public List<ReviewRes> getMyReviews(String type) {
+    public List<MyReviewRes> getMyReviews(String type) {
         Long userId = SecurityContextProvider.getAuthenticatedUserId();
         List<Review> myReviews = reviewRepository.findReviewsByUserId(userId, type);
-        List<ReviewRes> reviews = myReviews.stream()
-                .map(ReviewRes::of)
+        List<MyReviewRes> reviews = myReviews.stream()
+                .map(MyReviewRes::of)
                 .toList();
         return reviews;
     }
