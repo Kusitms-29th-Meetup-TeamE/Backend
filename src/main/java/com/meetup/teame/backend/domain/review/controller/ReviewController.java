@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RequiredArgsConstructor
 @RestController
 @Tag(name = "review", description = "후기 관련 api")
@@ -24,10 +26,10 @@ public class ReviewController {
             후기보내기가 정상적으로 요청되면 후기 id, 후기 내용, 멘토 id, 멘티 id을 반환해줍니다.
             """)
     //후기 보내기
-    @PostMapping("/review")
-    public ResponseEntity<ReviewRes> sendReview(@RequestBody CreateReviewReq request) {
-        ReviewRes response = reviewService.createReview(request);
-        return ResponseEntity.ok().body(response);
+    @PostMapping("/review/{reviewId}")
+    public ResponseEntity<Void> sendReview(@RequestBody CreateReviewReq request, @PathVariable Long reviewId) {
+        reviewService.sendReview(request,reviewId);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "후기 조회하기", description = """

@@ -25,16 +25,10 @@ public class ReviewService {
 
     @Transactional
     //후기 작성하기
-    public ReviewRes createReview(CreateReviewReq createReviewReq) {
-        Experience mentor = experienceRepository.findById(createReviewReq.getMentorId())
-                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_EXPERIENCE));
-        DirectChatRoom mentee = directChatRoomRepository.findById(createReviewReq.getMenteeId())
-                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_CHAT_ROOM));
-
-        Review review = reviewRepository.save(Review.of(createReviewReq.getDescription(), mentor, mentee));
-
-
-        return ReviewRes.of(review);
+    public void sendReview(CreateReviewReq createReviewReq, Long reviewId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_REVIEW));
+        review.setContent(createReviewReq.getContent());
     }
 
     //후기 조회하기
