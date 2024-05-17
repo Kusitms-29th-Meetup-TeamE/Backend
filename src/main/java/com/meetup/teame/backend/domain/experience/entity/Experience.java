@@ -30,6 +30,9 @@ public class Experience {
     @Comment("경험 설명")
     private String description;
 
+    @Comment("경험 상세 내용")
+    private String detail;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

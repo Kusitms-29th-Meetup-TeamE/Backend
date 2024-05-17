@@ -23,6 +23,7 @@ public enum ExceptionContent {
     BAD_REQUEST_ALREADY_JOIN_CHATROOM(BAD_REQUEST, "이미 참여한 채팅방입니다."),
     BAD_REQUEST_AGENCY_TYPE(BAD_REQUEST, "잘못된 요청입니다. 유효하지 않은 기관 유형입니다."),
     BAD_REQUEST_GENDER(BAD_REQUEST, "잘못된 요청입니다. 유효하지 않은 성별입니다."),
+    BAD_REQUEST_ALREADY_WRITTEN_REVIEW(BAD_REQUEST, "이미 작성한 후기입니다."),
 
     NOT_FOUND_USER(NOT_FOUND, "존재하지 않는 사용자입니다."),
     NOT_FOUND_PERSONALITY(NOT_FOUND, "존재하지 않는 성격입니다."),
@@ -31,8 +32,7 @@ public enum ExceptionContent {
     NOT_FOUND_AGENCY_TYPE(NOT_FOUND, "존재하지 않는 기관 유형입니다."),
     NOT_FOUND_EXPERIENCE(NOT_FOUND, "존재하지 않는 경험입니다."),
     NOT_FOUND_CHAT_ROOM(NOT_FOUND, "존재하지 않는 채팅방입니다."),
-    NOT_FOUND_REVIEW(NOT_FOUND, "존재하지 않는 후기입니다."),
-    ;
+    NOT_FOUND_REVIEW(NOT_FOUND, "존재하지 않는 후기입니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

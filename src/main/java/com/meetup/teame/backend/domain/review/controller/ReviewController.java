@@ -1,7 +1,8 @@
 package com.meetup.teame.backend.domain.review.controller;
 
 import com.meetup.teame.backend.domain.review.dto.request.CreateReviewReq;
-import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
+import com.meetup.teame.backend.domain.review.dto.response.ReadReviewsByMeRes;
+import com.meetup.teame.backend.domain.review.dto.response.ReviewByMeRes;
 import com.meetup.teame.backend.domain.review.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @Tag(name = "review", description = "후기 관련 api")
+@RequestMapping("/reviews")
 public class ReviewController {
 
     private final ReviewService reviewService;
@@ -19,28 +21,42 @@ public class ReviewController {
     @Operation(summary = "후기 보내기", description = """
             후기 보내기 api 입니다.
             
-            후기 내용, 멘토 id, 멘티 id를 입력하셔야합니다.
-            
-            후기보내기가 정상적으로 요청되면 후기 id, 후기 내용, 멘토 id, 멘티 id을 반환해줍니다.
+            request body에 리뷰 내용을 입력해 전달해주세요.
             """)
     //후기 보내기
-    @PostMapping("/review")
-    public ResponseEntity<ReviewRes> sendReview(@RequestBody CreateReviewReq request) {
-        ReviewRes response = reviewService.createReview(request);
-        return ResponseEntity.ok().body(response);
+    @PostMapping("/{reviewId}")
+    public ResponseEntity<Void> sendReview(@RequestBody CreateReviewReq request, @PathVariable Long reviewId) {
+        reviewService.sendReview(request,reviewId);
+        return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "후기 조회하기", description = """
-            후기 조회하기 api 입니다.
-            
-            후기 id로 후기에 대한 내용을 볼 수 있습니다.
-            
-            후기 id, 후기 내용, 멘토 id, 멘티 id을 반환해줍니다.
+    @Operation(summary = "후기 보내기 페이지에서 해당 배움 정보 보기", description = """
+            후기 보내기 페이지에서 해당 배움 정보 보기 api 입니다.
             """)
-    //후기 조회하기
-    @GetMapping("/review/{reviewId}")
-    public ResponseEntity<ReviewRes> getReview(@PathVariable long reviewId) {
-        ReviewRes response = reviewService.findReview(reviewId);
-        return ResponseEntity.ok().body(response);
+    @GetMapping("/{reviewId}")
+    public ResponseEntity<ReviewByMeRes> readReview(@PathVariable Long reviewId) {
+        return ResponseEntity
+                .ok(reviewService.readReview(reviewId));
     }
+
+    @Operation(summary = "나의 배움 내역 보기", description = """
+            나의 배움 내역 보기 api 입니다.
+            """)
+    @GetMapping("/byme")
+    public ResponseEntity<ReadReviewsByMeRes> readReviewsByMe() {
+        return ResponseEntity
+                .ok(reviewService.readReviewsByMe());
+    }
+
+
+//    @Operation(summary = "나의 후기 보기", description = """
+//            나의 후기 보기 api 입니다.
+//            """)
+//    @GetMapping("/aboutme")
+//    public ResponseEntity<ReadReviewsAboutMeRes> readReviewsAboutMe() {
+//        //todo api 작성
+//        return null;
+////        return ResponseEntity
+////                .ok(reviewService.readReviewsAboutMe());
+//    }
 }

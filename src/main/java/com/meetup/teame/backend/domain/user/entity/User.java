@@ -6,6 +6,7 @@ import com.meetup.teame.backend.domain.chatroom.entity.UserChatRoom;
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.domain.experience.entity.Experience;
 import com.meetup.teame.backend.domain.like.entity.ActivityLike;
+import com.meetup.teame.backend.domain.review.entity.Review;
 import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
 import jakarta.persistence.*;
 import lombok.*;
@@ -65,6 +66,13 @@ public class User {
 
     @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
     private List<DirectChatRoom> learnedChatRooms;
+
+    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
+    private List<Review> reviewsAboutMe;
+
+    @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
+    private List<Review> reviewsByMe;
+
 
     public void setPersonalities(List<Personality> personalities) {
         this.personalities = personalities;
