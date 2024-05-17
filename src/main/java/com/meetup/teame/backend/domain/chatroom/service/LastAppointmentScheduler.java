@@ -33,6 +33,7 @@ public class LastAppointmentScheduler {
         List<DirectChatRoom> directChatRooms = directChatRoomRepository.findUpdatableRooms();
         for (DirectChatRoom directChatRoom : directChatRooms) {
             reviews.add(Review.of(
+                    directChatRoom.getExperience(),
                     directChatRoom.getExperience().getUser(),
                     directChatRoom.getMentee(),
                     directChatRoom.getNextAppointment()

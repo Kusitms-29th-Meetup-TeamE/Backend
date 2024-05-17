@@ -3,6 +3,7 @@ package com.meetup.teame.backend.domain.review.entity;
 import com.meetup.teame.backend.domain.chatroom.entity.Appointment;
 import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
 import com.meetup.teame.backend.domain.experience.entity.Experience;
+import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
 import com.meetup.teame.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,6 +26,12 @@ public class Review {
     @Comment("내용")
     private String content;
 
+    private String appointmentDetail;
+
+    private ExperienceType appointmentType;
+
+    private String appointmentTitle;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentor_id")
     private User mentor;
@@ -39,16 +46,23 @@ public class Review {
     @Comment("후기 작성 여부")
     private Boolean isWritten;
 
-    public static Review of(User mentor, User mentee, Appointment appointment) {
+    private LocalDate reviewDate;
+
+    public static Review of(Experience experience, User mentor, User mentee, Appointment appointment) {
         return Review.builder()
+                .appointmentDetail(experience.getDetail())
+                .appointmentType(experience.getType())
+                .appointmentTitle(experience.getDescription())
                 .mentor(mentor)
                 .mentee(mentee)
                 .appointment(appointment)
                 .isWritten(false)
+                .reviewDate(LocalDate.now())
                 .build();
     }
 
     public void setContent(String content) {
         this.content = content;
+        this.isWritten=true;
     }
 }
