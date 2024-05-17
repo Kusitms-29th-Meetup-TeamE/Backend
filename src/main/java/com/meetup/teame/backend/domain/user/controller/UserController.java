@@ -1,8 +1,6 @@
 package com.meetup.teame.backend.domain.user.controller;
 
 import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
-import com.meetup.teame.backend.domain.review.dto.response.MyReviewRes;
-import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.ReadCalenderReq;
 import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
@@ -102,19 +100,19 @@ public class UserController {
         return ResponseEntity.ok().body(userInfo);
     }
 
-    @Operation(summary = "내 후기 목록 조회", description = """
-            내 후기 목록을 조회하는 api입니다.
-            
-            경험 활동 유형을 param으로 보낼 수 있습니다.
-            
-            변수명은 type입니다.
-            """)
-    //내 후기 목록 조회
-    @GetMapping("/reviews")
-    public ResponseEntity<List<MyReviewRes>> getMyReviews(@RequestParam String type) {
-        List<MyReviewRes> myReviews = userService.getMyReviews(type);
-        return ResponseEntity.ok().body(myReviews);
-    }
+//    @Operation(summary = "내 후기 목록 조회", description = """
+//            내 후기 목록을 조회하는 api입니다.
+//
+//            경험 활동 유형을 param으로 보낼 수 있습니다.
+//
+//            변수명은 type입니다.
+//            """)
+//    //내 후기 목록 조회
+//    @GetMapping("/reviews")
+//    public ResponseEntity<List<MyReviewRes>> getMyReviews(@RequestParam String type) {
+//        List<MyReviewRes> myReviews = userService.getMyReviews(type);
+//        return ResponseEntity.ok().body(myReviews);
+//    }
 
     @Operation(summary = "내 활동 참여 목록 조회", description = """
             내 활동 참여 목록을 조회하는 api입니다.

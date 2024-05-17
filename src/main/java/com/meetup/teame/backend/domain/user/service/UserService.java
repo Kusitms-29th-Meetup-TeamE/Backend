@@ -1,21 +1,15 @@
 package com.meetup.teame.backend.domain.user.service;
 
 import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
-import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
 import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
 import com.meetup.teame.backend.domain.chatroom.repository.DirectChatRoomRepository;
 import com.meetup.teame.backend.domain.chatroom.repository.GroupChatRoomRepository;
-import com.meetup.teame.backend.domain.chatroom.entity.ChatRoom;
 import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
-import com.meetup.teame.backend.domain.chatroom.entity.UserChatRoom;
-import com.meetup.teame.backend.domain.chatroom.repository.GroupChatRoomRepository;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
-import com.meetup.teame.backend.domain.review.dto.response.MyReviewRes;
-import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
 import com.meetup.teame.backend.domain.review.entity.Review;
 import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
@@ -34,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -104,15 +97,15 @@ public class UserService {
         return UserInfoRes.of(updatedUser);
     }
 
-    //내 후기 조회
-    public List<MyReviewRes> getMyReviews(String type) {
-        Long userId = SecurityContextProvider.getAuthenticatedUserId();
-        List<Review> myReviews = reviewRepository.findReviewsByUserId(userId, type);
-        List<MyReviewRes> reviews = myReviews.stream()
-                .map(MyReviewRes::of)
-                .toList();
-        return reviews;
-    }
+//    //내 후기 조회
+//    public List<MyReviewRes> getMyReviews(String type) {
+//        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+//        List<Review> myReviews = reviewRepository.findReviewsByUserId(userId, type);
+//        List<MyReviewRes> reviews = myReviews.stream()
+//                .map(MyReviewRes::of)
+//                .toList();
+//        return reviews;
+//    }
 
     //내 활동 조회
     public List<ActivitySummaryRes> getMyActivities() {

@@ -1,10 +1,8 @@
 package com.meetup.teame.backend.domain.review.service;
 
-import com.meetup.teame.backend.domain.chatroom.repository.DirectChatRoomRepository;
-import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.review.dto.request.CreateReviewReq;
 import com.meetup.teame.backend.domain.review.dto.response.ReadReviewsByMeRes;
-import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
+import com.meetup.teame.backend.domain.review.dto.response.ReviewByMeRes;
 import com.meetup.teame.backend.domain.review.entity.Review;
 import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
 import com.meetup.teame.backend.domain.user.entity.User;
@@ -14,8 +12,6 @@ import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -40,5 +36,11 @@ public class ReviewService {
         User user = userRepository.findById(5L)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadReviewsByMeRes.of(reviewRepository.findByMentee(user));
+    }
+
+    public ReviewByMeRes readReview(Long reviewId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_REVIEW));
+        return ReviewByMeRes.of(review);
     }
 }

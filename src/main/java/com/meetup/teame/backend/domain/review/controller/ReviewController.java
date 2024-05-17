@@ -1,9 +1,8 @@
 package com.meetup.teame.backend.domain.review.controller;
 
 import com.meetup.teame.backend.domain.review.dto.request.CreateReviewReq;
-import com.meetup.teame.backend.domain.review.dto.response.ReadReviewsAboutMeRes;
 import com.meetup.teame.backend.domain.review.dto.response.ReadReviewsByMeRes;
-import com.meetup.teame.backend.domain.review.dto.response.ReviewRes;
+import com.meetup.teame.backend.domain.review.dto.response.ReviewByMeRes;
 import com.meetup.teame.backend.domain.review.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,6 +30,15 @@ public class ReviewController {
         return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "후기 보내기 페이지에서 해당 배움 정보 보기", description = """
+            후기 보내기 페이지에서 해당 배움 정보 보기 api 입니다.
+            """)
+    @GetMapping("/{reviewId}")
+    public ResponseEntity<ReviewByMeRes> readReview(@PathVariable Long reviewId) {
+        return ResponseEntity
+                .ok(reviewService.readReview(reviewId));
+    }
+
     @Operation(summary = "나의 배움 내역 보기", description = """
             나의 배움 내역 보기 api 입니다.
             """)
@@ -40,14 +48,14 @@ public class ReviewController {
                 .ok(reviewService.readReviewsByMe());
     }
 
-    @Operation(summary = "나의 후기 보기", description = """
-            나의 후기 보기 api 입니다.
-            """)
-    @GetMapping("/aboutme")
-    public ResponseEntity<ReadReviewsAboutMeRes> readReviewsAboutMe() {
-        //todo api 작성
-        return null;
-//        return ResponseEntity
-//                .ok(reviewService.readReviewsAboutMe());
-    }
+//    @Operation(summary = "나의 후기 보기", description = """
+//            나의 후기 보기 api 입니다.
+//            """)
+//    @GetMapping("/aboutme")
+//    public ResponseEntity<ReadReviewsAboutMeRes> readReviewsAboutMe() {
+//        //todo api 작성
+//        return null;
+////        return ResponseEntity
+////                .ok(reviewService.readReviewsAboutMe());
+//    }
 }
