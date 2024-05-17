@@ -9,7 +9,6 @@ import java.util.Locale;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Getter
 @Builder
@@ -29,7 +28,7 @@ public class ActivitySummaryRes {
 
     private String activityThumbnail;
 
-    private boolean isLiked = false;
+    private boolean isLiked;
 
     public static ActivitySummaryRes of(Activity activity, boolean isLiked) {
 

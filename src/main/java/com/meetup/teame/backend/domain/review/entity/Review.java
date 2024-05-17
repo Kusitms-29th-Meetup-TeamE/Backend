@@ -28,6 +28,7 @@ public class Review {
 
     private String appointmentDetail;
 
+    @Enumerated(EnumType.STRING)
     private ExperienceType appointmentType;
 
     private String appointmentTitle;
