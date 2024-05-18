@@ -1,12 +1,10 @@
 package com.meetup.teame.backend.domain.user.dto.response;
 
-import com.meetup.teame.backend.domain.chatroom.entity.Appointment;
 import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
 import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
