@@ -1,25 +1,26 @@
 package com.meetup.teame.backend.domain.user.service;
 
 import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
+import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
 import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
 import com.meetup.teame.backend.domain.chatroom.repository.DirectChatRoomRepository;
 import com.meetup.teame.backend.domain.chatroom.repository.GroupChatRoomRepository;
 import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
+import com.meetup.teame.backend.domain.experience.entity.Experience;
+import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
 import com.meetup.teame.backend.domain.review.dto.response.MyReviewRes;
 import com.meetup.teame.backend.domain.review.entity.Review;
 import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
+import com.meetup.teame.backend.domain.user.dto.request.MyExperienceReq;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.ReadCalenderReq;
 import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
-import com.meetup.teame.backend.domain.user.dto.response.ReadCalenderRes;
-import com.meetup.teame.backend.domain.user.dto.response.ReadExperienceProfileRes;
-import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
-import com.meetup.teame.backend.domain.user.dto.response.UserInfoRes;
+import com.meetup.teame.backend.domain.user.dto.response.*;
 import com.meetup.teame.backend.domain.user.entity.Gender;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.repository.UserRepository;
@@ -148,10 +149,27 @@ public class UserService {
         );
     }
 
-    /*public ReadExperienceProfileRes createExperienceProfile() {
+    @Transactional
+    public String createExperienceProfile(MyExperienceReq req) {
         Long userId = SecurityContextProvider.getAuthenticatedUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
 
-    }*/
+        user.setOneWord(req.getIntroduce());
+        Experience experience = Experience.of(req, user);
+        experienceRepository.save(experience);
+        return "배움 프로필 생성 성공";
+    }
+
+    public ReadExperienceProfileRes getExperienceProfile() {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
+
+        List<Experience> experiences = experienceRepository.findAllByUser(user);
+        List<MyExperienceRes> myExperienceRes = experiences.stream()
+                .map(MyExperienceRes::of)
+                .toList();
+        return ReadExperienceProfileRes.of(user, myExperienceRes);
+    }
 }

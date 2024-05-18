@@ -51,6 +51,9 @@ public class User {
     @Comment("사용자 포인트")
     private Long point;
 
+    @Comment("한마디")
+    private String oneWord;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Experience> experiences;
 
@@ -76,6 +79,10 @@ public class User {
 
     public void setPersonalities(List<Personality> personalities) {
         this.personalities = personalities;
+    }
+
+    public void setOneWord(String oneWord) {
+        this.oneWord = oneWord;
     }
 
     public void update(UpdateUserReq request) {

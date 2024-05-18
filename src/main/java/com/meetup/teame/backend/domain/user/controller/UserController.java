@@ -2,13 +2,11 @@ package com.meetup.teame.backend.domain.user.controller;
 
 import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
 import com.meetup.teame.backend.domain.review.dto.response.MyReviewRes;
+import com.meetup.teame.backend.domain.user.dto.request.MyExperienceReq;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.ReadCalenderReq;
 import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
-import com.meetup.teame.backend.domain.user.dto.response.ReadCalenderRes;
-import com.meetup.teame.backend.domain.user.dto.response.ReadExperienceProfileRes;
-import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
-import com.meetup.teame.backend.domain.user.dto.response.UserInfoRes;
+import com.meetup.teame.backend.domain.user.dto.response.*;
 import com.meetup.teame.backend.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -127,9 +125,15 @@ public class UserController {
         return ResponseEntity.ok().body(myActivities);
     }
 
-   /* @PostMapping("/experience-profile")
-    public ResponseEntity<ReadExperienceProfileRes> createExperienceProfile() {
-        ReadExperienceProfileRes profile = userService.createExperienceProfile();
-        return ResponseEntity.ok().body(profile);
-    }*/
+    @PostMapping("/experience-profile")
+    public ResponseEntity<String> createExperienceProfile(@RequestBody MyExperienceReq request) {
+        String response = userService.createExperienceProfile(request);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/experience-profile")
+    public ResponseEntity<ReadExperienceProfileRes> getExperienceProfile() {
+        ReadExperienceProfileRes response = userService.getExperienceProfile();
+        return ResponseEntity.ok().body(response);
+    }
 }
