@@ -81,6 +81,10 @@ public class User {
         this.personalities = personalities;
     }
 
+    public void setOneWord(String oneWord) {
+        this.oneWord = oneWord;
+    }
+
     public void update(UpdateUserReq request) {
         this.name = request.getName();
         this.email = request.getEmail();
