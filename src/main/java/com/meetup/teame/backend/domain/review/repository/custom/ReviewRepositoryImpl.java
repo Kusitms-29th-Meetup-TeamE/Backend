@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import static com.meetup.teame.backend.domain.experience.entity.QExperience.experience;
-import static com.meetup.teame.backend.domain.review.entity.QReview.review;
+
 
 @RequiredArgsConstructor
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
