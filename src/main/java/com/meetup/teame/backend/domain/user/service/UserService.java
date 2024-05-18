@@ -49,7 +49,9 @@ public class UserService {
     private final ActivityLikeRepository activityLikeRepository;
 
     public ReadMainRes readMainPage() {
-        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        Long userId = 5L;
+        if(!SecurityContextProvider.isAnonymousUser())
+            userId = SecurityContextProvider.getAuthenticatedUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadMainRes.of(
