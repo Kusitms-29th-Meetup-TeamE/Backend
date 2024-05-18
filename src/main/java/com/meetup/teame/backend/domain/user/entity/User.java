@@ -51,6 +51,9 @@ public class User {
     @Comment("사용자 포인트")
     private Long point;
 
+    @Comment("사용자 한마디")
+    private String oneWord;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Experience> experiences;
 
