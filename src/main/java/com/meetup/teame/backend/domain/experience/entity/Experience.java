@@ -1,6 +1,7 @@
 package com.meetup.teame.backend.domain.experience.entity;
 
 import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
+import com.meetup.teame.backend.domain.user.dto.request.MyExperienceReq;
 import com.meetup.teame.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -45,10 +46,11 @@ public class Experience {
     @OneToMany(mappedBy = "experience", cascade = CascadeType.ALL)
     private List<DirectChatRoom> directChatRooms;
 
-    public static Experience of(ExperienceType type, String description, User user) {
+    public static Experience of(MyExperienceReq req, User user) {
         return Experience.builder()
-                .type(type)
-                .description(description)
+                .description(req.getTitle())
+                .type(ExperienceType.of(req.getExperienceType()))
+                .detail(req.getDetail())
                 .user(user)
                 .reviewCount(0L)
                 .build();
