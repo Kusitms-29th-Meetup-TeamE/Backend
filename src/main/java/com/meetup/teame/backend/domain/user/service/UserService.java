@@ -17,6 +17,7 @@ import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.ReadCalenderReq;
 import com.meetup.teame.backend.domain.user.dto.request.UpdateUserReq;
 import com.meetup.teame.backend.domain.user.dto.response.ReadCalenderRes;
+import com.meetup.teame.backend.domain.user.dto.response.ReadExperienceProfileRes;
 import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
 import com.meetup.teame.backend.domain.user.dto.response.UserInfoRes;
 import com.meetup.teame.backend.domain.user.entity.Gender;
@@ -47,7 +48,9 @@ public class UserService {
     private final ActivityLikeRepository activityLikeRepository;
 
     public ReadMainRes readMainPage() {
-        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        Long userId = 5L;
+        if(!SecurityContextProvider.isAnonymousUser())
+            userId = SecurityContextProvider.getAuthenticatedUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadMainRes.of(
@@ -146,4 +149,11 @@ public class UserService {
                 groupChatRoomRepository.findAppointmentForUserInMonth(user, readCalenderReq.getYear(), readCalenderReq.getMonth())
         );
     }
+
+    /*public ReadExperienceProfileRes createExperienceProfile() {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
+
+    }*/
 }
