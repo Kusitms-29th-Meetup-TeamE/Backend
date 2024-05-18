@@ -1,6 +1,7 @@
 package com.meetup.teame.backend.domain.experience.controller;
 
 import com.meetup.teame.backend.domain.experience.dto.request.ReadExperiencesReq;
+import com.meetup.teame.backend.domain.experience.dto.response.ReadExperienceDetailRes;
 import com.meetup.teame.backend.domain.experience.dto.response.ReadExperiencesRes;
 import com.meetup.teame.backend.domain.experience.dto.response.MyExperienceProfileRes;
 import com.meetup.teame.backend.domain.experience.service.ExperienceService;
@@ -46,5 +47,19 @@ public class ExperienceController {
     @GetMapping("/profile")
     public ResponseEntity<MyExperienceProfileRes> readMyExperienceProfile() {
         return ResponseEntity.ok(experienceService.readMyExperienceProfile());
+    }
+
+    @Operation(summary = "배움나누기 페이지 경험 상세 조회", description = """
+            배움 나누기 페이지의 경험 상세를 조회합니다.
+            
+            jwt토큰도 같이 전달해서 요청해주셔야 합니다.
+            
+            url 경로 파라미터로 다음과 같은 값을 전달해주셔야 합니다.
+            
+            experienceId : 조회할 경험의 id
+            """)
+    @GetMapping("/{experienceId}")
+    public ResponseEntity<ReadExperienceDetailRes> readExperienceDetail(@PathVariable Long experienceId) {
+        return ResponseEntity.ok(experienceService.readExperienceDetail(experienceId));
     }
 }
