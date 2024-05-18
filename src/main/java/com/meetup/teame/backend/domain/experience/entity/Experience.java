@@ -27,7 +27,7 @@ public class Experience {
     @Enumerated(EnumType.STRING)
     private ExperienceType type;
 
-    @Comment("경험 설명")
+    @Comment("경험 제목")
     private String description;
 
     @Comment("경험 상세 내용")

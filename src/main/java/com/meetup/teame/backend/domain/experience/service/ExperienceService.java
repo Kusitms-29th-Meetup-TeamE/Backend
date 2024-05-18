@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.experience.service;
 
+import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.experience.dto.request.ReadExperiencesReq;
 import com.meetup.teame.backend.domain.experience.dto.response.ReadExperiencesRes;
 import com.meetup.teame.backend.domain.experience.dto.response.MyExperienceProfileRes;
@@ -38,9 +39,9 @@ public class ExperienceService {
     }
 
     public MyExperienceProfileRes readMyExperienceProfile() {
-        //todo : 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
         //todo 1+N문제 발생가능 테스트해보고 default_fetch_batch_size 적용
-        User user = userRepository.findById(5L)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return MyExperienceProfileRes.of(user);
     }

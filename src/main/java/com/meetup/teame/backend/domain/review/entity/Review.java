@@ -26,11 +26,13 @@ public class Review {
     @Comment("내용")
     private String content;
 
+    @Comment("경험 상세 내용")
     private String appointmentDetail;
 
     @Enumerated(EnumType.STRING)
     private ExperienceType appointmentType;
 
+    @Comment("경험 제목")
     private String appointmentTitle;
 
     @ManyToOne(fetch = FetchType.LAZY)

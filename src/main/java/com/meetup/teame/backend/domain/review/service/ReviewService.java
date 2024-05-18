@@ -1,5 +1,6 @@
 package com.meetup.teame.backend.domain.review.service;
 
+import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.review.dto.request.CreateReviewReq;
 import com.meetup.teame.backend.domain.review.dto.response.ReadReviewsByMeRes;
 import com.meetup.teame.backend.domain.review.dto.response.ReviewByMeRes;
@@ -32,8 +33,8 @@ public class ReviewService {
     }
 
     public ReadReviewsByMeRes readReviewsByMe() {
-        //todo : 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
-        User user = userRepository.findById(5L)
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadReviewsByMeRes.of(reviewRepository.findByMentee(user));
     }

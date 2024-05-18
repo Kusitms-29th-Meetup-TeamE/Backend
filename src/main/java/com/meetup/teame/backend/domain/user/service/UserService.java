@@ -10,6 +10,7 @@ import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
+import com.meetup.teame.backend.domain.review.dto.response.MyReviewRes;
 import com.meetup.teame.backend.domain.review.entity.Review;
 import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
@@ -46,8 +47,8 @@ public class UserService {
     private final ActivityLikeRepository activityLikeRepository;
 
     public ReadMainRes readMainPage() {
-        //todo 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
-        User user = userRepository.findById(5L)
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadMainRes.of(
                 activityRepository.findActivitiesForUser(user),
@@ -97,15 +98,15 @@ public class UserService {
         return UserInfoRes.of(updatedUser);
     }
 
-//    //내 후기 조회
-//    public List<MyReviewRes> getMyReviews(String type) {
-//        Long userId = SecurityContextProvider.getAuthenticatedUserId();
-//        List<Review> myReviews = reviewRepository.findReviewsByUserId(userId, type);
-//        List<MyReviewRes> reviews = myReviews.stream()
-//                .map(MyReviewRes::of)
-//                .toList();
-//        return reviews;
-//    }
+    //내 후기 조회
+    public List<MyReviewRes> getMyReviews(String type) {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        List<Review> myReviews = reviewRepository.findReviewsByUserId(userId, type);
+        List<MyReviewRes> reviews = myReviews.stream()
+                .map(MyReviewRes::of)
+                .toList();
+        return reviews;
+    }
 
     //내 활동 조회
     public List<ActivitySummaryRes> getMyActivities() {
@@ -126,8 +127,8 @@ public class UserService {
 
     @Transactional
     public void setUserPersonality(OnboardingReq onboardingReq) {
-        //todo 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
-        User user = userRepository.findById(5L)
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         List<Personality> personalities = onboardingReq.getPersonalities().stream()
                 .map(Personality::of)
@@ -136,8 +137,8 @@ public class UserService {
     }
 
     public ReadCalenderRes readCalender(ReadCalenderReq readCalenderReq) {
-        //todo 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
-        User user = userRepository.findById(5L)
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadCalenderRes.of(
                 groupChatRoomRepository.findActivityForUserInMonth(user, readCalenderReq.getYear(), readCalenderReq.getMonth()),
