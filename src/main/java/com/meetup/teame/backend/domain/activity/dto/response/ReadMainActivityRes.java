@@ -14,6 +14,7 @@ import java.util.Locale;
 @Getter
 public class ReadMainActivityRes {
     private List<String> personalities;
+    private String imageUrl;
     private Boolean isLiked;
     private String title;
     private Long currentParticipants;
@@ -29,6 +30,7 @@ public class ReadMainActivityRes {
                                 .map(Personality::getDescription)
                                 .toList()
                 )
+                .imageUrl(activity.getImageUrl())
                 .isLiked(isLiked)
                 .title(activity.getTitle())
                 .currentParticipants(activity.getCurrentParticipants())

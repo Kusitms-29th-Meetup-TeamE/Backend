@@ -33,7 +33,7 @@ public class KakaoController {
             등록되지 않은 사용자면 "/sign-up"을 요청해서 거주지 정보를 추가로 받아줘야 합니다.
             """)
     @GetMapping("/login/kakao")
-    public ResponseEntity<Object> kakaoLogin(@RequestParam String code) throws JsonProcessingException {
+    public ResponseEntity<CreateOauthUserRequest> kakaoLogin(@RequestParam String code) throws JsonProcessingException {
         String kakaoAccessToken = kakaoService.getKakaoAccessToken(code); //인가코드로 카카오 엑세스 토큰 받아오기
         CreateOauthUserRequest request = kakaoService.getKakaoInfo(kakaoAccessToken); //엑세스 토큰으로 카카오 사용자 정보 받아오기
         boolean checkExist = loginService.userExists(request.getEmail());
@@ -41,7 +41,7 @@ public class KakaoController {
             User user = userRepository.findByEmail(request.getEmail());
             HttpHeaders headers = kakaoService.getLoginHeader(user);
 
-            return ResponseEntity.ok().headers(headers).body("login");
+            return ResponseEntity.ok().headers(headers).body(request);
             //로그인 처리하기
         } else { //신규 회원
             return ResponseEntity.ok().body(request);
