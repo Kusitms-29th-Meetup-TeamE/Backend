@@ -1,8 +1,10 @@
 package com.meetup.teame.backend.domain.experience.service;
 
 import com.meetup.teame.backend.domain.experience.dto.request.ReadExperiencesReq;
+import com.meetup.teame.backend.domain.experience.dto.response.ReadExperienceDetailRes;
 import com.meetup.teame.backend.domain.experience.dto.response.ReadExperiencesRes;
 import com.meetup.teame.backend.domain.experience.dto.response.MyExperienceProfileRes;
+import com.meetup.teame.backend.domain.experience.entity.Experience;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.repository.UserRepository;
@@ -43,5 +45,12 @@ public class ExperienceService {
         User user = userRepository.findById(5L)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return MyExperienceProfileRes.of(user);
+    }
+
+
+    public ReadExperienceDetailRes readExperienceDetail(Long experienceId) {
+        Experience experience = experienceRepository.findById(experienceId)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_EXPERIENCE));
+        return ReadExperienceDetailRes.of(experience);
     }
 }
