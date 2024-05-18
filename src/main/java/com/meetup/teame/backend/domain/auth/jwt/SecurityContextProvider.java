@@ -16,4 +16,8 @@ public class SecurityContextProvider {
         }
         return (Long) principal;
     }
+
+    public static Boolean isAuthenticated() {
+        return Objects.nonNull(SecurityContextHolder.getContext().getAuthentication());
+    }
 }
