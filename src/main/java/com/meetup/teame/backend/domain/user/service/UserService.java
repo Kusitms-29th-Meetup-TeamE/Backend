@@ -51,7 +51,7 @@ public class UserService {
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadMainRes.of(
                 activityRepository.findActivitiesForUser(user),
-                experienceRepository.findAll(),
+                experienceRepository.findExperiencesForMain(),
                 2500
         );
     }

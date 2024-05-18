@@ -60,4 +60,13 @@ public class ExperienceRepositoryImpl implements ExperienceRepositoryCustom {
                 .where(builder)
                 .fetchOne();
     }
+
+    @Override
+    public List<Experience> findExperiencesForMain() {
+        return jpaQueryFactory
+                .selectFrom(experience)
+                .orderBy(experience.createdAt.desc())
+                .limit(4)
+                .fetch();
+    }
 }

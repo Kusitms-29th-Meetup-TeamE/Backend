@@ -24,6 +24,8 @@ public class ActivityRepositoryImpl implements ActivityRepositoryCustom {
                 .select(activity)
                 .from(activity)
                 .where(activity.personalities.any().in(user.getPersonalities()))
+                .orderBy(activity.id.desc())
+                .limit(3L)
                 .fetch();
     }
 
