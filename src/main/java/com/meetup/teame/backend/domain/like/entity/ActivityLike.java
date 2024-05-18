@@ -26,4 +26,11 @@ public class ActivityLike {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public static ActivityLike of(Activity activity, User user) {
+        return ActivityLike.builder()
+                .activity(activity)
+                .user(user)
+                .build();
+    }
 }
