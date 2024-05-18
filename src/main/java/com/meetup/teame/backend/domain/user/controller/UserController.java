@@ -125,12 +125,22 @@ public class UserController {
         return ResponseEntity.ok().body(myActivities);
     }
 
+    @Operation(summary = "배움 프로필 생성", description = """
+            배움 프로필 생성 api입니다.
+            
+            배움 제목(title), 배움 유형(experienceType), detail, 나의 한마디(introduce)를 입력헤주세요.
+            """)
     @PostMapping("/experience-profile")
     public ResponseEntity<String> createExperienceProfile(@RequestBody MyExperienceReq request) {
         String response = userService.createExperienceProfile(request);
         return ResponseEntity.ok().body(response);
     }
 
+
+    @Operation(summary = "배움 프로필 조회", description = """
+            배움 프로필 조회 api입니다.
+            
+            """)
     @GetMapping("/experience-profile")
     public ResponseEntity<ReadExperienceProfileRes> getExperienceProfile() {
         ReadExperienceProfileRes response = userService.getExperienceProfile();
