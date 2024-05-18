@@ -2,6 +2,7 @@ package com.meetup.teame.backend.domain.chatroom.service;
 
 import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
+import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.chatroom.dto.response.DirectChatRoomRes;
 import com.meetup.teame.backend.domain.chatroom.dto.response.GroupChatRoomRes;
 import com.meetup.teame.backend.domain.chatroom.dto.response.ReadDirectChatRoomsRes;
@@ -39,8 +40,8 @@ public class ChatRoomService {
     private final ChattingRepository chattingRepository;
 
     public ReadGroupChatRoomsRes readGroupChatRooms() {
-        //todo : 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
-        User user = userRepository.findById(5L)
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadGroupChatRoomsRes.of(
                 user,
@@ -56,8 +57,8 @@ public class ChatRoomService {
     }
 
     public ReadDirectChatRoomsRes readDirectChatRooms() {
-        //todo : 현재는 더미 유저지만 추후에는 SecurityContextHolder 정보를 조회해서 유저 정보를 가져와야 함
-        User user = userRepository.findById(5L)
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return ReadDirectChatRoomsRes.of(
                 user,
@@ -74,8 +75,8 @@ public class ChatRoomService {
 
     @Transactional
     public Long joinGroupChatRoom(Long activityId) {
-        //todo SecurityContextHolder 적용
-        User user = userRepository.findById(5L)
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         GroupChatRoom groupChatRoom = groupChatRoomRepository.findByActivityId(activityId)
                 .orElseGet(() -> {
@@ -91,8 +92,8 @@ public class ChatRoomService {
 
     @Transactional
     public Long joinDirectChatRoom(Long experienceId) {
-        //todo SecurityContextHolder 적용
-        User user = userRepository.findById(5L)
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         Experience experience = experienceRepository.findById(experienceId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_EXPERIENCE));
