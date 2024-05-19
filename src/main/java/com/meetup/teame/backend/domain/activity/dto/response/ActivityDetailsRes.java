@@ -37,7 +37,7 @@ public class ActivityDetailsRes {
 
     private List<Personality> personalities;
 
-    private List<String> activityImgs;
+    private String imageUrl;
 
     public static ActivityDetailsRes of(Activity activity) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 EEEE", new Locale("ko", "KR"));
@@ -46,13 +46,13 @@ public class ActivityDetailsRes {
                 .id(activity.getId())
                 .title(activity.getTitle())
                 .agency(activity.getAgency())
-                .agency(activity.getAgencyType().getDescription())
+                .agencyType(activity.getAgencyType().getDescription())
                 .location(activity.getLocation())
                 .time(activity.getTime().format(formatter))
                 .currentParticipants(activity.getCurrentParticipants())
                 .maxParticipants(activity.getMaxParticipants())
                 .personalities(activity.getPersonalities())
-                .activityImgs(activity.getActivityImgs())
+                .imageUrl(activity.getImageUrl())
                 .build();
     }
 }
