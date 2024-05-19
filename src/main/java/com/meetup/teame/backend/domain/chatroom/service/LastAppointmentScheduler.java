@@ -40,6 +40,7 @@ public class LastAppointmentScheduler {
             ));
             directChatRoom.setLastAppointment(directChatRoom.getNextAppointment());
             directChatRoom.setNextAppointment(null);
+            directChatRoom.getExperience().incrementReviewCount();
         }
         reviewRepository.saveAll(reviews);
 

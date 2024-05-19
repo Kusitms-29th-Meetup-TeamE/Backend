@@ -8,7 +8,9 @@ import lombok.*;
 @Getter
 @Builder
 public class ExperienceRes {
+    private Long id;
     private String type;
+    private String title;
     private String imageUrl;
     private String name;
     private Long age;
@@ -18,7 +20,9 @@ public class ExperienceRes {
 
     public static ExperienceRes of(Experience experience) {
         return ExperienceRes.builder()
+                .id(experience.getId())
                 .type(experience.getType().getDescription())
+                .title(experience.getDescription())
                 .imageUrl(experience.getUser().getImageUrl())
                 .name(experience.getUser().getName())
                 .age(experience.getUser().getAge())

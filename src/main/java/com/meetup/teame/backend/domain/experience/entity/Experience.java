@@ -55,4 +55,8 @@ public class Experience {
                 .reviewCount(0L)
                 .build();
     }
+
+    public void incrementReviewCount() {
+        this.reviewCount++;
+    }
 }
