@@ -107,6 +107,7 @@ public class ChatRoomService {
         if (userChatRoomRepository.existsByChatRoomIdAndUserId(directChatRoom.getId(), user.getId()))
             throw new CustomException(ExceptionContent.BAD_REQUEST_ALREADY_JOIN_CHATROOM);
         userChatRoomRepository.save(UserChatRoom.of(directChatRoom, user));
+        userChatRoomRepository.save(UserChatRoom.of(directChatRoom, experience.getUser()));
         return directChatRoom.getId();
     }
 }
