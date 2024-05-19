@@ -80,4 +80,8 @@ public class Activity {
                 .imageUrl(imageUrl)
                 .build();
     }
+
+    public void incrementCurrentParticipants() {
+        this.currentParticipants++;
+    }
 }

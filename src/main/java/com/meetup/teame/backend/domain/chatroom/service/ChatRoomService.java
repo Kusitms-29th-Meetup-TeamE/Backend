@@ -75,18 +75,19 @@ public class ChatRoomService {
 
     @Transactional
     public Long joinGroupChatRoom(Long activityId) {
+        Activity activity = activityRepository.findById(activityId)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_ACTIVITY));
         Long userId = SecurityContextProvider.getAuthenticatedUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         GroupChatRoom groupChatRoom = groupChatRoomRepository.findByActivityId(activityId)
                 .orElseGet(() -> {
-                    Activity activity = activityRepository.findById(activityId)
-                            .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_ACTIVITY));
                     return groupChatRoomRepository.save(GroupChatRoom.of(activity));
                 });
         if (userChatRoomRepository.existsByChatRoomIdAndUserId(groupChatRoom.getId(), user.getId()))
             throw new CustomException(ExceptionContent.BAD_REQUEST_ALREADY_JOIN_CHATROOM);
         userChatRoomRepository.save(UserChatRoom.of(groupChatRoom, user));
+        activity.incrementCurrentParticipants();
         return groupChatRoom.getId();
     }
 

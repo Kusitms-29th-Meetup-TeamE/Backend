@@ -28,7 +28,7 @@ public class ExperienceRes {
                 .age(experience.getUser().getAge())
                 .gender(experience.getUser().getGender().getDescription())
                 .location(experience.getUser().getLocation())
-                .message(experience.getDescription())
+                .message(experience.getDetail())
                 .build();
     }
 }
