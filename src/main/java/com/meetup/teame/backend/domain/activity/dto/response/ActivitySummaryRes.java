@@ -32,13 +32,6 @@ public class ActivitySummaryRes {
 
     public static ActivitySummaryRes of(Activity activity, boolean isLiked) {
 
-        List<String> activityImgs = activity.getActivityImgs();
-        String activityThumbnail = null;
-        //String activityThumbnail = activityImgs.get(0);
-        if (!activityImgs.isEmpty()) {
-            activityThumbnail = activityImgs.get(0);
-        }
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 EEEE", new Locale("ko", "KR"));
 
         return ActivitySummaryRes.builder()
@@ -46,8 +39,9 @@ public class ActivitySummaryRes {
                 .title(activity.getTitle())
                 .agency(activity.getAgency())
                 .agencyType(activity.getAgencyType().getDescription())
+                .location(activity.getLocation())
                 .time(activity.getTime().format(formatter))
-                .activityThumbnail(activityThumbnail)
+                .activityThumbnail(activity.getImageUrl())
                 .isLiked(isLiked)
                 .build();
     }
