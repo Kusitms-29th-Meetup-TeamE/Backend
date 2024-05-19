@@ -26,6 +26,9 @@ public class Activity {
     @Comment("활동 제목")
     private String title;
 
+    @Comment("활동 설명")
+    private String description;
+
     @Comment("활동 제공 기관")
     private String agency;
 
@@ -65,9 +68,10 @@ public class Activity {
     @OneToOne(mappedBy = "activity", cascade = CascadeType.ALL)
     private GroupChatRoom groupChatRoom;
 
-    public static Activity of(String title, String location, LocalDateTime time, Long maxParticipants, List<Personality> personalities, String imageUrl) {
+    public static Activity of(String title, String description, String location, LocalDateTime time, Long maxParticipants, List<Personality> personalities, String imageUrl) {
         return Activity.builder()
                 .title(title)
+                .description(description)
                 .location(location)
                 .time(time)
                 .currentParticipants(0L)

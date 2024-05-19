@@ -23,6 +23,8 @@ public class ActivityDetailsRes {
 
     private String title;
 
+    private String description;
+
     private String agency;
 
     private String agencyType;
@@ -45,6 +47,7 @@ public class ActivityDetailsRes {
         return ActivityDetailsRes.builder()
                 .id(activity.getId())
                 .title(activity.getTitle())
+                .description(activity.getDescription())
                 .agency(activity.getAgency())
                 .agencyType(activity.getAgencyType().getDescription())
                 .location(activity.getLocation())
