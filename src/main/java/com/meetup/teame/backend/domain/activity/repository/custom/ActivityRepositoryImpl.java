@@ -30,17 +30,15 @@ public class ActivityRepositoryImpl implements ActivityRepositoryCustom {
     }
 
     @Override
-    public List<Activity> findByAgencyAndPersonalities(long offset, long limit, AgencyType agencyType, List<Personality> personalities) {
+    public List<Activity> findByAgencyAndPersonalities(long offset, long limit, List<AgencyType> agencyTypes, List<Personality> personalities) {
         BooleanBuilder builder = new BooleanBuilder();
 
         // agencyType나 personalities가 입력된 경우 해당 값으로 필터링
-        if (agencyType != null || (personalities != null && !personalities.isEmpty())) {
-            if (agencyType != null) {
-                builder.and(activity.agencyType.eq(agencyType));
-            }
-            if (personalities != null && !personalities.isEmpty()) {
-                builder.and(activity.personalities.any().in(personalities));
-            }
+        if (agencyTypes != null && !agencyTypes.isEmpty()) {
+            builder.and(activity.agencyType.in(agencyTypes));
+        }
+        if (personalities != null && !personalities.isEmpty()) {
+            builder.and(activity.personalities.any().in(personalities));
         }
 
         return jpaQueryFactory
@@ -53,7 +51,7 @@ public class ActivityRepositoryImpl implements ActivityRepositoryCustom {
     }
 
     @Override
-    public List<Activity> findLikedActivities(Long userId, long offset, long limit, AgencyType agencyType, List<Personality> personalities) {
+    public List<Activity> findLikedActivities(Long userId, long offset, long limit, List<AgencyType> agencyTypes, List<Personality> personalities) {
         BooleanBuilder builder = new BooleanBuilder();
 
         // 사용자의 좋아하는 활동 ID 목록을 조회
@@ -72,8 +70,8 @@ public class ActivityRepositoryImpl implements ActivityRepositoryCustom {
         }
 
         // agencyType나 personalities가 입력된 경우 해당 값으로 필터링
-        if (agencyType != null) {
-            builder.and(activity.agencyType.eq(agencyType));
+        if (agencyTypes != null && !agencyTypes.isEmpty()) {
+            builder.and(activity.agencyType.in(agencyTypes));
         }
         if (personalities != null && !personalities.isEmpty()) {
             builder.and(activity.personalities.any().in(personalities));
@@ -90,17 +88,15 @@ public class ActivityRepositoryImpl implements ActivityRepositoryCustom {
 
 
     @Override
-    public Long countActivities(AgencyType agencyType, List<Personality> personalities) {
+    public Long countActivities(List<AgencyType> agencyTypes, List<Personality> personalities) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        // agencyType나 personalities가 입력된 경우 해당 값으로 필터링
-        if (agencyType != null || (personalities != null && !personalities.isEmpty())) {
-            if (agencyType != null) {
-                builder.and(activity.agencyType.eq(agencyType));
-            }
-            if (personalities != null && !personalities.isEmpty()) {
-                builder.and(activity.personalities.any().in(personalities));
-            }
+        // agencyTypes나 personalities가 입력된 경우 해당 값으로 필터링
+        if (agencyTypes != null && !agencyTypes.isEmpty()) {
+            builder.and(activity.agencyType.in(agencyTypes));
+        }
+        if (personalities != null && !personalities.isEmpty()) {
+            builder.and(activity.personalities.any().in(personalities));
         }
 
         return jpaQueryFactory
