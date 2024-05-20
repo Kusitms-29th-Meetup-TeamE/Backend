@@ -66,6 +66,7 @@ public class Review {
 
     public void setContent(String content) {
         this.content = content;
+        this.reviewDate = LocalDate.now();
         this.isWritten=true;
     }
 }
