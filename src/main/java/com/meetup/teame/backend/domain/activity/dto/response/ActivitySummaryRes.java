@@ -18,6 +18,8 @@ public class ActivitySummaryRes {
 
     private String title;
 
+    private String personality;
+
     private String agency;
 
     private String agencyType;
@@ -37,6 +39,7 @@ public class ActivitySummaryRes {
         return ActivitySummaryRes.builder()
                 .id(activity.getId())
                 .title(activity.getTitle())
+                .personality(activity.getPersonalities().get(0).getDescription())
                 .agency(activity.getAgency())
                 .agencyType(activity.getAgencyType().getDescription())
                 .location(activity.getLocation())
