@@ -58,22 +58,23 @@ public class ActivityService {
         long page = activitiesReq.getPage();
         long offset = page * ACTIVITY_PAGE_SIZE;
         long limit = ACTIVITY_PAGE_SIZE;
-        AgencyType agencyType = null;
+        /*AgencyType agencyType = null;
         if (activitiesReq.getAgencyType() != null) {
             agencyType = AgencyType.of(activitiesReq.getAgencyType());
-        }
+        }*/
+        List<AgencyType> agencyTypes = activitiesReq.getAgencyTypes().stream()
+                .map(AgencyType::of)
+                .collect(Collectors.toList());
         List<Personality> personalities = activitiesReq.getPersonalities().stream()
                 .map(Personality::of)
                 .collect(Collectors.toList());
-        //long totalCount = activityRepository.countActivities(agencyType, personalities);
-        //long pageCount = (totalCount + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
-        long pageCount = activityRepository.countActivities(agencyType, personalities) / ACTIVITY_PAGE_SIZE + 1; // 전체 페이지 수 계산
 
+        long pageCount = activityRepository.countActivities(agencyTypes, personalities) / ACTIVITY_PAGE_SIZE + 1; // 전체 페이지 수 계산
 
         List<Long> likedActivityIds = activityLikeRepository.findLikedActivityIdsByUserId(userId);
         Set<Long> likedActivityIdsSet = new HashSet<>(likedActivityIds);
 
-        List<Activity> activities = activityRepository.findByAgencyAndPersonalities(offset, limit, agencyType, personalities);
+        List<Activity> activities = activityRepository.findByAgencyAndPersonalities(offset, limit, agencyTypes, personalities);
         List<ActivitySummaryRes> activitySummaries = activities.stream()
                 .map(activity -> ActivitySummaryRes.of(activity, likedActivityIdsSet.contains(activity.getId())))
                 .toList();
@@ -89,20 +90,23 @@ public class ActivityService {
         Long page = activitiesReq.getPage();
         long offset = page * ACTIVITY_PAGE_SIZE;
         long limit = ACTIVITY_PAGE_SIZE;
-        AgencyType agencyType = null;
+        /*AgencyType agencyType = null;
         if (activitiesReq.getAgencyType() != null) {
             agencyType = AgencyType.of(activitiesReq.getAgencyType());
-        }
+        }*/
+        List<AgencyType> agencyTypes = activitiesReq.getAgencyTypes().stream()
+                .map(AgencyType::of)
+                .collect(Collectors.toList());
         List<Personality> personalities = activitiesReq.getPersonalities().stream()
                 .map(Personality::of)
                 .collect(Collectors.toList());
         //long totalCount = activityRepository.countActivities(agencyType, personalities);
-        long pageCount = activityRepository.countActivities(agencyType, personalities) / ACTIVITY_PAGE_SIZE + 1; // 전체 페이지 수 계산
+        long pageCount = activityRepository.countActivities(agencyTypes, personalities) / ACTIVITY_PAGE_SIZE + 1; // 전체 페이지 수 계산
 
         List<Long> likedActivityIds = activityLikeRepository.findLikedActivityIdsByUserId(userId);
         Set<Long> likedActivityIdsSet = new HashSet<>(likedActivityIds);
 
-        List<Activity> activities = activityRepository.findLikedActivities(userId, offset, limit, agencyType, personalities);
+        List<Activity> activities = activityRepository.findLikedActivities(userId, offset, limit, agencyTypes, personalities);
         List<ActivitySummaryRes> activitySummaries = activities.stream()
                 .map(activity -> ActivitySummaryRes.of(activity, likedActivityIdsSet.contains(activity.getId())))
                 .toList();

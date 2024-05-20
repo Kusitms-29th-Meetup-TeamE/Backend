@@ -10,9 +10,9 @@ import java.util.List;
 public interface ActivityRepositoryCustom {
     List<Activity> findActivitiesForUser(User user);
 
-    List<Activity> findByAgencyAndPersonalities(long offset, long limit, AgencyType agencyType, List<Personality> personalities);
+    List<Activity> findByAgencyAndPersonalities(long offset, long limit, List<AgencyType> agencyType, List<Personality> personalities);
 
-    List<Activity> findLikedActivities(Long userId, long offset, long limit, AgencyType agencyType, List<Personality> personalities);
+    List<Activity> findLikedActivities(Long userId, long offset, long limit, List<AgencyType> agencyTypes, List<Personality> personalities);
 
-    Long countActivities(AgencyType agencyType, List<Personality> personalities);
+    Long countActivities(List<AgencyType> agencyTypes, List<Personality> personalities);
 }

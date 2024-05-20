@@ -22,7 +22,7 @@ public class ReadActivitiesReq {
     @Schema(example = "0")
     private long page;
 
-    private String agencyType;
+    private List<String> agencyTypes = new ArrayList<>();
 
     private List<String> personalities = new ArrayList<>();
 }
