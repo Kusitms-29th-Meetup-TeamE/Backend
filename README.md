@@ -1,4 +1,12 @@
 # Backend
+
+### 💡Service Architecture
+<img width="808" alt="또바아키텍처" src="https://github.com/Kusitms-29th-Meetup-TeamE/Backend/assets/129354455/2bc75a11-1f06-42d9-9484-d900d222b2d9">
+
+### 💡ERD
+![또바 erd](https://github.com/Kusitms-29th-Meetup-TeamE/Backend/assets/129354455/bdc92d84-f3ee-44e1-9a0c-835adc8c2723)
+
+
 ### 💡Commit Tag
 
 | commit명 | commit 규칙 |
