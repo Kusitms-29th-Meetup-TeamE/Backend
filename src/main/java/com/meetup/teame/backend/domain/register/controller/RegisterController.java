@@ -3,6 +3,7 @@ package com.meetup.teame.backend.domain.register.controller;
 import com.meetup.teame.backend.domain.auth.oauth.service.KakaoService;
 import com.meetup.teame.backend.domain.email.dto.EmailRequest;
 import com.meetup.teame.backend.domain.email.service.EmailService;
+import com.meetup.teame.backend.domain.login.service.LoginService;
 import com.meetup.teame.backend.domain.register.dto.RegisterRequest;
 import com.meetup.teame.backend.domain.register.service.RegisterService;
 import com.meetup.teame.backend.domain.user.service.UserService;
@@ -24,6 +25,7 @@ public class RegisterController {
     private final EmailService emailService;
     private final KakaoService kakaoService;
     private final UserService userService;
+    private final LoginService loginService;
 
     @Operation(summary = "인증 번호 발송", description = """
             이메일 입력 하고 인증번호 발송하면 이메일로 인증번호 발송합니다.
@@ -32,9 +34,15 @@ public class RegisterController {
             """)
     @PostMapping("/send-email")
     public ResponseEntity<String> sendEmail(@RequestBody EmailRequest request) {
-        int authNumber = emailService.sendMail(request.getEmail());
-        String number = "" + authNumber;
-        return ResponseEntity.ok().body(number);
+        boolean existEmail = loginService.userExists(request.getEmail());
+        if (!existEmail) {
+            int authNumber = emailService.sendMail(request.getEmail());
+            String number = "" + authNumber;
+            return ResponseEntity.ok().body(number);
+        }
+        else{
+            return ResponseEntity.ok().body("이미 등록된 사용자 입니다.");
+        }
     }
 
     //이름, 비밀번호, 생년월일, 거주지 입력
