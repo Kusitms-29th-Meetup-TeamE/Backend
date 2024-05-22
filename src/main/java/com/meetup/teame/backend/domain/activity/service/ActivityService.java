@@ -42,7 +42,6 @@ public class ActivityService {
     //특정 활동 상제 정보 response dto화
     public ActivityDetailsRes getActivityDetails(Long activityId) {
         Activity activity = findActivityById(activityId);
-        //List<String> imageUrls = getImageUrls(activity);
         return ActivityDetailsRes.of(activity);
     }
 
@@ -54,7 +53,10 @@ public class ActivityService {
 
     //활동 목록 필터링으로 조회
     public ReadActivitiesRes findActivities(ReadActivitiesReq activitiesReq) {
-        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        Long userId = 50L;
+        if (!SecurityContextProvider.isAnonymousUser()) {
+            userId = SecurityContextProvider.getAuthenticatedUserId();
+        }
         long page = activitiesReq.getPage();
         long offset = page * ACTIVITY_PAGE_SIZE;
         long limit = ACTIVITY_PAGE_SIZE;
