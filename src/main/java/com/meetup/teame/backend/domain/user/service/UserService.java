@@ -49,7 +49,7 @@ public class UserService {
     private final ActivityLikeRepository activityLikeRepository;
 
     public ReadMainRes readMainPage() {
-        Long userId = 5L;
+        Long userId = 50L;
         if(!SecurityContextProvider.isAnonymousUser())
             userId = SecurityContextProvider.getAuthenticatedUserId();
         User user = userRepository.findById(userId)
