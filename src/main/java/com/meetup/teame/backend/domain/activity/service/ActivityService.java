@@ -66,7 +66,7 @@ public class ActivityService {
                 .map(Personality::of)
                 .collect(Collectors.toList());
 
-        long pageCount = activityRepository.countActivities(agencyTypes, personalities) / ACTIVITY_PAGE_SIZE + 1; // 전체 페이지 수 계산
+        long pageCount = (activityRepository.countActivities(agencyTypes, personalities) + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
 
         List<Long> likedActivityIds = activityLikeRepository.findLikedActivityIdsByUserId(userId);
         Set<Long> likedActivityIdsSet = new HashSet<>(likedActivityIds);
@@ -100,7 +100,7 @@ public class ActivityService {
         List<Long> likedActivityIds = activityLikeRepository.findLikedActivityIdsByUserId(userId);
         Set<Long> likedActivityIdsSet = new HashSet<>(likedActivityIds);
 
-        long pageCount = likedActivityIds.size() / ACTIVITY_PAGE_SIZE + 1;
+        long pageCount = (likedActivityIds.size() + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE;
 
         List<Activity> activities = activityRepository.findLikedActivities(userId, offset, limit, agencyTypes, personalities);
         List<ActivitySummaryRes> activitySummaries = activities.stream()
