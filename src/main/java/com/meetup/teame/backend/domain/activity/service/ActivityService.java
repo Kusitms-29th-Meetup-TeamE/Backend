@@ -58,10 +58,7 @@ public class ActivityService {
         long page = activitiesReq.getPage();
         long offset = page * ACTIVITY_PAGE_SIZE;
         long limit = ACTIVITY_PAGE_SIZE;
-        /*AgencyType agencyType = null;
-        if (activitiesReq.getAgencyType() != null) {
-            agencyType = AgencyType.of(activitiesReq.getAgencyType());
-        }*/
+
         List<AgencyType> agencyTypes = activitiesReq.getAgencyTypes().stream()
                 .map(AgencyType::of)
                 .collect(Collectors.toList());
@@ -87,24 +84,23 @@ public class ActivityService {
     //관심활동 목록 필터링으로 조회
     public ReadActivitiesRes findlikedActivities(ReadActivitiesReq activitiesReq) {
         Long userId = SecurityContextProvider.getAuthenticatedUserId();
-        Long page = activitiesReq.getPage();
+        long page = activitiesReq.getPage();
         long offset = page * ACTIVITY_PAGE_SIZE;
         long limit = ACTIVITY_PAGE_SIZE;
-        /*AgencyType agencyType = null;
-        if (activitiesReq.getAgencyType() != null) {
-            agencyType = AgencyType.of(activitiesReq.getAgencyType());
-        }*/
+
         List<AgencyType> agencyTypes = activitiesReq.getAgencyTypes().stream()
                 .map(AgencyType::of)
                 .collect(Collectors.toList());
         List<Personality> personalities = activitiesReq.getPersonalities().stream()
                 .map(Personality::of)
                 .collect(Collectors.toList());
-        //long totalCount = activityRepository.countActivities(agencyType, personalities);
-        long pageCount = activityRepository.countActivities(agencyTypes, personalities) / ACTIVITY_PAGE_SIZE + 1; // 전체 페이지 수 계산
+
+        //long pageCount = activityRepository.countActivities(agencyTypes, personalities) / ACTIVITY_PAGE_SIZE + 1; // 전체 페이지 수 계산
 
         List<Long> likedActivityIds = activityLikeRepository.findLikedActivityIdsByUserId(userId);
         Set<Long> likedActivityIdsSet = new HashSet<>(likedActivityIds);
+
+        long pageCount = likedActivityIds.size() / ACTIVITY_PAGE_SIZE + 1;
 
         List<Activity> activities = activityRepository.findLikedActivities(userId, offset, limit, agencyTypes, personalities);
         List<ActivitySummaryRes> activitySummaries = activities.stream()
