@@ -12,6 +12,8 @@ import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
 import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
 import com.meetup.teame.backend.domain.personality.Personality;
+import com.meetup.teame.backend.domain.user.entity.User;
+import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import com.meetup.teame.backend.global.exception.CustomException;
 import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,7 @@ public class ActivityService {
     private final AmazonS3 amazonS3;
     private final ActivityRepository activityRepository;
     private final ActivityLikeRepository activityLikeRepository;
+    private final UserRepository userRepository;
 
     private static final int ACTIVITY_PAGE_SIZE = 12;
 
@@ -57,6 +60,9 @@ public class ActivityService {
         if (!SecurityContextProvider.isAnonymousUser()) {
             userId = SecurityContextProvider.getAuthenticatedUserId();
         }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
+
         long page = activitiesReq.getPage();
         long offset = page * ACTIVITY_PAGE_SIZE;
         long limit = ACTIVITY_PAGE_SIZE;
@@ -68,12 +74,14 @@ public class ActivityService {
                 .map(Personality::of)
                 .collect(Collectors.toList());
 
-        long pageCount = (activityRepository.countActivities(agencyTypes, personalities) + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
-
         List<Long> likedActivityIds = activityLikeRepository.findLikedActivityIdsByUserId(userId);
         Set<Long> likedActivityIdsSet = new HashSet<>(likedActivityIds);
 
-        List<Activity> activities = activityRepository.findByAgencyAndPersonalities(offset, limit, agencyTypes, personalities);
+        List<Activity> activities = activityRepository.findByAgencyAndPersonalities(offset, limit, user, agencyTypes, personalities);
+
+        long pageCount = (activities.size() + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
+
+
         List<ActivitySummaryRes> activitySummaries = activities.stream()
                 .map(activity -> ActivitySummaryRes.of(activity, likedActivityIdsSet.contains(activity.getId())))
                 .toList();
@@ -97,14 +105,13 @@ public class ActivityService {
                 .map(Personality::of)
                 .collect(Collectors.toList());
 
-        //long pageCount = activityRepository.countActivities(agencyTypes, personalities) / ACTIVITY_PAGE_SIZE + 1; // 전체 페이지 수 계산
-
         List<Long> likedActivityIds = activityLikeRepository.findLikedActivityIdsByUserId(userId);
         Set<Long> likedActivityIdsSet = new HashSet<>(likedActivityIds);
 
-        long pageCount = (likedActivityIds.size() + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE;
-
         List<Activity> activities = activityRepository.findLikedActivities(userId, offset, limit, agencyTypes, personalities);
+
+        long pageCount = (activities.size() + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE;
+
         List<ActivitySummaryRes> activitySummaries = activities.stream()
                 .map(activity -> ActivitySummaryRes.of(activity, likedActivityIdsSet.contains(activity.getId())))
                 .toList();
