@@ -6,8 +6,8 @@ import com.meetup.teame.backend.domain.user.entity.User;
 import java.util.List;
 
 public interface ExperienceRepositoryCustom {
-    List<Experience> findExperiencesOrderByLatest(long offset,long limit, String category);
-    List<Experience> findExperiencesOrderByReview(long offset,long limit, String category);
+    List<Experience> findExperiencesOrderByLatest(long offset,long limit, String category, User user);
+    List<Experience> findExperiencesOrderByReview(long offset,long limit, String category, User user);
 
     Long countExperiences(String category);
 
