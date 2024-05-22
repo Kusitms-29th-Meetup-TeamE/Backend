@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @Builder
 public class ReadExperienceDetailRes {
+    private Long id;
     private String imageUrl;
     private String name;
     private Long age;
@@ -37,6 +38,7 @@ public class ReadExperienceDetailRes {
                 .toList();
 
         return ReadExperienceDetailRes.builder()
+                .id(experience.getId())
                 .imageUrl(user.getImageUrl())
                 .name(user.getName())
                 .age(user.getAge())

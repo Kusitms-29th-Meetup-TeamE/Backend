@@ -48,7 +48,6 @@ public class ExperienceService {
 
     public MyExperienceProfileRes readMyExperienceProfile() {
         Long userId = SecurityContextProvider.getAuthenticatedUserId();
-        //todo 1+N문제 발생가능 테스트해보고 default_fetch_batch_size 적용
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return MyExperienceProfileRes.of(user);
