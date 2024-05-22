@@ -47,16 +47,4 @@ public class ReviewController {
         return ResponseEntity
                 .ok(reviewService.readReviewsByMe());
     }
-
-
-//    @Operation(summary = "나의 후기 보기", description = """
-//            나의 후기 보기 api 입니다.
-//            """)
-//    @GetMapping("/aboutme")
-//    public ResponseEntity<ReadReviewsAboutMeRes> readReviewsAboutMe() {
-//        //todo api 작성
-//        return null;
-////        return ResponseEntity
-////                .ok(reviewService.readReviewsAboutMe());
-//    }
 }
