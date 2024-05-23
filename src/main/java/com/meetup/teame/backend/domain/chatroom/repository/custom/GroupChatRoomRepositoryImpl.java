@@ -20,7 +20,6 @@ import static com.meetup.teame.backend.domain.user.entity.QUser.user;
 public class GroupChatRoomRepositoryImpl implements GroupChatRoomRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
-    //todo 최신순으로 정렬
     @Override
     public List<GroupChatRoom> findForUser(User who) {
         return jpaQueryFactory

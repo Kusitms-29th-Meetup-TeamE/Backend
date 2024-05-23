@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
-//todo : 채팅방목록 페이지 진입시 프론트쪽에서 연결해야할 웹소켓 토픽(채팅방당 한개씩)리스트를 반환하는 api를 주고 다 sub하게 만들어야 될듯
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/chatrooms")

@@ -28,7 +28,6 @@ public class DirectChatRoomRepositoryImpl implements DirectChatRoomRepositoryCus
         return Optional.ofNullable(result);
     }
 
-    //todo 최신순으로 정렬
     @Override
     public List<DirectChatRoom> findForUser(User who) {
         return jpaQueryFactory
