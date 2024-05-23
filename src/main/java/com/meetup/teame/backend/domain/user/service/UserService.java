@@ -67,6 +67,7 @@ public class UserService {
         return User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
+                .imageUrl(request.getImageUrl())
                 .gender(Objects.equals(request.getGender(), "male") ? Gender.MALE : Gender.FEMALE)
                 .age(age)
                 .location(request.getLocation())
