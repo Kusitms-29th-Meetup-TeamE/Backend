@@ -9,11 +9,11 @@ import com.meetup.teame.backend.domain.chatting.repository.GroupChatRoomReposito
 import com.meetup.teame.backend.domain.chatting.entity.GroupChatRoom;
 import com.meetup.teame.backend.domain.experience.entity.Experience;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
-import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
-import com.meetup.teame.backend.domain.personality.Personality;
-import com.meetup.teame.backend.domain.review.dto.response.MyReviewRes;
-import com.meetup.teame.backend.domain.review.entity.Review;
-import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
+import com.meetup.teame.backend.domain.activity.repository.ActivityLikeRepository;
+import com.meetup.teame.backend.domain.user.entity.Personality;
+import com.meetup.teame.backend.domain.experience.dto.response.MyReviewRes;
+import com.meetup.teame.backend.domain.experience.entity.Review;
+import com.meetup.teame.backend.domain.experience.repository.ReviewRepository;
 import com.meetup.teame.backend.domain.user.dto.request.MyExperienceReq;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.ReadCalenderReq;

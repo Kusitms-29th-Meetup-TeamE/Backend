@@ -2,7 +2,7 @@ package com.meetup.teame.backend.domain.activity.repository.custom;
 
 import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.entity.AgencyType;
-import com.meetup.teame.backend.domain.personality.Personality;
+import com.meetup.teame.backend.domain.user.entity.Personality;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.meetup.teame.backend.domain.activity.entity.QActivity.activity;
-import static com.meetup.teame.backend.domain.like.entity.QActivityLike.activityLike;
+import static com.meetup.teame.backend.domain.activity.entity.QActivityLike.activityLike;
 
 @RequiredArgsConstructor
 public class ActivityRepositoryImpl implements ActivityRepositoryCustom {

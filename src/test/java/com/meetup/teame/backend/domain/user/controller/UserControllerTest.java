@@ -1,13 +1,6 @@
 package com.meetup.teame.backend.domain.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.meetup.teame.backend.domain.activity.entity.Activity;
-import com.meetup.teame.backend.domain.personality.Personality;
-import com.meetup.teame.backend.domain.experience.entity.Experience;
-import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
-import com.meetup.teame.backend.domain.user.dto.response.ReadMainRes;
-import com.meetup.teame.backend.domain.user.entity.Gender;
-import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,17 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {

@@ -1,7 +1,7 @@
 package com.meetup.teame.backend.domain.user.controller;
 
 import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
-import com.meetup.teame.backend.domain.review.dto.response.MyReviewRes;
+import com.meetup.teame.backend.domain.experience.dto.response.MyReviewRes;
 import com.meetup.teame.backend.domain.user.dto.request.MyExperienceReq;
 import com.meetup.teame.backend.domain.user.dto.request.OnboardingReq;
 import com.meetup.teame.backend.domain.user.dto.request.ReadCalenderReq;

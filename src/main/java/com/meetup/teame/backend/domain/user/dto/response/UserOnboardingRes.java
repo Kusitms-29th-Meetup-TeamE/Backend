@@ -1,6 +1,6 @@
 package com.meetup.teame.backend.domain.user.dto.response;
 
-import com.meetup.teame.backend.domain.personality.Personality;
+import com.meetup.teame.backend.domain.user.entity.Personality;
 import com.meetup.teame.backend.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

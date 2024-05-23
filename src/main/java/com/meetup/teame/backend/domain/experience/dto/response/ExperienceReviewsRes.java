@@ -2,7 +2,7 @@ package com.meetup.teame.backend.domain.experience.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
-import com.meetup.teame.backend.domain.review.entity.Review;
+import com.meetup.teame.backend.domain.experience.entity.Review;
 import com.meetup.teame.backend.domain.user.entity.User;
 import lombok.*;
 
