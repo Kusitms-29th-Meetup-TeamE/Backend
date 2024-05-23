@@ -55,6 +55,18 @@ public class UserController {
                 .ok().build();
     }
 
+    @Operation(summary = "유저 온보딩 정보 조회", description = """
+            user 온보딩 정보 조회 api입니다.
+            
+            토큰을 넘겨주시면 토큰에 해당하는 유저의 온보딩 정보를 반환해줍니다.
+            
+            """)
+    @GetMapping("/personalities")
+    public ResponseEntity<UserOnboardingRes> getUserPersonalities() {
+        UserOnboardingRes response = userService.getUserPersonalities();
+        return ResponseEntity.ok().body(response);
+    }
+
 
     @Operation(summary = "마이페이지 캘린더 조회", description = """
             유저의 캘린더 정보를 조회합니다.

@@ -140,6 +140,14 @@ public class UserService {
         user.setPersonalities(personalities);
     }
 
+    public UserOnboardingRes getUserPersonalities() {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
+
+        return UserOnboardingRes.of(user);
+    }
+
     public ReadCalenderRes readCalender(ReadCalenderReq readCalenderReq) {
         Long userId = SecurityContextProvider.getAuthenticatedUserId();
         User user = userRepository.findById(userId)
