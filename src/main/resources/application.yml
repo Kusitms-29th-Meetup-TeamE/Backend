@@ -55,3 +55,6 @@ cloud:
       auto: false
     stack:
       auto: false
+
+default-profile:
+  image:${DEFAULT_PROFILE_IMAGE}

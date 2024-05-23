@@ -25,6 +25,7 @@ import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import com.meetup.teame.backend.global.exception.CustomException;
 import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +46,9 @@ public class UserService {
     private final GroupChatRoomRepository groupChatRoomRepository;
     private final ReviewRepository reviewRepository;
     private final ActivityLikeRepository activityLikeRepository;
+
+    @Value("${default-profile.image}")
+    private String defaultImageUrl;
 
     public ReadMainRes readMainPage() {
         Long userId = 50L;
@@ -97,6 +101,8 @@ public class UserService {
     public UserInfoRes updateUserInfo(UpdateUserReq request) {
         Long userId = SecurityContextProvider.getAuthenticatedUserId();
         User updatedUser = findById(userId);
+        if (!request.getImageUrl().contains("k.kakaocdn.net"))
+            request.setImageUrl(defaultImageUrl);
         updatedUser.update(request);
         return UserInfoRes.of(updatedUser);
     }

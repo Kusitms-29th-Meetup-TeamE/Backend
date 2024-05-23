@@ -16,4 +16,8 @@ public class UpdateUserReq {
     private String imageUrl;
 
     private String location;
+
+    public void setImageUrl(String defaultImageUrl) {
+        this.imageUrl=defaultImageUrl;
+    }
 }
