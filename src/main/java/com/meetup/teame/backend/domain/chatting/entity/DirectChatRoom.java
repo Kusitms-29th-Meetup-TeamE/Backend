@@ -1,4 +1,4 @@
-package com.meetup.teame.backend.domain.chatroom.entity;
+package com.meetup.teame.backend.domain.chatting.entity;
 
 import com.meetup.teame.backend.domain.experience.entity.Experience;
 import com.meetup.teame.backend.domain.user.entity.User;

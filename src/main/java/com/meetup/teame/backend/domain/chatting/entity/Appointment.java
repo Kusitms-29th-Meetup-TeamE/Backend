@@ -1,11 +1,10 @@
-package com.meetup.teame.backend.domain.chatroom.entity;
+package com.meetup.teame.backend.domain.chatting.entity;
 
 import jakarta.persistence.Embeddable;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 
 @Embeddable

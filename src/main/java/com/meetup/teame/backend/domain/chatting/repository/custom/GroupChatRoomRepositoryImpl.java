@@ -1,10 +1,6 @@
-package com.meetup.teame.backend.domain.chatroom.repository.custom;
+package com.meetup.teame.backend.domain.chatting.repository.custom;
 
-import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
-import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
-import com.meetup.teame.backend.domain.chatroom.entity.QGroupChatRoom;
-import com.meetup.teame.backend.domain.chatroom.entity.QUserChatRoom;
-import com.meetup.teame.backend.domain.user.entity.QUser;
+import com.meetup.teame.backend.domain.chatting.entity.GroupChatRoom;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
-import static com.meetup.teame.backend.domain.chatroom.entity.QGroupChatRoom.groupChatRoom;
-import static com.meetup.teame.backend.domain.chatroom.entity.QUserChatRoom.userChatRoom;
+import static com.meetup.teame.backend.domain.chatting.entity.QGroupChatRoom.groupChatRoom;
+import static com.meetup.teame.backend.domain.chatting.entity.QUserChatRoom.userChatRoom;
 import static com.meetup.teame.backend.domain.user.entity.QUser.user;
 
 @RequiredArgsConstructor

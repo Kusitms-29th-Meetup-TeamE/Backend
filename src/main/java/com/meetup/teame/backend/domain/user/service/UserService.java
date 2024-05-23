@@ -1,15 +1,13 @@
 package com.meetup.teame.backend.domain.user.service;
 
 import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
-import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
 import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
-import com.meetup.teame.backend.domain.chatroom.repository.DirectChatRoomRepository;
-import com.meetup.teame.backend.domain.chatroom.repository.GroupChatRoomRepository;
-import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
+import com.meetup.teame.backend.domain.chatting.repository.DirectChatRoomRepository;
+import com.meetup.teame.backend.domain.chatting.repository.GroupChatRoomRepository;
+import com.meetup.teame.backend.domain.chatting.entity.GroupChatRoom;
 import com.meetup.teame.backend.domain.experience.entity.Experience;
-import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
 import com.meetup.teame.backend.domain.experience.repository.ExperienceRepository;
 import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
 import com.meetup.teame.backend.domain.personality.Personality;

@@ -1,11 +1,10 @@
-package com.meetup.teame.backend.domain.chatroom.controller;
+package com.meetup.teame.backend.domain.chatting.controller;
 
-import com.meetup.teame.backend.domain.chatroom.dto.response.ReadDirectChatRoomsRes;
-import com.meetup.teame.backend.domain.chatroom.dto.response.ReadGroupChatRoomsRes;
-import com.meetup.teame.backend.domain.chatroom.service.ChatRoomService;
+import com.meetup.teame.backend.domain.chatting.dto.response.ReadDirectChatRoomsRes;
+import com.meetup.teame.backend.domain.chatting.dto.response.ReadGroupChatRoomsRes;
+import com.meetup.teame.backend.domain.chatting.service.ChatRoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

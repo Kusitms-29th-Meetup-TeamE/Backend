@@ -1,9 +1,9 @@
-package com.meetup.teame.backend.domain.chatroom.service;
+package com.meetup.teame.backend.domain.chatting.service;
 
-import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
-import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
-import com.meetup.teame.backend.domain.chatroom.repository.DirectChatRoomRepository;
-import com.meetup.teame.backend.domain.chatroom.repository.GroupChatRoomRepository;
+import com.meetup.teame.backend.domain.chatting.entity.DirectChatRoom;
+import com.meetup.teame.backend.domain.chatting.entity.GroupChatRoom;
+import com.meetup.teame.backend.domain.chatting.repository.DirectChatRoomRepository;
+import com.meetup.teame.backend.domain.chatting.repository.GroupChatRoomRepository;
 import com.meetup.teame.backend.domain.review.entity.Review;
 import com.meetup.teame.backend.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;

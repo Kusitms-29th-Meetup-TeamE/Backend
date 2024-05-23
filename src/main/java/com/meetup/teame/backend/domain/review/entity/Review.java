@@ -1,7 +1,6 @@
 package com.meetup.teame.backend.domain.review.entity;
 
-import com.meetup.teame.backend.domain.chatroom.entity.Appointment;
-import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
+import com.meetup.teame.backend.domain.chatting.entity.Appointment;
 import com.meetup.teame.backend.domain.experience.entity.Experience;
 import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
 import com.meetup.teame.backend.domain.user.entity.User;

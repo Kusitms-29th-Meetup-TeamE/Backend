@@ -1,4 +1,4 @@
-package com.meetup.teame.backend.domain.chatroom.dto.response;
+package com.meetup.teame.backend.domain.chatting.dto.response;
 
 import com.meetup.teame.backend.domain.user.entity.User;
 import lombok.AccessLevel;

@@ -1,8 +1,6 @@
 package com.meetup.teame.backend.domain.activity.entity;
 
-import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
-import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
-import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
+import com.meetup.teame.backend.domain.chatting.entity.GroupChatRoom;
 import com.meetup.teame.backend.domain.like.entity.ActivityLike;
 import com.meetup.teame.backend.domain.personality.Personality;
 import jakarta.persistence.*;

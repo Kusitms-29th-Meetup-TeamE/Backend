@@ -1,7 +1,6 @@
-package com.meetup.teame.backend.domain.chatroom.repository.custom;
+package com.meetup.teame.backend.domain.chatting.repository.custom;
 
-import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
-import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
+import com.meetup.teame.backend.domain.chatting.entity.GroupChatRoom;
 import com.meetup.teame.backend.domain.user.entity.User;
 
 import java.util.List;

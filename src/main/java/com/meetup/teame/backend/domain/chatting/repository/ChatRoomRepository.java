@@ -1,6 +1,6 @@
-package com.meetup.teame.backend.domain.chatroom.repository;
+package com.meetup.teame.backend.domain.chatting.repository;
 
-import com.meetup.teame.backend.domain.chatroom.entity.ChatRoom;
+import com.meetup.teame.backend.domain.chatting.entity.ChatRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long>{
