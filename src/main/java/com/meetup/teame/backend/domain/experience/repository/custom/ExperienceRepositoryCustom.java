@@ -9,7 +9,7 @@ public interface ExperienceRepositoryCustom {
     List<Experience> findExperiencesOrderByLatest(long offset,long limit, String category, User user);
     List<Experience> findExperiencesOrderByReview(long offset,long limit, String category, User user);
 
-    Long countExperiences(String category);
+    Long countExperiences(String category, User user);
 
     List<Experience> findExperiencesForMain();
 }

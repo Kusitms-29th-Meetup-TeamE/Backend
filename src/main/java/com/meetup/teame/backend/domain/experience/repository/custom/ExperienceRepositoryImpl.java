@@ -54,8 +54,9 @@ public class ExperienceRepositoryImpl implements ExperienceRepositoryCustom {
     }
 
     @Override
-    public Long countExperiences(String category) {
+    public Long countExperiences(String category, User me) {
         BooleanBuilder builder = new BooleanBuilder();
+        builder.and(experience.user.ne(me));
         if (category != null)
             builder.and(experience.type.eq(ExperienceType.of(category)));
         return jpaQueryFactory
