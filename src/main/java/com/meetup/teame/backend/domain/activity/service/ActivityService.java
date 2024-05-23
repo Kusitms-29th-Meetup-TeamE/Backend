@@ -44,6 +44,10 @@ public class ActivityService {
 
     //특정 활동 상제 정보 response dto화
     public ActivityDetailsRes getActivityDetails(Long activityId) {
+        Long userId = SecurityContextProvider.getAuthenticatedUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
+
         Activity activity = findActivityById(activityId);
         return ActivityDetailsRes.of(activity);
     }

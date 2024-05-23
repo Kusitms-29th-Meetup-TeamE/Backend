@@ -4,6 +4,7 @@ import com.meetup.teame.backend.domain.experience.entity.Experience;
 import com.meetup.teame.backend.domain.experience.entity.ExperienceType;
 import com.meetup.teame.backend.domain.experience.entity.QExperience;
 import com.meetup.teame.backend.domain.user.entity.QUser;
+import com.meetup.teame.backend.domain.user.entity.User;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,12 @@ public class ExperienceRepositoryImpl implements ExperienceRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Experience> findExperiencesOrderByLatest(long offset, long limit, String category) {
+    public List<Experience> findExperiencesOrderByLatest(long offset, long limit, String category, User me) {
         BooleanBuilder builder = new BooleanBuilder();
-        if (category != null)
+        builder.and(experience.user.ne(me));
+        if (category != null) {
             builder.and(experience.type.eq(ExperienceType.of(category)));
+        }
         return jpaQueryFactory
                 .selectFrom(experience)
                 .join(experience.user, user)
@@ -34,8 +37,9 @@ public class ExperienceRepositoryImpl implements ExperienceRepositoryCustom {
     }
 
     @Override
-    public List<Experience> findExperiencesOrderByReview(long offset, long limit, String category) {
+    public List<Experience> findExperiencesOrderByReview(long offset, long limit, String category, User me) {
         BooleanBuilder builder = new BooleanBuilder();
+        builder.and(experience.user.ne(me));
         if (category != null)
             builder.and(experience.type.eq(ExperienceType.of(category)));
         return jpaQueryFactory

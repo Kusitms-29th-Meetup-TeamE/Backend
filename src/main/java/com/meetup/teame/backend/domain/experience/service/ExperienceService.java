@@ -24,6 +24,12 @@ public class ExperienceService {
     private static final int EXPERIENCE_PAGE_SIZE = 6;
 
     public ReadExperiencesRes readExperiences(ReadExperiencesReq readExperiencesReq) {
+        Long userId = 50L;
+        if (!SecurityContextProvider.isAnonymousUser()) {
+            userId = SecurityContextProvider.getAuthenticatedUserId();
+        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         Long page = readExperiencesReq.getPage();
         String sort = readExperiencesReq.getSort();
         String category = readExperiencesReq.getCategory();
@@ -33,16 +39,15 @@ public class ExperienceService {
             category = null;
         long pageCount = experienceRepository.countExperiences(category) / EXPERIENCE_PAGE_SIZE + 1;
         if (sort.equals("latest"))
-            return ReadExperiencesRes.of(page, pageCount, experienceRepository.findExperiencesOrderByLatest(offset, limit, category));
+            return ReadExperiencesRes.of(page, pageCount, experienceRepository.findExperiencesOrderByLatest(offset, limit, category, user));
         else if (sort.equals("review"))
-            return ReadExperiencesRes.of(page, pageCount, experienceRepository.findExperiencesOrderByReview(offset, limit, category));
+            return ReadExperiencesRes.of(page, pageCount, experienceRepository.findExperiencesOrderByReview(offset, limit, category, user));
         else
             throw new CustomException(ExceptionContent.BAD_REQUEST_SORT_TYPE);
     }
 
     public MyExperienceProfileRes readMyExperienceProfile() {
         Long userId = SecurityContextProvider.getAuthenticatedUserId();
-        //todo 1+N문제 발생가능 테스트해보고 default_fetch_batch_size 적용
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
         return MyExperienceProfileRes.of(user);
