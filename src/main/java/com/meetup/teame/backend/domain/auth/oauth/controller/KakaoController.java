@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateOauthUserRequest;
 import com.meetup.teame.backend.domain.auth.oauth.dto.CreateUserRequest;
 import com.meetup.teame.backend.domain.auth.oauth.service.KakaoService;
-import com.meetup.teame.backend.domain.login.service.LoginService;
+import com.meetup.teame.backend.domain.auth.service.LoginService;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import com.meetup.teame.backend.domain.user.service.UserService;

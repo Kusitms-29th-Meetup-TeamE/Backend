@@ -23,14 +23,14 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class ChatMessageRes {//todo 리팩토링
+public class ChatMessageRes {
     private ChatMessageType type;
 
     private String createdAt;
 
     private String text;//일반 메세지용
 
-    private String emoticon;//이모티콘 메세지용 todo 추후에 enum으로 바꿀지 고민
+    private String emoticon;//이모티콘 메세지용
 
     private String experienceType;//약속 메세지용
 

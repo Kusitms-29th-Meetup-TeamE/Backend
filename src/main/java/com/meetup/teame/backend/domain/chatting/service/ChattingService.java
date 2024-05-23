@@ -1,9 +1,9 @@
 package com.meetup.teame.backend.domain.chatting.service;
 
-import com.meetup.teame.backend.domain.chatroom.entity.Appointment;
-import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
-import com.meetup.teame.backend.domain.chatroom.repository.ChatRoomRepository;
-import com.meetup.teame.backend.domain.chatroom.repository.DirectChatRoomRepository;
+import com.meetup.teame.backend.domain.chatting.entity.Appointment;
+import com.meetup.teame.backend.domain.chatting.entity.DirectChatRoom;
+import com.meetup.teame.backend.domain.chatting.repository.ChatRoomRepository;
+import com.meetup.teame.backend.domain.chatting.repository.DirectChatRoomRepository;
 import com.meetup.teame.backend.domain.chatting.dto.request.AppointmentChatMessageReq;
 import com.meetup.teame.backend.domain.chatting.dto.request.EmoticonChatMessageReq;
 import com.meetup.teame.backend.domain.chatting.dto.request.TextChatMessageReq;
@@ -21,7 +21,6 @@ import com.meetup.teame.backend.global.exception.CustomException;
 import com.meetup.teame.backend.global.exception.ExceptionContent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;

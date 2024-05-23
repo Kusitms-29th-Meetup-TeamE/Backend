@@ -1,7 +1,7 @@
 package com.meetup.teame.backend.domain.activity.dto.response;
 
 import com.meetup.teame.backend.domain.activity.entity.Activity;
-import com.meetup.teame.backend.domain.personality.Personality;
+import com.meetup.teame.backend.domain.user.entity.Personality;
 import lombok.*;
 
 import java.time.format.DateTimeFormatter;

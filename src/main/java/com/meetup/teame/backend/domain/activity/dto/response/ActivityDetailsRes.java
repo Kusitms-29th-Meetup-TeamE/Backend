@@ -1,14 +1,12 @@
 package com.meetup.teame.backend.domain.activity.dto.response;
 
 import com.meetup.teame.backend.domain.activity.entity.Activity;
-import com.meetup.teame.backend.domain.personality.Personality;
+import com.meetup.teame.backend.domain.user.entity.Personality;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Comment;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;

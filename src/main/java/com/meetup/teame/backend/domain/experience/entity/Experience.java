@@ -1,13 +1,12 @@
 package com.meetup.teame.backend.domain.experience.entity;
 
-import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
+import com.meetup.teame.backend.domain.chatting.entity.DirectChatRoom;
 import com.meetup.teame.backend.domain.user.dto.request.MyExperienceReq;
 import com.meetup.teame.backend.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 

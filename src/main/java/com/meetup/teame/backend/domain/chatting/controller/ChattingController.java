@@ -15,7 +15,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-//todo 프론트가 처음 채팅방진입시 채팅 로그와 함께 본인의 유저 기본키를 받을 수 있어야함.
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "chatting", description = "채팅 관련 API")

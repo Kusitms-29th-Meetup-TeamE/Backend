@@ -1,7 +1,7 @@
 package com.meetup.teame.backend.domain.user.dto.response;
 
-import com.meetup.teame.backend.domain.chatroom.entity.DirectChatRoom;
-import com.meetup.teame.backend.domain.chatroom.entity.GroupChatRoom;
+import com.meetup.teame.backend.domain.chatting.entity.DirectChatRoom;
+import com.meetup.teame.backend.domain.chatting.entity.GroupChatRoom;
 import lombok.*;
 
 import java.util.ArrayList;

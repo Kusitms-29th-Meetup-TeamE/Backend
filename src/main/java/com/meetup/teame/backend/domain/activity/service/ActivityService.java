@@ -1,7 +1,6 @@
 package com.meetup.teame.backend.domain.activity.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.meetup.teame.backend.domain.activity.dto.request.ReadActivitiesReq;
 import com.meetup.teame.backend.domain.activity.dto.response.ActivityDetailsRes;
 import com.meetup.teame.backend.domain.activity.dto.response.ActivitySummaryRes;
@@ -10,8 +9,8 @@ import com.meetup.teame.backend.domain.activity.entity.Activity;
 import com.meetup.teame.backend.domain.activity.entity.AgencyType;
 import com.meetup.teame.backend.domain.activity.repository.ActivityRepository;
 import com.meetup.teame.backend.domain.auth.jwt.SecurityContextProvider;
-import com.meetup.teame.backend.domain.like.repository.ActivityLikeRepository;
-import com.meetup.teame.backend.domain.personality.Personality;
+import com.meetup.teame.backend.domain.activity.repository.ActivityLikeRepository;
+import com.meetup.teame.backend.domain.user.entity.Personality;
 import com.meetup.teame.backend.domain.user.entity.User;
 import com.meetup.teame.backend.domain.user.repository.UserRepository;
 import com.meetup.teame.backend.global.exception.CustomException;
@@ -21,8 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
