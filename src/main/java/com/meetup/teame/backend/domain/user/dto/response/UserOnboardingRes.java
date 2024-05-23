@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Builder
 public class UserOnboardingRes {
 
-    private List<String> personalities = new ArrayList<>();
+    private List<String> personalities;
 
     public static UserOnboardingRes of(User user) {
         List<String> personalityDescriptions = user.getPersonalities().stream()

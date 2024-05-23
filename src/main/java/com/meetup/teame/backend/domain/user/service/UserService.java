@@ -48,7 +48,7 @@ public class UserService {
 
     public ReadMainRes readMainPage() {
         Long userId = 50L;
-        if(!SecurityContextProvider.isAnonymousUser())
+        if (!SecurityContextProvider.isAnonymousUser())
             userId = SecurityContextProvider.getAuthenticatedUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
@@ -165,7 +165,7 @@ public class UserService {
                 .orElseThrow(() -> new CustomException(ExceptionContent.NOT_FOUND_USER));
 
         user.setOneWord(req.getIntroduce());
-        Experience experience = Experience.of(req, user);
+        Experience experience = Experience.of(req.getTitle(), req.getExperienceType(), req.getDetail(), user);
         experienceRepository.save(experience);
         return "배움 프로필 생성 성공";
     }

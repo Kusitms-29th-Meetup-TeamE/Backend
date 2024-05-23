@@ -10,7 +10,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -52,8 +54,9 @@ public class User {
     @Comment("사용자 한마디")
     private String oneWord;
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Experience> experiences;
+    private List<Experience> experiences = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ActivityLike> activityLikes;
@@ -68,8 +71,9 @@ public class User {
     @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
     private List<DirectChatRoom> learnedChatRooms;
 
+    @Builder.Default
     @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
-    private List<Review> reviewsAboutMe;
+    private List<Review> reviewsAboutMe = new ArrayList<>();
 
     @OneToMany(mappedBy = "mentee", cascade = CascadeType.ALL)
     private List<Review> reviewsByMe;
@@ -88,5 +92,16 @@ public class User {
         this.email = request.getEmail();
         this.imageUrl = request.getImageUrl();
         this.location = request.getLocation();
+    }
+
+    public static User of(String name, String email, Gender gender, Long age, String location) {
+        return User.builder()
+                .name(name)
+                .email(email)
+                .gender(gender)
+                .age(age)
+                .location(location)
+                .point(0L)
+                .build();
     }
 }

@@ -45,11 +45,11 @@ public class Experience {
     @OneToMany(mappedBy = "experience", cascade = CascadeType.ALL)
     private List<DirectChatRoom> directChatRooms;
 
-    public static Experience of(MyExperienceReq req, User user) {
+    public static Experience of(String title, String experienceType, String detail, User user) {
         return Experience.builder()
-                .description(req.getTitle())
-                .type(ExperienceType.of(req.getExperienceType()))
-                .detail(req.getDetail())
+                .description(title)
+                .type(ExperienceType.of(experienceType))
+                .detail(detail)
                 .user(user)
                 .reviewCount(0L)
                 .build();
