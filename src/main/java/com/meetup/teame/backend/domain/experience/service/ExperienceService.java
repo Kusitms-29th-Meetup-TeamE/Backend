@@ -37,7 +37,7 @@ public class ExperienceService {
         long limit = EXPERIENCE_PAGE_SIZE;
         if (category.equals("전체"))
             category = null;
-        long pageCount = experienceRepository.countExperiences(category) / EXPERIENCE_PAGE_SIZE + 1;
+        long pageCount = (experienceRepository.countExperiences(category) + EXPERIENCE_PAGE_SIZE - 1) / EXPERIENCE_PAGE_SIZE;
         if (sort.equals("latest"))
             return ReadExperiencesRes.of(page, pageCount, experienceRepository.findExperiencesOrderByLatest(offset, limit, category, user));
         else if (sort.equals("review"))
