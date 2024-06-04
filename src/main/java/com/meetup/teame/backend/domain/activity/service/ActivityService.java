@@ -80,8 +80,7 @@ public class ActivityService {
 
         List<Activity> activities = activityRepository.findByAgencyAndPersonalities(offset, limit, user, agencyTypes, personalities);
 
-        long pageCount = (activities.size() + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
-
+        long pageCount = (activityRepository.countActivities(agencyTypes, personalities, user) + ACTIVITY_PAGE_SIZE - 1) / ACTIVITY_PAGE_SIZE; // 전체 페이지 수 계산
 
         List<ActivitySummaryRes> activitySummaries = activities.stream()
                 .map(activity -> ActivitySummaryRes.of(activity, likedActivityIdsSet.contains(activity.getId())))

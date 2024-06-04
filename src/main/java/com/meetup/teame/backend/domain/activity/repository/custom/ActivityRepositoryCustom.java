@@ -14,5 +14,5 @@ public interface ActivityRepositoryCustom {
 
     List<Activity> findLikedActivities(Long userId, long offset, long limit, List<AgencyType> agencyTypes, List<Personality> personalities);
 
-    Long countActivities(List<AgencyType> agencyTypes, List<Personality> personalities);
+    Long countActivities(List<AgencyType> agencyTypes, List<Personality> personalities, User user);
 }
