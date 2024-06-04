@@ -92,8 +92,12 @@ public class ActivityRepositoryImpl implements ActivityRepositoryCustom {
 
 
     @Override
-    public Long countActivities(List<AgencyType> agencyTypes, List<Personality> personalities) {
+    public Long countActivities(List<AgencyType> agencyTypes, List<Personality> personalities, User user) {
         BooleanBuilder builder = new BooleanBuilder();
+
+        if (user != null && !user.getPersonalities().isEmpty()) {
+            builder.and(activity.personalities.any().in(user.getPersonalities()));
+        }
 
         // agencyTypes나 personalities가 입력된 경우 해당 값으로 필터링
         if (agencyTypes != null && !agencyTypes.isEmpty()) {
