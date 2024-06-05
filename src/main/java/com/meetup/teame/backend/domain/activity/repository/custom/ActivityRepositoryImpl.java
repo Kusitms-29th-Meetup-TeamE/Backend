@@ -33,10 +33,6 @@ public class ActivityRepositoryImpl implements ActivityRepositoryCustom {
     public List<Activity> findByAgencyAndPersonalities(long offset, long limit, User user, List<AgencyType> agencyTypes, List<Personality> personalities) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (user != null && !user.getPersonalities().isEmpty()) {
-            builder.and(activity.personalities.any().in(user.getPersonalities()));
-        }
-
         if (personalities != null && !personalities.isEmpty()) {
             builder.or(activity.personalities.any().in(personalities));
         }
@@ -94,10 +90,6 @@ public class ActivityRepositoryImpl implements ActivityRepositoryCustom {
     @Override
     public Long countActivities(List<AgencyType> agencyTypes, List<Personality> personalities, User user) {
         BooleanBuilder builder = new BooleanBuilder();
-
-        if (user != null && !user.getPersonalities().isEmpty()) {
-            builder.and(activity.personalities.any().in(user.getPersonalities()));
-        }
 
         // agencyTypes나 personalities가 입력된 경우 해당 값으로 필터링
         if (agencyTypes != null && !agencyTypes.isEmpty()) {
