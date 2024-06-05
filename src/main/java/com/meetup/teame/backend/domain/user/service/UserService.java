@@ -61,9 +61,9 @@ public class UserService {
 
     @Transactional
     public User createUser(CreateUserRequest request) {
-        int currentYear = LocalDate.now().getYear();
+       /* int currentYear = LocalDate.now().getYear();
         int birthYear = Integer.parseInt(request.getBirthyear());
-        long age = currentYear - birthYear + 1;
+        long age = currentYear - birthYear + 1;*/
         return User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
