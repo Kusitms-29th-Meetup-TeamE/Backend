@@ -68,8 +68,8 @@ public class UserService {
                 .name(request.getName())
                 .email(request.getEmail())
                 .imageUrl(request.getImageUrl())
-                .gender(Objects.equals(request.getGender(), "male") ? Gender.MALE : Gender.FEMALE)
-                .age(age)
+                //.gender(Objects.equals(request.getGender(), "male") ? Gender.MALE : Gender.FEMALE)
+                //.age(age)
                 .location(request.getLocation())
                 .point(0L)
                 .build();
