@@ -61,15 +61,15 @@ public class UserService {
 
     @Transactional
     public User createUser(CreateUserRequest request) {
-       /* int currentYear = LocalDate.now().getYear();
+        int currentYear = LocalDate.now().getYear();
         int birthYear = Integer.parseInt(request.getBirthyear());
-        long age = currentYear - birthYear + 1;*/
+        long age = currentYear - birthYear + 1;
         return User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .imageUrl(request.getImageUrl())
-                //.gender(Objects.equals(request.getGender(), "male") ? Gender.MALE : Gender.FEMALE)
-                //.age(age)
+                .gender(Objects.equals(request.getGender(), "male") ? Gender.MALE : Gender.FEMALE)
+                .age(age)
                 .location(request.getLocation())
                 .point(0L)
                 .build();
